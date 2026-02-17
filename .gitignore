@@ -1,0 +1,69 @@
+# ── Laravel ───────────────────────────────────────────────────────
+*.log
+.env
+.env.backup
+.env.production
+.env.*.local
+/auth.json
+/storage/*.key
+/storage/pail
+/public/build
+/public/hot
+/public/storage
+/bootstrap/cache/*.php
+
+# ── Dependencies ──────────────────────────────────────────────────
+/vendor
+/node_modules
+
+# ── Test artefacts ────────────────────────────────────────────────
+# Only the output of a test run is ignored. The suite itself is part of
+# the project: an earlier "/tests" rule here meant every new test file was
+# silently ignored by git.
+/coverage
+.phpunit.result.cache
+/.phpunit.cache
+/tests/e2e/.output
+/tests/e2e/.report
+
+# Playwright signs each role in once and saves the session to replay it. Those
+# files are live session cookies; five of them were committed before anyone
+# noticed. `php artisan e2e:setup` recreates them.
+/tests/e2e/.auth
+/playwright-report
+/test-results
+
+# ── Local tooling ─────────────────────────────────────────────────
+/.claude
+
+# ── Databases ─────────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+/database/*.sqlite
+
+# ── Tenant runtime data ───────────────────────────────────────────
+# Each tenant gets its own folder named "tenant<uuid>", created at
+# runtime: uploaded product photos, generated invoices, database backups.
+# None of it belongs in the repository — the earlier "/storage/tenants"
+# rule never matched those folders, so twelve tenant database backups
+# were committed before this was noticed.
+/storage/tenant*
+/public/tenants
+/public/uploads
+
+# ── IDE / editors ─────────────────────────────────────────────────
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+.DS_Store
+Thumbs.db
+.phpactor.json
+* copy.*
+
+# ── Local notes ───────────────────────────────────────────────────
+/docs
+/AUDIT-FINDINGS.md
+/PLAN_TESTOWANIA.md
+/SYSTEM_AUDIT_2026-04-21.txt

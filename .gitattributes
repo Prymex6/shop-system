@@ -1,0 +1,17 @@
+# Line endings are LF in the repository and LF in the working tree, on every
+# machine. Without this, git on Windows checks files out with CRLF, and Pint
+# then reports every PHP file as needing a line-ending fix while CI on Linux
+# sees nothing wrong — a check that passes or fails depending on who runs it.
+* text=auto eol=lf
+
+# Binary, and not to be touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.mp3 binary
+*.woff binary
+*.woff2 binary
+*.gz binary
