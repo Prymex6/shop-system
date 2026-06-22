@@ -1,0 +1,53 @@
+{
+ "name": "Sklep Online",
+ "short_name": "Sklep",
+ "description": "Sklep internetowy – szeroki wybór produktów, szybka dostawa",
+ "start_url": "/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#4f46e5",
+ "orientation": "portrait-primary",
+ "icons": [
+  {
+   "src": "/pwa-192x192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/pwa-192x192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "maskable"
+  },
+  {
+   "src": "/pwa-512x512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "/pwa-512x512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "categories": ["shopping"],
+ "shortcuts": [
+  {
+   "name": "Sklep",
+   "short_name": "Sklep",
+   "description": "Przeglądaj nasz asortyment",
+   "url": "/",
+   "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+  },
+  {
+   "name": "Zamów",
+   "short_name": "Zamów",
+   "description": "Złóż zamówienie",
+   "url": "/checkout",
+   "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+  }
+ ]
+}
