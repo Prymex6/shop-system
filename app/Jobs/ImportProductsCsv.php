@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Services\ProductImportService;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
+class ImportProductsCsv implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public int $tries = 1;
+
+    public int $timeout = 300;
+
+    public function __construct(
+        public string $storedFilePath,
+        public string $tenantId,
+        public ?int $userId = null,
+    ) {}
+
+    public function handle(ProductImportService $importService): void
+    {
+        // See ImportCustomersCsv — storage_path('app/' . $path) computes the
+        // wrong absolute path against the 'local' disk in Laravel 11+
+        // (whose root is storage_path('app/private'), not storage_path('app/')).
+        $fullPath = Storage::disk('local')->path($this->storedFilePath);
+
+        if (!file_exists($fullPath)) {
+            Log::error('ImportProductsCsv: file not found', ['path' => $fullPath]);
+
+            return;
+        }
+
+        // Wrap in a fake UploadedFile (using Symfony to avoid dependency on request)
+        $file = new UploadedFile(
+            $fullPath,
+            basename($fullPath),
+            'text/csv',
+            null,
+            true
+        );
+
+        $result = $importService->import($file);
+
+        Log::info('ImportProductsCsv: import complete', [
+            'tenant_id' => $this->tenantId,
+            'imported' => $result['imported'],
+            'skipped' => $result['skipped'],
+            'errors' => $result['errors'],
+        ]);
+
+        // Clean up
+        Storage::disk('local')->delete($this->storedFilePath);
+    }
+
+    public function failed(\Throwable $exception): void
+    {
+        Log::error('ImportProductsCsv: job failed', ['error' => $exception->getMessage()]);
+        Storage::disk('local')->delete($this->storedFilePath);
+    }
+}
