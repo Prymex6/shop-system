@@ -1,0 +1,25 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 1
+
+    paths:
+        - app
+        - config
+        - database
+        - routes
+        - tests
+
+    ignoreErrors:
+        # Larastan reads relations off the model class it can see. Several here
+        # are declared on a trait or resolved through the tenancy package's
+        # dynamic model binding, which it cannot follow. Each one was checked by
+        # hand against the model it names.
+        - identifier: larastan.relationExistence
+
+        # `is_in_stock` is appended by getIsInStockAttribute(), an ordinary
+        # accessor Larastan does not pick up in this model.
+        -
+            identifier: rules.modelAppends
+            path: app/Models/Tenant/Product.php

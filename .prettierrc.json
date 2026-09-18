@@ -1,0 +1,14 @@
+{
+ "semi": false,
+ "singleQuote": true,
+ "printWidth": 120,
+ "tabWidth": 2,
+ "trailingComma": "all",
+ "vueIndentScriptAndStyle": false,
+ "overrides": [
+  {
+   "files": "*.json",
+   "options": { "tabWidth": 1 }
+  }
+ ]
+}

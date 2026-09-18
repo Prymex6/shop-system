@@ -1,0 +1,10 @@
+public/build
+vendor
+node_modules
+storage
+composer.lock
+package-lock.json
+tests/e2e/.auth
+tests/e2e/.output
+tests/e2e/.report
+resources/js/locales

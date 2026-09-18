@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: PHP
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, pdo_sqlite, sqlite3, intl, gd, zip, bcmath
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Check formatting
+        run: composer run lint
+
+      - name: Static analysis
+        run: composer run analyse
+
+      - name: Tests
+        run: php artisan test
+
+  frontend:
+    name: JavaScript
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check translations compile
+        run: npm run lint:i18n
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
