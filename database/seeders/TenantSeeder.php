@@ -19,8 +19,8 @@ class TenantSeeder extends Seeder
     public function run(): void
     {
         if (app()->isProduction()) {
-            $this->command->error('⛔ TenantSeeder zawiera dane demonstracyjne i NIE powinien być uruchamiany w środowisku produkcyjnym!');
-            if (!$this->command->confirm('Czy na pewno chcesz zasiać dane demo w produkcji?', false)) {
+            $this->command->error('TenantSeeder holds demo data and must NOT be run in production.');
+            if (!$this->command->confirm('Really seed demo data in production?', false)) {
                 $this->command->info('Anulowano.');
 
                 return;
@@ -80,18 +80,18 @@ class TenantSeeder extends Seeder
                 'email' => 'klient@example.pl',
                 'password' => Hash::make('password'),
                 'phone' => '+48 600 123 456',
-                'delivery_city' => 'Kraków',
-                'delivery_address' => 'ul. Długa 5',
+                'delivery_city' => 'Krakow',
+                'delivery_address' => '5 Long Street',
                 'delivery_postal_code' => '31-147',
                 'loyalty_points' => 150,
                 'loyalty_tier' => 'silver',
             ],
             [
-                'name' => 'Maria Przykładowa',
+                'name' => 'Maria Example',
                 'email' => 'maria@example.pl',
                 'password' => Hash::make('password'),
                 'phone' => '+48 601 234 567',
-                'delivery_city' => 'Kraków',
+                'delivery_city' => 'Krakow',
                 'delivery_address' => 'ul. Grodzka 10',
                 'delivery_postal_code' => '31-006',
                 'loyalty_points' => 45,
@@ -112,7 +112,7 @@ class TenantSeeder extends Seeder
     {
         $categories = [
             ['name' => 'Elektronika', 'slug' => 'elektronika', 'sort_order' => 1],
-            ['name' => 'Odzież',      'slug' => 'odziez',      'sort_order' => 2],
+            ['name' => 'Clothing',      'slug' => 'odziez',      'sort_order' => 2],
             ['name' => 'Akcesoria',   'slug' => 'akcesoria',   'sort_order' => 3],
             ['name' => 'E-booki',     'slug' => 'e-booki',     'sort_order' => 4],
         ];
@@ -136,10 +136,10 @@ class TenantSeeder extends Seeder
         $products = [
             [
                 'category_id' => $electronics?->id,
-                'name' => 'Słuchawki BT Pro X',
+                'name' => 'BT Pro X headphones',
                 'slug' => 'sluchawki-bt-pro-x',
-                'short_description' => 'Bezprzewodowe słuchawki z ANC',
-                'description' => 'Bezprzewodowe słuchawki Bluetooth z aktywną redukcją szumów, 30h baterii, składana konstrukcja.',
+                'short_description' => 'Wireless headphones with ANC',
+                'description' => 'Bluetooth headphones with active noise cancelling, 30h battery, folding design.',
                 'sku' => 'SLUBX001',
                 'type' => 'physical',
                 'price' => 299.99,
@@ -158,7 +158,7 @@ class TenantSeeder extends Seeder
                 'name' => 'Smartwatch X200',
                 'slug' => 'smartwatch-x200',
                 'short_description' => 'Smartwatch z monitorem zdrowia',
-                'description' => 'Wodoodporny smartwatch z GPS, monitorem snu, pulsoksymetrem i 7-dniową baterią.',
+                'description' => 'Waterproof smartwatch with GPS, sleep tracking, a pulse oximeter and a 7-day battery.',
                 'sku' => 'SMWX200',
                 'type' => 'physical',
                 'price' => 549.00,
@@ -176,8 +176,8 @@ class TenantSeeder extends Seeder
                 'category_id' => $clothing?->id,
                 'name' => 'Bluza Premium Hoodie',
                 'slug' => 'bluza-premium-hoodie',
-                'short_description' => 'Bawełniana bluza z kapturem',
-                'description' => '100% bawełna czesana, gramatura 320 g/m², kieszeń kangurka, ściągacz na dole.',
+                'short_description' => 'Cotton hoodie',
+                'description' => '100% combed cotton, 320 gsm, kangaroo pocket, ribbed hem.',
                 'sku' => 'BLU001',
                 'type' => 'physical',
                 'price' => 149.00,
@@ -192,10 +192,10 @@ class TenantSeeder extends Seeder
             ],
             [
                 'category_id' => $accessories?->id,
-                'name' => 'Portfel skórzany Slim',
+                'name' => 'Slim leather wallet',
                 'slug' => 'portfel-skorzany-slim',
-                'short_description' => 'Cienki portfel ze skóry naturalnej',
-                'description' => 'Portfel z naturalnej skóry bydlęcej, 6 kieszeni na karty, przegródka na banknoty, RFID blocking.',
+                'short_description' => 'Slim leather wallet',
+                'description' => 'Full-grain leather, six card slots, a note compartment and RFID blocking.',
                 'sku' => 'POR001',
                 'type' => 'physical',
                 'price' => 89.00,
@@ -213,7 +213,7 @@ class TenantSeeder extends Seeder
                 'name' => 'Kurs PHP 8 — kompletny przewodnik',
                 'slug' => 'kurs-php-8-kompletny-przewodnik',
                 'short_description' => 'E-book: PHP 8 od podstaw do eksperta',
-                'description' => 'Kompletny e-book o PHP 8 obejmujący OOP, typy, Fibers, JIT, Laravel 11. Format PDF, 450 stron.',
+                'description' => 'A complete ebook on PHP 8: OOP, types, Fibers, JIT and Laravel 11. PDF, 450 pages.',
                 'sku' => 'EBOOK001',
                 'type' => 'digital',
                 'price' => 79.00,
@@ -240,7 +240,7 @@ class TenantSeeder extends Seeder
                 ['sku' => 'BLU001-BK-M', 'attributes' => ['Kolor' => 'Czarny', 'Rozmiar' => 'M'], 'price' => 149.00, 'stock_quantity' => 40],
                 ['sku' => 'BLU001-BK-L', 'attributes' => ['Kolor' => 'Czarny', 'Rozmiar' => 'L'], 'price' => 149.00, 'stock_quantity' => 30],
                 ['sku' => 'BLU001-GR-M', 'attributes' => ['Kolor' => 'Szary',  'Rozmiar' => 'M'], 'price' => 149.00, 'stock_quantity' => 20],
-                ['sku' => 'BLU001-WH-M', 'attributes' => ['Kolor' => 'Biały',  'Rozmiar' => 'M'], 'price' => 149.00, 'stock_quantity' => 0],
+                ['sku' => 'BLU001-WH-M', 'attributes' => ['Kolor' => 'White',  'Rozmiar' => 'M'], 'price' => 149.00, 'stock_quantity' => 0],
             ];
             foreach ($variants as $vi => $v) {
                 ProductVariant::updateOrCreate(
@@ -276,7 +276,7 @@ class TenantSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'code' => 'STAŁY5',
+                'code' => 'REGULAR5',
                 'type' => 'fixed',
                 'value' => 5.00,
                 'min_order_value' => 30.00,
@@ -310,7 +310,7 @@ class TenantSeeder extends Seeder
         $methods = [
             ['name' => 'Kurier DPD',       'price' => 14.99, 'free_from' => 199.00, 'delivery_days_min' => 2, 'delivery_days_max' => 3],
             ['name' => 'InPost paczkomat', 'price' => 12.99, 'free_from' => 199.00, 'delivery_days_min' => 1, 'delivery_days_max' => 2],
-            ['name' => 'Odbiór osobisty',  'price' => 0.00,  'free_from' => null,   'delivery_days_min' => 0, 'delivery_days_max' => 0],
+            ['name' => 'Collection in person',  'price' => 0.00,  'free_from' => null,   'delivery_days_min' => 0, 'delivery_days_max' => 0],
         ];
 
         foreach ($methods as $m) {
@@ -328,10 +328,10 @@ class TenantSeeder extends Seeder
     private function seedWarehouse(): void
     {
         Warehouse::updateOrCreate(
-            ['name' => 'Magazyn główny'],
+            ['name' => 'Main warehouse'],
             [
-                'city' => 'Kraków',
-                'address' => 'ul. Magazynowa 1, Kraków',
+                'city' => 'Krakow',
+                'address' => '1 Warehouse Road, Krakow',
                 'is_active' => true,
             ]
         );

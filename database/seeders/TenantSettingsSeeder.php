@@ -11,23 +11,23 @@ class TenantSettingsSeeder extends Seeder
     {
         $settings = [
             // ── Shop info ──────────────────────────────────────────────────────
-            ['key' => 'shop_name',        'value' => 'Mój Sklep Online',  'type' => 'string',  'description' => 'Nazwa sklepu'],
-            ['key' => 'shop_phone',       'value' => '+48 123 456 789',   'type' => 'string',  'description' => 'Numer telefonu'],
-            ['key' => 'shop_email',       'value' => '',                  'type' => 'string',  'description' => 'Adres e-mail sklepu'],
-            ['key' => 'shop_address',     'value' => '',                  'type' => 'string',  'description' => 'Adres sklepu'],
-            ['key' => 'shop_nip',         'value' => '',                  'type' => 'string',  'description' => 'NIP firmy'],
-            ['key' => 'shop_description', 'value' => 'Zamawiaj online i ciesz się szybką wysyłką pod Twoje drzwi.', 'type' => 'string', 'description' => 'Opis sklepu'],
-            ['key' => 'google_place_id',  'value' => '',                  'type' => 'string',  'description' => 'Google Place ID (do opinii z wizytówki Google)'],
+            ['key' => 'shop_name',        'value' => 'Mój Sklep Online',  'type' => 'string',  'description' => 'Shop name'],
+            ['key' => 'shop_phone',       'value' => '+48 123 456 789',   'type' => 'string',  'description' => 'Phone number'],
+            ['key' => 'shop_email',       'value' => '',                  'type' => 'string',  'description' => 'Shop email address'],
+            ['key' => 'shop_address',     'value' => '',                  'type' => 'string',  'description' => 'Shop address'],
+            ['key' => 'shop_nip',         'value' => '',                  'type' => 'string',  'description' => 'Company tax ID'],
+            ['key' => 'shop_description', 'value' => 'Zamawiaj online i ciesz się szybką wysyłką pod Twoje drzwi.', 'type' => 'string', 'description' => 'Shop description'],
+            ['key' => 'google_place_id',  'value' => '',                  'type' => 'string',  'description' => 'Google Place ID (for reviews from the Google listing)'],
 
             // ── Appearance ────────────────────────────────────────────────────
-            ['key' => 'logo_url',           'value' => '/images/logo.png',    'type' => 'string', 'description' => 'URL logo sklepu'],
-            ['key' => 'favicon_url',        'value' => '/images/favicon.png', 'type' => 'string', 'description' => 'URL favicon'],
-            ['key' => 'hero_image_url',     'value' => '/images/hero.png',    'type' => 'string', 'description' => 'URL zdjęcia hero na stronie głównej'],
-            ['key' => 'hero_title',         'value' => 'Mój Sklep Online',    'type' => 'string', 'description' => 'Tytuł na hero'],
-            ['key' => 'hero_subtitle',      'value' => 'Zamów online – szybka wysyłka lub odbiór osobisty!', 'type' => 'string', 'description' => 'Podtytuł na hero'],
-            ['key' => 'theme_primary_color', 'value' => '#4f46e5',              'type' => 'string', 'description' => 'Główny kolor akcentu (HEX)'],
-            ['key' => 'theme_font',         'value' => 'inter',                'type' => 'string', 'description' => 'Czcionka witryny'],
-            ['key' => 'custom_css',         'value' => '',                     'type' => 'string', 'description' => 'Własny CSS witryny klienta'],
+            ['key' => 'logo_url',           'value' => '/images/logo.png',    'type' => 'string', 'description' => 'Shop logo URL'],
+            ['key' => 'favicon_url',        'value' => '/images/favicon.png', 'type' => 'string', 'description' => 'Favicon URL'],
+            ['key' => 'hero_image_url',     'value' => '/images/hero.png',    'type' => 'string', 'description' => 'Homepage hero image URL'],
+            ['key' => 'hero_title',         'value' => 'Mój Sklep Online',    'type' => 'string', 'description' => 'Hero title'],
+            ['key' => 'hero_subtitle',      'value' => 'Zamów online – szybka wysyłka lub odbiór osobisty!', 'type' => 'string', 'description' => 'Hero subtitle'],
+            ['key' => 'theme_primary_color', 'value' => '#4f46e5',              'type' => 'string', 'description' => 'Primary accent colour (HEX)'],
+            ['key' => 'theme_font',         'value' => 'inter',                'type' => 'string', 'description' => 'Storefront font'],
+            ['key' => 'custom_css',         'value' => '',                     'type' => 'string', 'description' => 'Custom CSS for the storefront'],
 
             // ── Opening hours ─────────────────────────────────────────────────
             [
@@ -42,18 +42,18 @@ class TenantSettingsSeeder extends Seeder
                     'sunday' => ['open' => '00:00', 'close' => '00:00', 'enabled' => false],
                 ]),
                 'type' => 'json',
-                'description' => 'Godziny obsługi zamówień',
+                'description' => 'Hours during which orders are taken',
             ],
 
             // ── Orders ────────────────────────────────────────────────────────
-            ['key' => 'min_order_value',  'value' => '0.00', 'type' => 'string',  'description' => 'Minimalna wartość zamówienia (PLN)'],
-            ['key' => 'order_auto_accept', 'value' => '1',    'type' => 'boolean', 'description' => 'Automatyczne przyjmowanie zamówień'],
-            ['key' => 'low_stock_threshold', 'value' => '5', 'type' => 'integer', 'description' => 'Próg niskiego stanu magazynowego'],
+            ['key' => 'min_order_value',  'value' => '0.00', 'type' => 'string',  'description' => 'Minimum order value (PLN)'],
+            ['key' => 'order_auto_accept', 'value' => '1',    'type' => 'boolean', 'description' => 'Accept orders automatically'],
+            ['key' => 'low_stock_threshold', 'value' => '5', 'type' => 'integer', 'description' => 'Low stock threshold'],
 
             // ── Payments ──────────────────────────────────────────────────────
-            ['key' => 'payment_cash_on_delivery_enabled', 'value' => '0', 'type' => 'boolean', 'description' => 'Płatność przy odbiorze (gotówka)'],
+            ['key' => 'payment_cash_on_delivery_enabled', 'value' => '0', 'type' => 'boolean', 'description' => 'Cash on delivery'],
             ['key' => 'payment_bank_transfer_enabled',    'value' => '0', 'type' => 'boolean', 'description' => 'Przelew bankowy'],
-            ['key' => 'payment_online_enabled',           'value' => '0', 'type' => 'boolean', 'description' => 'Płatność online (legacy)'],
+            ['key' => 'payment_online_enabled',           'value' => '0', 'type' => 'boolean', 'description' => 'Online payment (legacy)'],
             ['key' => 'payment_p24_enabled',              'value' => '0', 'type' => 'boolean', 'description' => 'Przelewy24 aktywne'],
             ['key' => 'p24_merchant_id',                  'value' => '', 'type' => 'string',   'description' => 'Przelewy24 Merchant ID'],
             ['key' => 'p24_pos_id',                       'value' => '', 'type' => 'string',   'description' => 'Przelewy24 POS ID'],
@@ -61,30 +61,30 @@ class TenantSettingsSeeder extends Seeder
             ['key' => 'p24_sandbox',                      'value' => '1', 'type' => 'boolean', 'description' => 'Przelewy24 tryb sandbox'],
 
             // ── Notifications ─────────────────────────────────────────────────
-            ['key' => 'notification_sound_enabled', 'value' => '1',  'type' => 'boolean', 'description' => 'Dźwięk powiadomień'],
+            ['key' => 'notification_sound_enabled', 'value' => '1',  'type' => 'boolean', 'description' => 'Notification sound'],
             ['key' => 'notification_email_enabled', 'value' => '0',  'type' => 'boolean', 'description' => 'Powiadomienia e-mail'],
-            ['key' => 'notification_email_address', 'value' => '',   'type' => 'string',  'description' => 'Adres e-mail do powiadomień'],
+            ['key' => 'notification_email_address', 'value' => '',   'type' => 'string',  'description' => 'Email address for notifications'],
 
             // ── SMS ───────────────────────────────────────────────────────────
-            ['key' => 'sms_enabled',     'value' => '0',   'type' => 'boolean', 'description' => 'Powiadomienia SMS włączone'],
+            ['key' => 'sms_enabled',     'value' => '0',   'type' => 'boolean', 'description' => 'SMS notifications enabled'],
             ['key' => 'smsapi_token',    'value' => '',    'type' => 'string',  'description' => 'Token API SMSAPI.pl (OAuth2)'],
-            ['key' => 'sms_sender_name', 'value' => 'Sklep', 'type' => 'string', 'description' => 'Nazwa nadawcy SMS (maks. 11 znaków)'],
+            ['key' => 'sms_sender_name', 'value' => 'Sklep', 'type' => 'string', 'description' => 'SMS sender name (11 characters at most)'],
 
             // ── About us ──────────────────────────────────────────────────────
-            ['key' => 'about_enabled',   'value' => '1',   'type' => 'boolean', 'description' => 'Sekcja O nas włączona'],
-            ['key' => 'about_title',     'value' => 'O nas', 'type' => 'string', 'description' => 'Tytuł sekcji O nas'],
+            ['key' => 'about_enabled',   'value' => '1',   'type' => 'boolean', 'description' => 'About section enabled'],
+            ['key' => 'about_title',     'value' => 'O nas', 'type' => 'string', 'description' => 'About section title'],
             [
                 'key' => 'about_text',
                 'value' => 'Witaj w naszym sklepie! Oferujemy starannie dobrane produkty w atrakcyjnych cenach. Zamów online i ciesz się szybką wysyłką lub wygodnym odbiorem osobistym.',
                 'type' => 'string',
-                'description' => 'Treść sekcji O nas',
+                'description' => 'About section text',
             ],
-            ['key' => 'about_image_url', 'value' => '', 'type' => 'string', 'description' => 'Zdjęcie w sekcji O nas'],
+            ['key' => 'about_image_url', 'value' => '', 'type' => 'string', 'description' => 'About section image'],
 
             // ── Gallery ───────────────────────────────────────────────────────
-            ['key' => 'gallery_enabled', 'value' => '0',      'type' => 'boolean', 'description' => 'Galeria zdjęć włączona'],
-            ['key' => 'gallery_title',   'value' => 'Galeria', 'type' => 'string',  'description' => 'Tytuł sekcji galerii'],
-            ['key' => 'gallery_images',  'value' => '[]',      'type' => 'json',    'description' => 'Zdjęcia w galerii (JSON)'],
+            ['key' => 'gallery_enabled', 'value' => '0',      'type' => 'boolean', 'description' => 'Photo gallery enabled'],
+            ['key' => 'gallery_title',   'value' => 'Galeria', 'type' => 'string',  'description' => 'Gallery section title'],
+            ['key' => 'gallery_images',  'value' => '[]',      'type' => 'json',    'description' => 'Gallery images (JSON)'],
 
             // ── Homepage blocks ───────────────────────────────────────────────
             [
@@ -102,14 +102,14 @@ class TenantSettingsSeeder extends Seeder
                     ],
                 ]),
                 'type' => 'json',
-                'description' => 'Bloki strony głównej',
+                'description' => 'Homepage blocks',
             ],
 
             // ── Legal pages ───────────────────────────────────────────────────
             [
                 'key' => 'terms_content',
                 'type' => 'text',
-                'description' => 'Treść regulaminu (HTML)',
+                'description' => 'Terms and conditions text (HTML)',
                 'value' => '<h2>Regulamin sklepu internetowego</h2>
 <p><strong>Podmiot prowadzący:</strong> {shop_name}, {shop_address}, e-mail: {shop_email}, tel.: {shop_phone}<br>NIP: {shop_nip}</p>
 
@@ -154,7 +154,7 @@ class TenantSettingsSeeder extends Seeder
             [
                 'key' => 'privacy_content',
                 'type' => 'text',
-                'description' => 'Treść polityki prywatności (HTML)',
+                'description' => 'Privacy policy text (HTML)',
                 'value' => '<h2>Polityka Prywatności</h2>
 <p>Niniejsza Polityka Prywatności opisuje zasady przetwarzania danych osobowych przez <strong>{shop_name}</strong> z siedzibą pod adresem {shop_address} (dalej: „Administrator").</p>
 

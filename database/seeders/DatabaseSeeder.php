@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LandlordSeeder::class);
 
         $this->command->info('');
-        $this->command->info('Central DB zasilona. Aby zasilić tenant DB uruchom:');
+        $this->command->info('Central database seeded. To seed a tenant database run:');
         $this->command->info('  php artisan tenants:seed');
-        $this->command->info('  lub wewnątrz tenanta: php artisan db:seed --class=TenantSeeder');
+        $this->command->info('  or, inside a tenant: php artisan db:seed --class=TenantSeeder');
     }
 }

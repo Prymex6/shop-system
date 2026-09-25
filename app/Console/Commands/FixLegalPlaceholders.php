@@ -10,7 +10,7 @@ class FixLegalPlaceholders extends Command
 {
     protected $signature = 'tenant:fix-legal-placeholders';
 
-    protected $description = 'Zamień hardkodowaną nazwę sklepu na {shop_name} w regulaminie i polityce prywatności';
+    protected $description = 'Replace a hard-coded shop name with {shop_name} in the terms and the privacy policy';
 
     public function handle(): int
     {
@@ -27,7 +27,7 @@ class FixLegalPlaceholders extends Command
                 }
 
                 if (str_contains($content, '{shop_name}')) {
-                    $this->line("  [{$tenant->id}] {$key} — już ma placeholder, pomijam");
+                    $this->line("  [{$tenant->id}] {$key} - already has the placeholder, skipping");
 
                     continue;
                 }
