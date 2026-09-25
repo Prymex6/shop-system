@@ -179,8 +179,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'unique' => 'That email address is already taken.',
+        ],
+        'password' => [
+            'confirmed' => 'Both passwords must match.',
+            'min' => 'The password must be at least :min characters.',
+        ],
+        'password_confirmation' => [
+            'required' => 'Please confirm the password.',
         ],
     ],
 
@@ -195,6 +202,39 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'date_of_birth' => 'date of birth',
+        'name' => 'name',
+        'email' => 'email address',
+        'password' => 'password',
+        'password_confirmation' => 'password confirmation',
+        'phone' => 'phone number',
+        'address' => 'address',
+        'shop_name' => 'shop name',
+        'shop_phone' => 'shop phone',
+        'shop_email' => 'shop email',
+        'shop_address' => 'shop address',
+        'shop_nip' => 'tax ID',
+        'opening_hours' => 'opening hours',
+        'role' => 'role',
+        'title' => 'title',
+        'message' => 'message',
+        'subject' => 'subject',
+        'content' => 'content',
+        'code' => 'code',
+        'value' => 'value',
+        'type' => 'type',
+        'status' => 'status',
+        'date' => 'date',
+        'time' => 'time',
+        'description' => 'description',
+        'price' => 'price',
+        'quantity' => 'quantity',
+        'image' => 'image',
+        'slug' => 'slug',
+        'category_id' => 'category',
+        'current_password' => 'current password',
+        'new_password' => 'new password',
+    ],
 
 ];
