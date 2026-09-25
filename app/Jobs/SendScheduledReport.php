@@ -69,11 +69,11 @@ class SendScheduledReport implements ShouldQueue
         if ($this->period === 'monthly') {
             $from = Carbon::now()->subMonth()->startOfMonth();
             $to = Carbon::now()->subMonth()->endOfMonth();
-            $label = 'miesięczny';
+            $label = __('messages.report_period_monthly');
         } else {
             $from = Carbon::now()->subWeek()->startOfWeek(Carbon::MONDAY);
             $to = Carbon::now()->subWeek()->endOfWeek(Carbon::SUNDAY);
-            $label = 'tygodniowy';
+            $label = __('messages.report_period_weekly');
         }
 
         return [$from, $to, $label];

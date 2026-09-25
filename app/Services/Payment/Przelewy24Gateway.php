@@ -67,7 +67,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
             'sessionId' => $sessionId,
             'amount' => $amount,
             'currency' => 'PLN',
-            'description' => "Zamówienie #{$order->order_number}",
+            'description' => __('messages.payment_order_description', ['number' => $order->order_number]),
             'email' => $order->customer_email ?: 'noreply@example.com',
             'client' => $order->customer_name,
             'country' => 'PL',
@@ -97,7 +97,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
 
             Log::error('P24 Registration Failed', ['response' => $data]);
 
-            return ['success' => false, 'error' => $data['error'] ?? 'Błąd rejestracji P24'];
+            return ['success' => false, 'error' => $data['error'] ?? __('messages.p24_register_failed')];
 
         } catch (\Exception $e) {
             Log::error('P24 Exception', ['message' => $e->getMessage()]);
@@ -168,7 +168,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
                 'orderId' => (int) $orderId,
                 'sessionId' => $sessionId,
                 'amount' => $amount,
-                'description' => "Zwrot za zamówienie #{$order->order_number}",
+                'description' => __('messages.payment_refund_description', ['number' => $order->order_number]),
             ]],
         ];
 
@@ -185,7 +185,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
 
             Log::error('P24 Refund failed', ['order' => $order->order_number, 'response' => $data]);
 
-            return ['success' => false, 'error' => $data['error'] ?? 'Błąd zwrotu P24'];
+            return ['success' => false, 'error' => $data['error'] ?? __('messages.p24_refund_failed')];
         } catch (\Exception $e) {
             Log::error('P24 Refund exception', ['message' => $e->getMessage()]);
 

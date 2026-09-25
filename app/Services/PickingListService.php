@@ -47,6 +47,12 @@ class PickingListService
         $orderNums = $orders->pluck('order_number')->implode(', ');
         $date = now()->format('d.m.Y H:i');
 
+        // The sheet is printed and carried around the warehouse, so it is
+        // written in whatever language the people working there use.
+        $ordersLabel = __('messages.picking_orders');
+        $generatedLabel = __('messages.picking_generated');
+        $quantityLabel = __('messages.picking_quantity');
+
         $rows = '';
         foreach ($items as $i => $item) {
             $orderRefs = implode(', ', array_unique($item['order_refs']));
@@ -81,15 +87,15 @@ class PickingListService
         </head>
         <body>
             <h1>Lista kompletacji</h1>
-            <p class="meta">Zamówienia: {$orderNums} &nbsp;|&nbsp; Wygenerowano: {$date}</p>
+            <p class="meta">{$ordersLabel}: {$orderNums} &nbsp;|&nbsp; {$generatedLabel}: {$date}</p>
             <button onclick="window.print()" style="margin-bottom:12px;padding:6px 14px;background:#2563eb;color:#fff;border:none;border-radius:4px;cursor:pointer">Drukuj</button>
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Produkt</th>
-                        <th>Ilość</th>
-                        <th>Zamówienia</th>
+                        <th>{$quantityLabel}</th>
+                        <th>{$ordersLabel}</th>
                         <th>Pobrane ✓</th>
                     </tr>
                 </thead>

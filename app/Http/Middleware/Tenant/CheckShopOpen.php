@@ -17,7 +17,7 @@ class CheckShopOpen
 
         // Vacation / maintenance mode
         if (Setting::get('vacation_mode', false)) {
-            $message = Setting::get('vacation_message', 'Sklep jest chwilowo niedostępny. Zapraszamy później.');
+            $message = Setting::get('vacation_message', __('messages.shop_closed_for_now'));
 
             return response()->json(['message' => $message], 422);
         }

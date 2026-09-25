@@ -90,7 +90,7 @@ class RefundService
     public function process(Refund $refund): Refund
     {
         if (!$refund->isProcessable()) {
-            throw new \Exception('Zwrot nie może być przetworzony w obecnym statusie: ' . $refund->status);
+            throw new \Exception(__('messages.refund_blocked_by_status', ['status' => $refund->status]));
         }
 
         // Lock the order row for the duration of the transaction — without this,
@@ -104,12 +104,12 @@ class RefundService
             // processed or rejected this exact refund a moment ago.
             $refund->refresh();
             if (!$refund->isProcessable()) {
-                throw new \Exception('Zwrot nie może być przetworzony w obecnym statusie: ' . $refund->status);
+                throw new \Exception(__('messages.refund_blocked_by_status', ['status' => $refund->status]));
             }
 
             $refundable = max(0, (float) $order->total - $this->alreadyRefunded($order));
             if ((float) $refund->amount > $refundable) {
-                throw new \Exception('Kwota zwrotu przekracza pozostałą do zwrotu wartość zamówienia.');
+                throw new \Exception(__('messages.refund_exceeds_remaining'));
             }
 
             $isOffline = in_array($order->payment_method, self::OFFLINE_PAYMENT_METHODS, true);
@@ -129,7 +129,9 @@ class RefundService
                     // recording money as returned that never moved, and
                     // permanently blocking a real retry since alreadyRefunded()
                     // would already count it.
-                    throw new \Exception('Zwrot przez bramkę płatności nie powiódł się: ' . ($result['error'] ?? 'nieznany błąd'));
+                    throw new \Exception(__('messages.refund_gateway_failed', [
+                        'reason' => $result['error'] ?? __('messages.refund_unknown_error'),
+                    ]));
                 }
 
                 $refundId = $result['refund_id'] ?? null;

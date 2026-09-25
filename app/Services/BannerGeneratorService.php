@@ -74,12 +74,12 @@ class BannerGeneratorService
         ]);
 
         if ($response->getStatusCode() !== 200) {
-            throw new \RuntimeException('Pollinations.ai zwrócił błąd: ' . $response->getStatusCode());
+            throw new \RuntimeException(__('messages.banner_service_error', ['status' => $response->getStatusCode()]));
         }
 
         $body = (string) $response->getBody();
         if (strlen($body) < 5000) {
-            throw new \RuntimeException('Serwis zwrócił nieprawidłowy obraz. Spróbuj ponownie.');
+            throw new \RuntimeException(__('messages.banner_invalid_image'));
         }
 
         $filename = 'banner_' . Str::slug($productName, '_') . '_' . $size . '_' . time() . '_' . Str::random(8) . '.jpg';

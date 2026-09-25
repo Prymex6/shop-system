@@ -104,11 +104,11 @@ class Customer extends Authenticatable
     public function getTierNameAttribute(): string
     {
         return match ($this->loyalty_tier ?? 'bronze') {
-            'silver' => 'Srebro',
-            'gold' => 'Złoto',
-            'platinum' => 'Platyna',
-            'diamond' => 'Diament',
-            default => 'Brąz',
+            'silver' => __('messages.tier_silver'),
+            'gold' => __('messages.tier_gold'),
+            'platinum' => __('messages.tier_platinum'),
+            'diamond' => __('messages.tier_diamond'),
+            default => __('messages.tier_bronze'),
         };
     }
 

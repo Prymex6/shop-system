@@ -16,7 +16,7 @@ class PublicHttpUrl implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!is_string($value) || !filter_var($value, FILTER_VALIDATE_URL)) {
-            $fail('Pole :attribute musi być prawidłowym adresem URL.');
+            $fail(__('messages.url_not_valid'));
 
             return;
         }
@@ -26,13 +26,13 @@ class PublicHttpUrl implements ValidationRule
         $host = $parts['host'] ?? '';
 
         if (!in_array($scheme, ['http', 'https'], true)) {
-            $fail('Adres URL musi używać protokołu http lub https.');
+            $fail(__('messages.url_scheme_not_allowed'));
 
             return;
         }
 
         if (self::isBlockedHost($host)) {
-            $fail('Ten adres URL wskazuje na niedozwolony (wewnętrzny) adres sieciowy.');
+            $fail(__('messages.url_points_inside'));
         }
     }
 

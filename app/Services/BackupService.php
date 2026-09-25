@@ -247,7 +247,7 @@ class BackupService
         $zip = new ZipArchive;
         if ($zip->open($tmpZipPath) !== true) {
             @unlink($tmpZipPath);
-            throw new \RuntimeException('Nie udało się otworzyć archiwum kopii zapasowej.');
+            throw new \RuntimeException(__('messages.backup_archive_unreadable'));
         }
 
         $json = $zip->getFromName('data.json');

@@ -51,7 +51,7 @@ class GiftCardService
         }
 
         if (!$card->isValid()) {
-            throw new \InvalidArgumentException('Karta podarunkowa jest nieważna lub wyczerpana.');
+            throw new \InvalidArgumentException(__('messages.gift_card_invalid'));
         }
 
         $discount = min((float) $card->current_value, (float) $order->total);

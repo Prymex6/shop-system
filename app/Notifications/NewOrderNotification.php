@@ -21,8 +21,11 @@ class NewOrderNotification extends Notification
     {
         return [
             'type' => 'new_order',
-            'title' => 'Nowe zamówienie',
-            'message' => "Zamówienie #{$this->order->order_number} od {$this->order->customer_name}",
+            'title' => __('messages.new_order'),
+            'message' => __('messages.new_order_from', [
+                'number' => $this->order->order_number,
+                'customer' => $this->order->customer_name,
+            ]),
             'order_id' => $this->order->id,
             'order_number' => $this->order->order_number,
             'total' => $this->order->total,

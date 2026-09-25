@@ -137,12 +137,14 @@ class InventoryService
             if ($variantId) {
                 $variant = ProductVariant::find($variantId);
                 if ($variant && $variant->stock_quantity < $quantity) {
-                    $errors[] = "Niewystarczający stan magazynowy dla produktu: {$variant->product->name} ({$variant->label()})";
+                    $errors[] = __('messages.stock_insufficient_for', [
+                        'product' => "{$variant->product->name} ({$variant->label()})",
+                    ]);
                 }
             } elseif ($productId) {
                 $product = Product::find($productId);
                 if ($product && $product->track_stock && !$product->allow_backorder && $product->stock_quantity < $quantity) {
-                    $errors[] = "Niewystarczający stan magazynowy dla produktu: {$product->name}";
+                    $errors[] = __('messages.stock_insufficient_for', ['product' => $product->name]);
                 }
             }
         }

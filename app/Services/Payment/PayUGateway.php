@@ -61,7 +61,7 @@ class PayUGateway implements PaymentGatewayInterface
             'notifyUrl' => route('tenant.payment.webhook.payu'),
             'customerIp' => request()->ip() ?: '127.0.0.1',
             'merchantPosId' => OpenPayU_Configuration::getMerchantPosId(),
-            'description' => "Zamówienie #{$order->order_number}",
+            'description' => __('messages.payment_order_description', ['number' => $order->order_number]),
             'currencyCode' => 'PLN',
             'totalAmount' => $amount,
             'extOrderId' => $order->order_number,
@@ -72,7 +72,7 @@ class PayUGateway implements PaymentGatewayInterface
                 'language' => 'pl',
             ],
             'products' => [[
-                'name' => "Zamówienie #{$order->order_number}",
+                'name' => __('messages.payment_order_description', ['number' => $order->order_number]),
                 'unitPrice' => $amount,
                 'quantity' => 1,
             ]],
@@ -93,7 +93,7 @@ class PayUGateway implements PaymentGatewayInterface
 
             Log::error('PayU Order Create Failed', ['status' => $response->getStatus()]);
 
-            return ['success' => false, 'error' => 'Błąd tworzenia płatności PayU: ' . $response->getStatus()];
+            return ['success' => false, 'error' => __('messages.payu_create_failed', ['status' => $response->getStatus()])];
 
         } catch (OpenPayU_Exception $e) {
             Log::error('PayU Exception', ['message' => $e->getMessage()]);
@@ -176,7 +176,7 @@ class PayUGateway implements PaymentGatewayInterface
         try {
             $response = OpenPayU_Refund::create(
                 $payuOrderId,
-                "Zwrot za zamówienie #{$order->order_number}",
+                __('messages.payment_refund_description', ['number' => $order->order_number]),
                 $amountInPennies
             );
 
@@ -189,7 +189,7 @@ class PayUGateway implements PaymentGatewayInterface
 
             Log::error('PayU Refund failed', ['order' => $order->order_number, 'status' => $response->getStatus()]);
 
-            return ['success' => false, 'error' => 'Błąd zwrotu PayU: ' . $response->getStatus()];
+            return ['success' => false, 'error' => __('messages.payu_refund_failed', ['status' => $response->getStatus()])];
         } catch (OpenPayU_Exception $e) {
             Log::error('PayU Refund Exception', ['message' => $e->getMessage()]);
 

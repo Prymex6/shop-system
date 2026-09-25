@@ -66,7 +66,7 @@ class TpayGateway implements PaymentGatewayInterface
 
         $fields = [
             'amount' => $amount,
-            'description' => "Zamówienie #{$order->order_number}",
+            'description' => __('messages.payment_order_description', ['number' => $order->order_number]),
             'payer' => [
                 'email' => $order->customer_email ?: 'noreply@example.com',
                 'name' => $order->customer_name ?: 'Klient',
@@ -98,7 +98,7 @@ class TpayGateway implements PaymentGatewayInterface
 
             Log::error('Tpay createTransaction Failed', ['result' => (array) $result]);
 
-            return ['success' => false, 'error' => 'Błąd tworzenia płatności Tpay'];
+            return ['success' => false, 'error' => __('messages.tpay_create_failed')];
 
         } catch (\Exception $e) {
             Log::error('Tpay Exception', ['message' => $e->getMessage()]);

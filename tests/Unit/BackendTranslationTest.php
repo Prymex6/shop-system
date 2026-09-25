@@ -149,6 +149,30 @@ class BackendTranslationTest extends TestCase
     }
 
     /**
+     * A key written twice is a line that does not do what it looks like it
+     * does: PHP keeps the last one and drops the first without a word.
+     * messages.php carried such a pair, two different sentences under
+     * 'minimum_order_value', and the one nearer the top had been dead for as
+     * long as both existed.
+     */
+    #[DataProvider('locales')]
+    public function test_no_key_is_written_twice(string $locale): void
+    {
+        $duplicated = [];
+
+        foreach (glob(self::root() . "/lang/{$locale}/*.php") ?: [] as $path) {
+            preg_match_all("/^ {4}'([a-z0-9_]+)' =>/m", (string) file_get_contents($path), $matches);
+            foreach (array_count_values($matches[1]) as $key => $times) {
+                if ($times > 1) {
+                    $duplicated[] = basename($path) . ": {$key} ({$times}x)";
+                }
+            }
+        }
+
+        $this->assertSame([], $duplicated, "keys defined more than once in lang/{$locale}");
+    }
+
+    /**
      * Placeholders are what a line is for; one that loses them silently drops
      * an order number or a price out of the middle of a sentence.
      */

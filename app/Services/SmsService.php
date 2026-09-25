@@ -94,10 +94,12 @@ class SmsService
             return false;
         }
 
-        $shopName = Setting::get('shop_name', 'Sklep');
-        $message = "Dziękujemy za zamówienie #{$order->order_number} w {$shopName}! "
-                  . 'Suma: ' . number_format($order->total, 2, ',', ' ') . ' ' . $order->currency . '. '
-                  . 'Śledzimy realizację dla Ciebie.';
+        $shopName = Setting::get('shop_name', __('messages.shop_name_fallback'));
+        $message = __('messages.sms_order_placed', [
+            'number' => $order->order_number,
+            'shop' => $shopName,
+            'total' => number_format($order->total, 2, ',', ' ') . ' ' . $order->currency,
+        ]);
 
         return $this->send($order->customer_phone, $message);
     }
@@ -111,11 +113,14 @@ class SmsService
             return false;
         }
 
-        $shopName = Setting::get('shop_name', 'Sklep');
-        $message = "Twoje zamówienie #{$order->order_number} z {$shopName} zostało wysłane!";
+        $shopName = Setting::get('shop_name', __('messages.shop_name_fallback'));
+        $message = __('messages.sms_order_shipped', [
+            'number' => $order->order_number,
+            'shop' => $shopName,
+        ]);
 
         if ($order->tracking_number) {
-            $message .= " Nr przesyłki: {$order->tracking_number}";
+            $message .= __('messages.sms_tracking_number', ['number' => $order->tracking_number]);
             if ($order->tracking_carrier) {
                 $message .= " ({$order->tracking_carrier})";
             }

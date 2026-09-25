@@ -19,13 +19,34 @@ use Illuminate\Support\Facades\Mail;
 
 class LoyaltyService
 {
+    /**
+     * The tiers a shop has until somebody edits them.
+     *
+     * The names are not in here because a constant cannot call __(), and a
+     * customer reads the name of the tier they are on. defaultTiers() puts
+     * them in.
+     */
     const DEFAULT_TIERS = [
-        'bronze' => ['min' => 0,     'name' => 'Brąz',    'color' => '#cd7f32', 'multiplier' => 1.0,  'monthly_bonus' => 0,    'delivery_bonus' => 0],
-        'silver' => ['min' => 500,   'name' => 'Srebro',  'color' => '#9ca3af', 'multiplier' => 1.25, 'monthly_bonus' => 50,   'delivery_bonus' => 10],
-        'gold' => ['min' => 1500,  'name' => 'Złoto',   'color' => '#f59e0b', 'multiplier' => 1.5,  'monthly_bonus' => 150,  'delivery_bonus' => 20],
-        'platinum' => ['min' => 4000,  'name' => 'Platyna', 'color' => '#60a5fa', 'multiplier' => 2.0,  'monthly_bonus' => 400,  'delivery_bonus' => 999],
-        'diamond' => ['min' => 10000, 'name' => 'Diament', 'color' => '#a78bfa', 'multiplier' => 3.0,  'monthly_bonus' => 1000, 'delivery_bonus' => 999],
+        'bronze' => ['min' => 0,     'color' => '#cd7f32', 'multiplier' => 1.0,  'monthly_bonus' => 0,    'delivery_bonus' => 0],
+        'silver' => ['min' => 500,   'color' => '#9ca3af', 'multiplier' => 1.25, 'monthly_bonus' => 50,   'delivery_bonus' => 10],
+        'gold' => ['min' => 1500,  'color' => '#f59e0b', 'multiplier' => 1.5,  'monthly_bonus' => 150,  'delivery_bonus' => 20],
+        'platinum' => ['min' => 4000,  'color' => '#60a5fa', 'multiplier' => 2.0,  'monthly_bonus' => 400,  'delivery_bonus' => 999],
+        'diamond' => ['min' => 10000, 'color' => '#a78bfa', 'multiplier' => 3.0,  'monthly_bonus' => 1000, 'delivery_bonus' => 999],
     ];
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public static function defaultTiers(): array
+    {
+        $tiers = self::DEFAULT_TIERS;
+
+        foreach (array_keys($tiers) as $key) {
+            $tiers[$key]['name'] = __("messages.tier_{$key}");
+        }
+
+        return $tiers;
+    }
 
     /**
      * Plan feature "loyalty_program" (LandlordSeeder — off on Starter) was
@@ -108,7 +129,7 @@ class LoyaltyService
                 'customer_id' => $customer->id,
                 'points' => $points,
                 'type' => 'earned',
-                'description' => 'Punkty za zamówienie #' . $order->order_number,
+                'description' => __('messages.loyalty_points_for_order', ['number' => $order->order_number]),
                 'order_id' => $order->id,
                 'expires_at' => $expiresAt,
             ]);
@@ -219,7 +240,7 @@ class LoyaltyService
             'customer_id' => $customer->id,
             'points' => -$earned->points,
             'type' => 'revoked',
-            'description' => 'Cofnięcie punktów – anulowane zamówienie #' . $order->order_number,
+            'description' => __('messages.loyalty_points_reversed', ['number' => $order->order_number]),
             'order_id' => $order->id,
         ]);
 
@@ -243,10 +264,10 @@ class LoyaltyService
     public function redeemReward(Customer $customer, LoyaltyReward $reward, ?Order $order = null): LoyaltyRedemption
     {
         if ($customer->loyalty_points < $reward->cost_points) {
-            throw new \RuntimeException('Niewystarczająca liczba punktów.');
+            throw new \RuntimeException(__('messages.loyalty_points_insufficient'));
         }
         if (!$reward->isAvailable()) {
-            throw new \RuntimeException('Nagroda jest niedostępna.');
+            throw new \RuntimeException(__('messages.loyalty_reward_unavailable'));
         }
 
         return DB::transaction(function () use ($customer, $reward, $order) {
@@ -259,17 +280,17 @@ class LoyaltyService
             $freshReward = LoyaltyReward::lockForUpdate()->find($reward->id);
 
             if (!$freshReward || !$freshReward->isAvailable()) {
-                throw new \RuntimeException('Nagroda jest niedostępna.');
+                throw new \RuntimeException(__('messages.loyalty_reward_unavailable'));
             }
             if (!$fresh || $fresh->loyalty_points < $freshReward->cost_points) {
-                throw new \RuntimeException('Niewystarczająca liczba punktów.');
+                throw new \RuntimeException(__('messages.loyalty_points_insufficient'));
             }
 
             LoyaltyPoint::create([
                 'customer_id' => $fresh->id,
                 'points' => -$freshReward->cost_points,
                 'type' => 'spent',
-                'description' => 'Wymiana na nagrodę: ' . $freshReward->name,
+                'description' => __('messages.loyalty_reward_redeemed', ['reward' => $freshReward->name]),
                 'order_id' => $order?->id,
             ]);
 
@@ -306,19 +327,19 @@ class LoyaltyService
             // Re-read with lock to prevent double-spend under concurrent requests
             $fresh = Customer::lockForUpdate()->find($customer->id);
             if (!$fresh || $fresh->loyalty_points < $points) {
-                throw new \RuntimeException('Niewystarczająca liczba punktów.');
+                throw new \RuntimeException(__('messages.loyalty_points_insufficient'));
             }
 
             $minPoints = (int) Setting::get('loyalty_min_redeem_points', 50);
             if ($points < $minPoints) {
-                throw new \RuntimeException("Minimalna liczba punktów do wymiany: {$minPoints}.");
+                throw new \RuntimeException(__('messages.loyalty_points_minimum', ['min' => $minPoints]));
             }
 
             if ($order && $order->subtotal > 0) {
                 $maxPercent = (int) Setting::get('loyalty_max_redeem_percent', 100);
                 $maxDiscount = round((float) $order->subtotal * $maxPercent / 100, 2);
                 if ($discount > $maxDiscount) {
-                    throw new \RuntimeException('Przekroczono maksymalny procent zamówienia opłacany punktami.');
+                    throw new \RuntimeException(__('messages.loyalty_points_max_share'));
                 }
             }
 
@@ -326,7 +347,10 @@ class LoyaltyService
                 'customer_id' => $fresh->id,
                 'points' => -$points,
                 'type' => 'spent',
-                'description' => "Wymiana {$points} pkt na {$discount} PLN zniżki",
+                'description' => __('messages.loyalty_points_exchanged', [
+                    'points' => $points,
+                    'amount' => $discount,
+                ]),
                 'order_id' => $order?->id,
             ]);
 
@@ -359,7 +383,7 @@ class LoyaltyService
         if ($points <= 0) {
             return;
         }
-        $this->addManualPoints($customer, $points, 'Bonus za rejestrację konta');
+        $this->addManualPoints($customer, $points, __('messages.loyalty_registration_bonus'));
         Log::info('Loyalty: bonus rejestracyjny', ['customer_id' => $customer->id, 'points' => $points]);
     }
 
@@ -384,7 +408,7 @@ class LoyaltyService
             'customer_id' => $customer->id,
             'points' => $points,
             'type' => 'bonus_first_order',
-            'description' => 'Bonus za pierwsze zamówienie',
+            'description' => __('messages.loyalty_first_order_bonus'),
         ]);
         $customer->increment('loyalty_points', $points);
         $customer->increment('loyalty_points_earned_total', $points);
@@ -484,7 +508,7 @@ class LoyaltyService
             'customer_id' => $customer->id,
             'points' => $points,
             'type' => 'bonus_monthly',
-            'description' => 'Miesięczny bonus poziomu ' . ($tierConfig['name'] ?? ''),
+            'description' => __('messages.loyalty_monthly_tier_bonus', ['tier' => $tierConfig['name'] ?? '']),
         ]);
         $customer->increment('loyalty_points', $points);
         $customer->increment('loyalty_points_earned_total', $points);
@@ -523,7 +547,9 @@ class LoyaltyService
                 'customer_id' => $customer->id,
                 'points' => -$point->points,
                 'type' => 'expired',
-                'description' => 'Wygaśnięcie punktów z ' . $point->created_at->format('d.m.Y'),
+                'description' => __('messages.loyalty_points_expired_from', [
+                    'date' => $point->created_at->format('d.m.Y'),
+                ]),
                 'order_id' => $point->order_id,
             ]);
 
@@ -667,12 +693,12 @@ class LoyaltyService
             }
         }
 
-        return self::DEFAULT_TIERS;
+        return self::defaultTiers();
     }
 
     public function getTierConfig(string $tier): array
     {
-        return $this->getTiers()[$tier] ?? self::DEFAULT_TIERS['bronze'];
+        return $this->getTiers()[$tier] ?? self::defaultTiers()['bronze'];
     }
 
     public function getNextTier(string $currentTier): ?array

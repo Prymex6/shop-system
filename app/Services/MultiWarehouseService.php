@@ -67,10 +67,10 @@ class MultiWarehouseService
         ?int $createdBy = null,
     ): WarehouseTransfer {
         if ($fromWarehouseId === $toWarehouseId) {
-            throw ValidationException::withMessages(['to_warehouse_id' => 'Magazyn docelowy musi być inny niż źródłowy.']);
+            throw ValidationException::withMessages(['to_warehouse_id' => __('messages.warehouse_target_same_as_source')]);
         }
         if ($quantity <= 0) {
-            throw ValidationException::withMessages(['quantity' => 'Ilość musi być większa od zera.']);
+            throw ValidationException::withMessages(['quantity' => __('messages.warehouse_quantity_positive')]);
         }
 
         return DB::transaction(function () use ($fromWarehouseId, $toWarehouseId, $product, $quantity, $variantId, $reason, $createdBy) {
@@ -91,7 +91,9 @@ class MultiWarehouseService
 
             if ($source->availableQuantity() < $quantity) {
                 throw ValidationException::withMessages([
-                    'quantity' => "Magazyn źródłowy ma dostępnych tylko {$source->availableQuantity()} szt. (reszta zarezerwowana lub brak w magazynie).",
+                    'quantity' => __('messages.warehouse_source_only_has', [
+                        'count' => $source->availableQuantity(),
+                    ]),
                 ]);
             }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Tenant\Setting;
 use GuzzleHttp\Client;
 
 /**
@@ -52,13 +53,15 @@ class AiDescriptionService
 
     private function buildPrompt(array $product): string
     {
-        $title = $product['title'] ?? 'Produkt';
-        $price = $product['price'] ? number_format((float) $product['price'], 2, ',', ' ') . ' zł' : '';
+        $title = $product['title'] ?? 'Product';
+        $price = $product['price']
+            ? app(CurrencyService::class)->formatAmount((float) $product['price'], Setting::get('currency', 'PLN'))
+            : '';
         $source = $product['source'] ?? '';
 
         $specsText = '';
         if (!empty($product['specs'])) {
-            $specsText = "\nSpecyfikacja:\n";
+            $specsText = "\nSpecification:\n";
             foreach ($product['specs'] as $spec) {
                 $specsText .= "- {$spec['name']}: {$spec['value']}\n";
             }
@@ -66,35 +69,52 @@ class AiDescriptionService
 
         $rawDesc = '';
         if (!empty($product['description'])) {
-            $rawDesc = "\nOryginalny opis (przetłumacz jeśli potrzeba):\n" . mb_substr(strip_tags($product['description']), 0, 600);
+            $rawDesc = "\nExisting description, translate it if that helps:\n" . mb_substr(strip_tags($product['description']), 0, 600);
         }
 
-        return <<<PROMPT
-Jesteś ekspertem od copywritingu e-commerce. Stwórz zaawansowany opis produktu w języku polskim.
+        // The model is told which language to answer in rather than being
+        // asked in that language: a shop running in English wants English
+        // copy out of it, and the prompt itself is code.
+        $language = $this->outputLanguage();
 
-Produkt: {$title}
+        return <<<PROMPT
+You are an e-commerce copywriter. Write a product description in {$language}.
+
+Product: {$title}
 {$price}{$specsText}{$rawDesc}
 
-Wygeneruj TRZY rzeczy rozdzielone sekcjami:
+Produce THREE things, separated by the section markers below:
 
 ---DESCRIPTION---
-Pełny opis HTML produktu (ok. 300-400 słów). Wymagania:
-- Użyj tagów <h2>, <h3>, <ul>, <li>, <strong>, <p>
-- Zacznij od mocnego wprowadzenia (2-3 zdania) opisującego główną korzyść
-- Sekcja "Dlaczego warto?" z listą <ul> 4-6 bulletów (konkretne korzyści, nie cechy)
-- Sekcja "Specyfikacja" z tabelą <table> lub listą jeśli są dane techniczne
-- Zakończ mocnym CTA: <div class="cta-block"><p class="cta-text">...</p></div>
-- Styl narracyjny: przekonujący, bezpośredni, bez marketingowego bełkotu
-- Nie pisz ceny ani nazwy sklepu
+The full product description as HTML, around 300-400 words:
+- use <h2>, <h3>, <ul>, <li>, <strong> and <p>
+- open with two or three sentences on the main benefit
+- a "why buy this" section as a <ul> of four to six bullets, benefits rather than features
+- a specification section as a <table> or a list, if there is technical data
+- close with a call to action: <div class="cta-block"><p class="cta-text">...</p></div>
+- persuasive and direct, without marketing filler
+- do not write the price or the shop name
 
 ---SHORT---
-Krótki opis (max 160 znaków) do karty produktu. Jedna zwięzła, konkretna korzyść.
+A short description for the product card, 160 characters at most. One concrete benefit.
 
 ---META---
-Meta description SEO (max 155 znaków). Zawiera słowo kluczowe i CTA (np. "Sprawdź", "Kup teraz").
+An SEO meta description, 155 characters at most, carrying the keyword and a call to action.
 
-Odpowiedź TYLKO w tym formacie, bez żadnego komentarza.
+Answer in that format only, with no commentary.
 PROMPT;
+    }
+
+    /**
+     * The language the generated copy should be written in, which is the
+     * language the shop itself is running in.
+     */
+    private function outputLanguage(): string
+    {
+        return match (app()->getLocale()) {
+            'en' => 'English',
+            default => 'Polish',
+        };
     }
 
     // ──────────────────────────────────────────────────────────────────────────

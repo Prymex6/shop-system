@@ -42,7 +42,7 @@ class OrderCancellationService
     public function cancel(Order $order): array
     {
         if (!$this->canCancel($order)) {
-            return ['success' => false, 'message' => "Nie można anulować zamówienia ze statusu \"{$order->status}\"."];
+            return ['success' => false, 'message' => __('messages.order_cannot_cancel_from_status', ['status' => $order->status])];
         }
 
         if ($order->payment_status === 'paid') {

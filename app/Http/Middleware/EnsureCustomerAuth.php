@@ -31,7 +31,7 @@ class EnsureCustomerAuth
             $request->session()->regenerateToken();
 
             return redirect()->route('tenant.client.login')
-                ->withErrors(['email' => 'Twoje hasło zostało zmienione. Zaloguj się ponownie.']);
+                ->withErrors(['email' => __('messages.password_changed_sign_in_again')]);
         }
 
         $response = $next($request);

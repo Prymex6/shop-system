@@ -17,10 +17,10 @@ class SeoCheckerService
             $issues[] = 'Brak meta title.';
             $score -= 20;
         } elseif (strlen($product->meta_title) < 50) {
-            $suggestions[] = 'Meta title jest zbyt krótki (min. 50 znaków). Aktualnie: ' . strlen($product->meta_title) . ' znaków.';
+            $suggestions[] = __('messages.seo_meta_title_short', ['count' => strlen($product->meta_title)]);
             $score -= 10;
         } elseif (strlen($product->meta_title) > 60) {
-            $suggestions[] = 'Meta title jest zbyt długi (max. 60 znaków). Aktualnie: ' . strlen($product->meta_title) . ' znaków.';
+            $suggestions[] = __('messages.seo_meta_title_long', ['count' => strlen($product->meta_title)]);
             $score -= 5;
         }
 
@@ -29,10 +29,10 @@ class SeoCheckerService
             $issues[] = 'Brak meta description.';
             $score -= 20;
         } elseif (strlen($product->meta_description) < 120) {
-            $suggestions[] = 'Meta description jest zbyt krótki (min. 120 znaków). Aktualnie: ' . strlen($product->meta_description) . ' znaków.';
+            $suggestions[] = __('messages.seo_meta_description_short', ['count' => strlen($product->meta_description)]);
             $score -= 10;
         } elseif (strlen($product->meta_description) > 160) {
-            $suggestions[] = 'Meta description jest zbyt długi (max. 160 znaków). Aktualnie: ' . strlen($product->meta_description) . ' znaków.';
+            $suggestions[] = __('messages.seo_meta_description_long', ['count' => strlen($product->meta_description)]);
             $score -= 5;
         }
 
@@ -41,14 +41,14 @@ class SeoCheckerService
             $issues[] = 'Brak slug.';
             $score -= 15;
         } elseif (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $product->slug)) {
-            $issues[] = 'Slug nie jest poprawnym URL (tylko małe litery, cyfry i myślniki).';
+            $issues[] = __('messages.seo_slug_invalid');
             $score -= 10;
         }
 
         // Description word count
         $wordCount = str_word_count(strip_tags($product->description ?? ''));
         if ($wordCount < 100) {
-            $suggestions[] = "Opis produktu ma za mało słów ({$wordCount}). Zalecane min. 100 słów dla lepszego SEO.";
+            $suggestions[] = __('messages.seo_description_thin', ['count' => $wordCount]);
             $score -= 15;
         }
 
@@ -58,7 +58,7 @@ class SeoCheckerService
                      $product->images()->exists();
 
         if (!$hasImages) {
-            $issues[] = 'Produkt nie ma żadnych zdjęć.';
+            $issues[] = __('messages.seo_no_images');
             $score -= 20;
         }
 

@@ -25,7 +25,7 @@ class RequiresPlanFeature
         try {
             $plan = tenancy()->tenant?->plan;
             if ($plan && !$plan->hasFeature($feature)) {
-                abort(403, 'Ta funkcja nie jest dostępna w Twoim planie. Skontaktuj się z obsługą, aby zmienić plan.');
+                abort(403, __('messages.feature_not_in_plan'));
             }
         } catch (HttpExceptionInterface $e) {
             throw $e;
