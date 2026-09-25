@@ -18,7 +18,9 @@ class ContactInquiryMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nowe zapytanie kontaktowe: ' . ($this->inquiry->subject ?: 'Bez tematu'),
+            subject: __('mail.subject_contact_inquiry', [
+                'subject' => $this->inquiry->subject ?: __('mail.subject_no_subject'),
+            ]),
             replyTo: [$this->inquiry->email],
         );
     }

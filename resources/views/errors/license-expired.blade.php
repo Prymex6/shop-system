@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $tenant->name ?? 'Sklep' }} – Tymczasowo niedostępna</title>
+    <title>{{ __('messages.licence_page_title', ['shop' => $tenant->name ?? __('messages.shop_fallback_name')]) }}</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -63,16 +63,16 @@
 
         @if (!empty($suspended))
             <div class="badge suspended">Zawieszona</div>
-            <h1>Strona tymczasowo niedostępna</h1>
-            <p>Ta sklep jest aktualnie zawieszona.<br>Prosimy spróbować ponownie później lub skontaktować się z obsługą.</p>
+            <h1>{{ __('messages.licence_heading') }}</h1>
+            <p>{!! __('messages.licence_suspended_body') !!}</p>
         @else
-            <div class="badge">Licencja wygasła</div>
-            <h1>Strona tymczasowo niedostępna</h1>
-            <p>Licencja na korzystanie z systemu wygasła.<br>Sklep zostanie przywrócona po odnowieniu subskrypcji.</p>
+            <div class="badge">{{ __('messages.licence_expired_badge') }}</div>
+            <h1>{{ __('messages.licence_heading') }}</h1>
+            <p>{!! __('messages.licence_expired_body') !!}</p>
         @endif
 
         <hr class="divider">
-        <p class="footer">Jeśli jesteś właścicielem, zaloguj się do panelu managera aby sprawdzić status licencji.</p>
+        <p class="footer">{{ __('messages.licence_owner_note') }}</p>
     </div>
 </body>
 </html>

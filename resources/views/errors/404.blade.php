@@ -19,8 +19,8 @@
 <div class="card">
   <div class="code">404</div>
   <h1>Nie znaleziono strony</h1>
-  <p>Strona, której szukasz, nie istnieje lub została przeniesiona pod inny adres.</p>
-  <a href="/" class="btn">Strona główna</a>
+  <p>{{ __('messages.error_404_body') }}</p>
+  <a href="/" class="btn">{{ __('messages.error_home_link') }}</a>
 </div>
 </body>
 </html>

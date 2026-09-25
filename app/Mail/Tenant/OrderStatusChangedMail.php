@@ -3,6 +3,7 @@
 namespace App\Mail\Tenant;
 
 use App\Http\Controllers\Tenant\Client\OrderTrackingController;
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderStatusChangedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public string $trackingUrl;
 
@@ -30,22 +31,30 @@ class OrderStatusChangedMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
-        $statusLabels = [
-            'pending' => 'oczekuje',
-            'awaiting_payment' => 'oczekuje na płatność',
-            'paid' => 'opłacone',
-            'completed' => 'zrealizowane',
-            'cancelled' => 'anulowane',
-            'refunded' => 'zwrócone',
-        ];
-        $label = $statusLabels[$this->newStatus] ?? $this->newStatus;
+        // Spelled out rather than built from the status, so that a key which
+        // stops existing is a thing the catalogue test can see.
+        $label = match ($this->newStatus) {
+            'pending' => __('mail.status_pending'),
+            'awaiting_payment' => __('mail.status_awaiting_payment'),
+            'paid' => __('mail.status_paid'),
+            'completed' => __('mail.status_completed'),
+            'cancelled' => __('mail.status_cancelled'),
+            'refunded' => __('mail.status_refunded'),
+            default => $this->newStatus,
+        };
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
-            subject: 'Zamówienie #' . $this->order->order_number . ' – ' . $label . ' | ' . $shopName,
+            subject: __('mail.subject_order_status', [
+                'number' => $this->order->order_number,
+                'status' => $label,
+                'shop' => $shopName,
+            ]),
         );
     }
 

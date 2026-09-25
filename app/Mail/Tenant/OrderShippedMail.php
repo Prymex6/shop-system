@@ -3,6 +3,7 @@
 namespace App\Mail\Tenant;
 
 use App\Http\Controllers\Tenant\Client\OrderTrackingController;
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderShippedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public string $trackingUrl;
 
@@ -29,13 +30,15 @@ class OrderShippedMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
-            subject: 'Twoje zamówienie #' . $this->order->order_number . ' zostało wysłane – ' . $shopName,
+            subject: __('mail.subject_order_shipped', ['number' => $this->order->order_number, 'shop' => $shopName]),
         );
     }
 

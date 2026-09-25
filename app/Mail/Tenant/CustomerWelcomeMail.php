@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class CustomerWelcomeMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public readonly string $customerName,
@@ -21,12 +22,14 @@ class CustomerWelcomeMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $from = Setting::get('smtp_from_address') ?: Setting::get('shop_email') ?: 'noreply@example.com';
         $fromName = Setting::get('smtp_from_name') ?: Setting::get('shop_name') ?: 'Sklep';
 
         return new Envelope(
             from: new Address($from, $fromName),
-            subject: 'Witamy w ' . $this->shopName . '!',
+            subject: __('mail.subject_customer_welcome', ['shop' => $this->shopName]),
         );
     }
 

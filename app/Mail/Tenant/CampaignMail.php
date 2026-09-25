@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\EmailCampaign;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class CampaignMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     /**
      * Recipient is passed as plain values, not a Customer model, so this
@@ -29,6 +30,8 @@ class CampaignMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: Setting::get('shop_name', config('app.name'));
 

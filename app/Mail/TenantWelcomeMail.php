@@ -23,7 +23,10 @@ class TenantWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Witaj w ' . config('app.name') . " – dostęp do {$this->shopName}",
+            subject: __('mail.subject_tenant_welcome', [
+                'app' => config('app.name'),
+                'shop' => $this->shopName,
+            ]),
         );
     }
 

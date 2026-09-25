@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\AbandonedCart;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class AbandonedCartMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public array $cartItems;
 
@@ -24,13 +25,15 @@ class AbandonedCartMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
-            subject: 'Zapomniałeś czegoś w koszyku? – ' . $shopName,
+            subject: __('mail.subject_abandoned_cart', ['shop' => $shopName]),
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ScheduledReportMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public array $stats,
@@ -23,13 +24,20 @@ class ScheduledReportMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
-            subject: "Raport {$this->period}: {$this->dateFrom} – {$this->dateTo} — {$shopName}",
+            subject: __('mail.subject_scheduled_report', [
+                'period' => $this->period,
+                'from' => $this->dateFrom,
+                'to' => $this->dateTo,
+                'shop' => $shopName,
+            ]),
         );
     }
 

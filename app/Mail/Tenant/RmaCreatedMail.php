@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\RmaRequest;
 use App\Models\Tenant\Setting;
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 
 class RmaCreatedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public RmaRequest $rma,
@@ -23,13 +24,15 @@ class RmaCreatedMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
-            subject: 'Zgłoszenie zwrotu ' . $this->rma->rma_number . ' – ' . $shopName,
+            subject: __('mail.subject_rma_created', ['number' => $this->rma->rma_number, 'shop' => $shopName]),
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Product;
 use App\Models\Tenant\ProductVariant;
 use App\Models\Tenant\Setting;
@@ -14,7 +15,7 @@ use Illuminate\Queue\SerializesModels;
 
 class LowStockAlertMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public Product $product,
@@ -24,6 +25,8 @@ class LowStockAlertMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
@@ -31,7 +34,7 @@ class LowStockAlertMail extends Mailable
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,
             to: $fromAddress ? [new Address($fromAddress, $shopName)] : [],
-            subject: '⚠️ Niski stan magazynowy: ' . $this->product->name . ' | ' . $shopName,
+            subject: __('mail.subject_low_stock', ['product' => $this->product->name, 'shop' => $shopName]),
         );
     }
 

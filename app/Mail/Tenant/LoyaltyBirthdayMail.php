@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Customer;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class LoyaltyBirthdayMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public Customer $customer,
@@ -22,12 +23,14 @@ class LoyaltyBirthdayMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('shop_email');
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $shopName) : null,
-            subject: 'Urodzinowa niespodzianka od ' . $shopName . '!',
+            subject: __('mail.subject_loyalty_birthday', ['shop' => $shopName]),
         );
     }
 

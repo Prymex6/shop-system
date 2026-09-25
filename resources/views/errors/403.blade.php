@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>403 – Brak dostępu</title>
+<title>{{ __('messages.error_403_title') }}</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; color: #1f2937; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
@@ -18,9 +18,9 @@
 <body>
 <div class="card">
   <div class="code">403</div>
-  <h1>Brak dostępu</h1>
-  <p>Nie masz uprawnień do wyświetlenia tej strony.</p>
-  <a href="/" class="btn">Strona główna</a>
+  <h1>{{ __('messages.error_403_heading') }}</h1>
+  <p>{{ __('messages.error_403_body') }}</p>
+  <a href="/" class="btn">{{ __('messages.error_home_link') }}</a>
 </div>
 </body>
 </html>

@@ -8,8 +8,8 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- SEO Meta Tags -->
-        <meta name="description" content="Sklep internetowy — szeroki wybór produktów, szybka dostawa, łatwe zakupy online.">
-        <meta name="keywords" content="sklep, zakupy online, zamów online, produkty">
+        <meta name="description" content="{{ __('messages.meta_description') }}">
+        <meta name="keywords" content="{{ __('messages.meta_keywords') }}">
         <meta name="robots" content="index, follow">
         <meta name="author" content="{{ config('app.name') }}">
 
@@ -17,14 +17,14 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url()->current() }}">
         <meta property="og:title" content="{{ config('app.name') }}">
-        <meta property="og:description" content="Sklep internetowy — szeroki wybór produktów, szybka dostawa.">
+        <meta property="og:description" content="{{ __('messages.meta_description_short') }}">
         <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
 
         <!-- Twitter -->
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ url()->current() }}">
         <meta property="twitter:title" content="{{ config('app.name') }}">
-        <meta property="twitter:description" content="Sklep internetowy — szeroki wybór produktów, szybka dostawa.">
+        <meta property="twitter:description" content="{{ __('messages.meta_description_short') }}">
         <meta property="twitter:image" content="{{ asset('images/og-image.jpg') }}">
 
         <!-- Canonical URL -->

@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class EmailChangeMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public readonly string $verifyUrl,
@@ -20,12 +21,14 @@ class EmailChangeMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $from = Setting::get('smtp_from_address') ?: config('mail.from.address');
         $fromName = Setting::get('smtp_from_name') ?: Setting::get('shop_name', config('app.name'));
 
         return new Envelope(
             from: new Address($from, $fromName),
-            subject: 'Potwierdź zmianę adresu e-mail',
+            subject: __('mail.subject_email_change'),
         );
     }
 

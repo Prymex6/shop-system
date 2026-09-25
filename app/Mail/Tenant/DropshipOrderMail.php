@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Order;
 use App\Models\Tenant\PurchaseOrder;
 use App\Models\Tenant\Supplier;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class DropshipOrderMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public Order $order,
@@ -23,8 +24,10 @@ class DropshipOrderMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         return new Envelope(
-            subject: "Nowe zamówienie dropship #{$this->order->order_number}",
+            subject: __('mail.subject_dropship_order', ['number' => $this->order->order_number]),
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Setting;
 use App\Models\Tenant\Wishlist;
 use Illuminate\Bus\Queueable;
@@ -13,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 
 class WishlistAlertMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     /**
      * @param 'price_drop'|'restock' $reason
@@ -22,13 +23,16 @@ class WishlistAlertMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: Setting::get('shop_email');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
 
-        $subject = $this->reason === 'price_drop'
-            ? 'Cena spadła! – ' . $this->item->product->name
-            : 'Znowu dostępny! – ' . $this->item->product->name;
+        $subject = __(
+            $this->reason === 'price_drop' ? 'mail.subject_price_drop' : 'mail.subject_back_in_stock',
+            ['product' => $this->item->product->name]
+        );
 
         return new Envelope(
             from: $fromAddress ? new Address($fromAddress, $fromName) : null,

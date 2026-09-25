@@ -2,6 +2,7 @@
 
 namespace App\Mail\Tenant;
 
+use App\Mail\Concerns\SendsInShopLanguage;
 use App\Models\Tenant\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ContactInquiryManagerMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SendsInShopLanguage, SerializesModels;
 
     public function __construct(
         public string $senderName,
@@ -22,6 +23,8 @@ class ContactInquiryManagerMail extends Mailable
 
     public function envelope(): Envelope
     {
+        $this->inShopLanguage();
+
         $shopName = Setting::get('shop_name', config('app.name'));
         $fromAddress = Setting::get('smtp_from_address') ?: config('mail.from.address');
         $fromName = Setting::get('smtp_from_name') ?: $shopName;
@@ -29,7 +32,7 @@ class ContactInquiryManagerMail extends Mailable
         return new Envelope(
             from: new Address($fromAddress, $fromName),
             replyTo: [new Address($this->senderEmail, $this->senderName)],
-            subject: 'Nowa wiadomość ze strony kontaktowej – ' . $shopName,
+            subject: __('mail.subject_contact_inquiry_manager', ['shop' => $shopName]),
         );
     }
 
