@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Flash Sales', () => {
-  test('E-FS.1.1 /manager/flash-sales ładuje się', async ({ page }) => {
+  test('E-FS.1.1 /manager/flash-sales loads', async ({ page }) => {
     await page.goto('/manager/flash-sales')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Flash Sales', () => {
     ).toBeFalsy()
   })
 
-  test('E-FS.1.2 Dodaj Flash Sale „Letnia E2E" → widoczna na liście', async ({ page }) => {
+  test('E-FS.1.2 a new flash sale shows up in the list', async ({ page }) => {
     await page.goto('/manager/flash-sales')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -45,7 +45,7 @@ test.describe('Flash Sales', () => {
     ).toBeFalsy()
   })
 
-  test('E-FS.1.3 Błąd przy dacie zakończenia < daty rozpoczęcia', async ({ page }) => {
+  test('E-FS.1.3 an end date before the start date is rejected', async ({ page }) => {
     await page.goto('/manager/flash-sales')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -77,7 +77,7 @@ test.describe('Flash Sales', () => {
     }
   })
 
-  test('E-FS.1.4 Usuń Flash Sale → znika z listy', async ({ page }) => {
+  test('E-FS.1.4 a deleted flash sale leaves the list', async ({ page }) => {
     await page.goto('/manager/flash-sales')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('RMA — Zwroty i reklamacje', () => {
-  test('E-RMA.1.1 Lista RMA widoczna na /manager/rma', async ({ page }) => {
+  test('E-RMA.1.1 /manager/rma lists the return requests', async ({ page }) => {
     await page.goto('/manager/rma')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -12,7 +12,7 @@ test.describe('RMA — Zwroty i reklamacje', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-RMA.1.2 Filtr statusu „Oczekujące" działa', async ({ page }) => {
+  test('E-RMA.1.2 filtering by pending status works', async ({ page }) => {
     await page.goto('/manager/rma')
     await page.waitForLoadState('networkidle')
     const filterSelect = page.locator('select[name="status"]')
@@ -23,7 +23,7 @@ test.describe('RMA — Zwroty i reklamacje', () => {
     }
   })
 
-  test('E-RMA.1.3 Szczegóły RMA ładują się bez 500', async ({ page }) => {
+  test('E-RMA.1.3 the RMA detail page loads without a 500', async ({ page }) => {
     await page.goto('/manager/rma')
     await page.waitForLoadState('networkidle')
     const firstLink = page.locator('a[href*="rma/"]').first()

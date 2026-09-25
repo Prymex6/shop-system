@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Super-admin — Dashboard (Landlord)', () => {
-  test('E41.1.1 Wejście na /admin/dashboard → Dashboard z kartami statystyk widoczny', async ({ page }) => {
+  test('E41.1.1 the super admin dashboard loads with its cards', async ({ page }) => {
     await page.goto('/admin/dashboard')
     await expect(page).toHaveURL(/admin\/dashboard/)
     await expect(page.locator('main, [data-testid="dashboard"], h1, h2').first()).toBeVisible()
@@ -12,7 +12,7 @@ test.describe('Super-admin — Dashboard (Landlord)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E41.1.2 Nawigacja do Tenantów → Kliknięcie „Restauracje" otwiera /admin/tenants', async ({ page }) => {
+  test('E41.1.2 the tenants link opens /admin/tenants', async ({ page }) => {
     await page.goto('/admin/dashboard')
     const tenantsLink = page
       .locator('a, button')
@@ -28,7 +28,7 @@ test.describe('Super-admin — Dashboard (Landlord)', () => {
     }
   })
 
-  test('E41.1.3 Nawigacja do Planów → Kliknięcie „Plany" otwiera /admin/plans', async ({ page }) => {
+  test('E41.1.3 the plans link opens /admin/plans', async ({ page }) => {
     await page.goto('/admin/dashboard')
     const plansLink = page
       .locator('a, button')

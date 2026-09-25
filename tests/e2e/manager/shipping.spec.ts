@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Wysyłka — Metody i Strefy', () => {
-  test('E-SH.1.1 /manager/shipping ładuje się', async ({ page }) => {
+test.describe('Delivery: methods and zones', () => {
+  test('E-SH.1.1 /manager/shipping loads', async ({ page }) => {
     await page.goto('/manager/shipping')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Wysyłka — Metody i Strefy', () => {
     ).toBeFalsy()
   })
 
-  test('E-SH.1.2 Dodaj metodę dostawy „DPD E2E" → widoczna na liście', async ({ page }) => {
+  test('E-SH.1.2 a new delivery method shows up in the list', async ({ page }) => {
     await page.goto('/manager/shipping')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -35,7 +35,7 @@ test.describe('Wysyłka — Metody i Strefy', () => {
     }
   })
 
-  test('E-SH.1.3 Błąd przy nazwie pustej metody dostawy', async ({ page }) => {
+  test('E-SH.1.3 a delivery method with no name is rejected', async ({ page }) => {
     await page.goto('/manager/shipping')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -62,7 +62,7 @@ test.describe('Wysyłka — Metody i Strefy', () => {
     }
   })
 
-  test('E-SH.1.4 Usuń metodę „DPD E2E" → znika z listy', async ({ page }) => {
+  test('E-SH.1.4 a deleted delivery method leaves the list', async ({ page }) => {
     await page.goto('/manager/shipping')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())
@@ -89,7 +89,7 @@ test.describe('Wysyłka — Metody i Strefy', () => {
     ).toBeFalsy()
   })
 
-  test('E-SH.2.2 Dodaj strefę „Polska E2E" → widoczna na liście', async ({ page }) => {
+  test('E-SH.2.2 a new shipping zone shows up in the list', async ({ page }) => {
     await page.goto('/manager/shipping/zones')
     await page.waitForLoadState('networkidle')
     const addBtn = page

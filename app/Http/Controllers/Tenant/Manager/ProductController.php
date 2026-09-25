@@ -142,7 +142,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return redirect()->route('tenant.manager.products.edit', $product)->with('success', 'Produkt utworzony.');
+        return redirect()->route('tenant.manager.products.edit', $product)->with('success', __('messages.product_created'));
     }
 
     public function edit(Product $product)
@@ -231,7 +231,7 @@ class ProductController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Produkt zaktualizowany.');
+        return back()->with('success', __('messages.product_updated'));
     }
 
     public function destroy(Product $product)
@@ -323,7 +323,7 @@ class ProductController extends Controller
                 function ($attribute, $value, $fail) {
                     $ext = strtolower($value->guessExtension() ?: $value->getClientOriginalExtension());
                     if (in_array($ext, self::DANGEROUS_EXTENSIONS, true)) {
-                        $fail('Ten typ pliku nie jest dozwolony.');
+                        $fail(__('messages.file_type_not_allowed'));
                     }
                 },
             ],

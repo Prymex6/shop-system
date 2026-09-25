@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * PDF Invoice – printable HTML rendered at /zamówienia/{orderNumber}/faktura
+ * The PDF invoice: printable HTML served at /zamowienia/{orderNumber}/faktura
  * Uses customer storageState (klient@example.pl)
  */
 test.describe('Order Invoice', () => {

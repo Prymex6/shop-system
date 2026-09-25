@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Produkty — CRUD', () => {
-  test('E5.1.1 Lista produktów widoczna na /manager/products', async ({ page }) => {
+  test('E5.1.1 /manager/products lists the products', async ({ page }) => {
     await page.goto('/manager/products')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/manager\/products/)
     await expect(page.locator('main, h1').first()).toBeVisible()
   })
 
-  test('E5.1.2 Formularz tworzenia produktu ma wymagane pola', async ({ page }) => {
+  test('E5.1.2 the new product form marks its required fields', async ({ page }) => {
     await page.goto('/manager/products/create')
     await page.waitForLoadState('networkidle')
     // Product form uses v-model without name attrs; check by placeholder or type
@@ -20,7 +20,7 @@ test.describe('Produkty — CRUD', () => {
     await expect(priceInput).toBeVisible()
   })
 
-  test('E5.1.3 Submit bez nazwy → Błąd walidacji lub pozostaje na stronie', async ({ page }) => {
+  test('E5.1.3 a product with no name is rejected', async ({ page }) => {
     await page.goto('/manager/products/create')
     await page.waitForLoadState('networkidle')
     await page
@@ -44,7 +44,7 @@ test.describe('Produkty — CRUD', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E5.1.4 Dodaj produkt „Koszulka E2E" (49.99 PLN) → Widoczny na liście', async ({ page }) => {
+  test('E5.1.4 a new product shows up in the list', async ({ page }) => {
     await page.goto('/manager/products/create')
     await page.waitForLoadState('networkidle')
     const nameInput = page.locator('input[placeholder*="Koszulka"], input[type="text"]').first()
@@ -66,7 +66,7 @@ test.describe('Produkty — CRUD', () => {
     await expect(page.getByText('Koszulka E2E').first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('E5.1.5 Edytuj produkt — zmień opis → Zmiany zapisane', async ({ page }) => {
+  test('E5.1.5 an edited description is saved', async ({ page }) => {
     await page.goto('/manager/products')
     await page.waitForLoadState('networkidle')
     const editLink = page.locator('a[href*="edit"]').first()
@@ -83,7 +83,7 @@ test.describe('Produkty — CRUD', () => {
     }
   })
 
-  test('E5.1.6 Toggle dostępności produktu → Status zmienia się', async ({ page }) => {
+  test('E5.1.6 a product can be taken off sale and put back', async ({ page }) => {
     await page.goto('/manager/products')
     await page.waitForLoadState('networkidle')
     const toggleBtn = page
@@ -97,7 +97,7 @@ test.describe('Produkty — CRUD', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E5.1.7 Usuń produkt „Koszulka E2E" → Znika z listy', async ({ page }) => {
+  test('E5.1.7 a deleted product leaves the list', async ({ page }) => {
     await page.goto('/manager/products')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())
@@ -112,7 +112,7 @@ test.describe('Produkty — CRUD', () => {
   })
 })
 
-test.describe('Import CSV produktów', () => {
+test.describe('Product CSV import', () => {
   test('E5.2.1 Pobierz szablon CSV → Plik .csv pobrany', async ({ page }) => {
     let downloadOk = false
     try {
@@ -137,7 +137,7 @@ test.describe('Import CSV produktów', () => {
     }
   })
 
-  test('E5.2.2 Wgraj nieprawidłowy plik (.txt) → Błąd walidacji', async ({ page }) => {
+  test('E5.2.2 uploading a .txt where an image belongs is rejected', async ({ page }) => {
     await page.goto('/manager/products')
     await page.waitForLoadState('networkidle')
     const importBtn = page

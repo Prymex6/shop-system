@@ -80,7 +80,7 @@ class CollectionController extends Controller
             $data['product_id'] => ['sort_order' => $data['sort_order'] ?? 0],
         ]);
 
-        return back()->with('success', 'Produkt dodany do kolekcji.');
+        return back()->with('success', __('messages.product_added_to_collection'));
     }
 
     public function removeProduct(Request $request, Collection $collection)

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Ustawienia sklepu', () => {
-  test('E-UST.1.1 Strona ustawień się ładuje', async ({ page }) => {
+  test('E-UST.1.1 the settings page loads', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/manager\/settings/)
@@ -13,7 +13,7 @@ test.describe('Ustawienia sklepu', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-UST.1.2 Zmień nazwę sklepu → Wartość zapisana', async ({ page }) => {
+  test('E-UST.1.2 a changed shop name is saved', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
 
@@ -28,14 +28,14 @@ test.describe('Ustawienia sklepu', () => {
     await expect(page.locator('input[name="shop_name"]').first()).toHaveValue('E2E Shop Test')
   })
 
-  test('E-UST.1.3 Zakładka SEO jest dostępna i ładuje się', async ({ page }) => {
+  test('E-UST.1.3 the SEO tab loads', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const seoTab = page.locator('button, a, [role="tab"]').filter({ hasText: /^SEO$/i }).first()
     if (await seoTab.isVisible()) {
       await seoTab.click()
       await page.waitForLoadState('networkidle')
-      // Sprawdzamy że sekcja SEO jest widoczna — tytuł sekcji i pole meta title
+      // The SEO section is there: its heading and the meta title field
       await expect(page.getByText('Meta title', { exact: false }).first()).toBeVisible({ timeout: 5000 })
       await expect(
         page.locator('input[placeholder*="Elektronika online"], input[placeholder*="Sklep Xyz"]').first(),
@@ -43,7 +43,7 @@ test.describe('Ustawienia sklepu', () => {
     }
   })
 
-  test('E-UST.1.4 Zakładka Wysyłka jest dostępna i ładuje się', async ({ page }) => {
+  test('E-UST.1.4 the delivery tab loads', async ({ page }) => {
     await page.goto('/manager/shipping')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/manager\/shipping/)
@@ -55,7 +55,7 @@ test.describe('Ustawienia sklepu', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-UST.1.5 Zakładka Płatności jest dostępna', async ({ page }) => {
+  test('E-UST.1.5 the payments tab is reachable', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const paymentsTab = page
@@ -73,7 +73,7 @@ test.describe('Ustawienia sklepu', () => {
     }
   })
 
-  test('E-UST.1.6 Zakładka Licencja jest dostępna', async ({ page }) => {
+  test('E-UST.1.6 the licence tab is reachable', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const licenseTab = page

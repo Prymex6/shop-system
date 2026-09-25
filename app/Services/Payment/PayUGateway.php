@@ -52,7 +52,7 @@ class PayUGateway implements PaymentGatewayInterface
     public function createPayment(Order $order): array
     {
         if (!$this->isConfigured()) {
-            return ['success' => false, 'error' => 'PayU nie jest skonfigurowane dla tego sklepu.'];
+            return ['success' => false, 'error' => __('messages.payu_not_configured_for_shop')];
         }
 
         $amount = (int) round($order->total * 100); // grosze
@@ -161,7 +161,7 @@ class PayUGateway implements PaymentGatewayInterface
     public function refund(Order $order, float $amount): array
     {
         if (!$this->isConfigured()) {
-            return ['success' => false, 'error' => 'PayU nie jest skonfigurowane.'];
+            return ['success' => false, 'error' => __('messages.payu_not_configured')];
         }
 
         $paymentData = $order->payment_data ?? [];

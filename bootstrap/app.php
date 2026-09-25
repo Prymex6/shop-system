@@ -88,7 +88,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ThrottleRequestsException $e,
             Request $request
         ) {
-            $message = 'Zbyt wiele prób. Poczekaj chwilę i spróbuj ponownie.';
+            $message = __('messages.too_many_attempts');
             if ($request->inertia()) {
                 throw ValidationException::withMessages([
                     'throttle' => $message,

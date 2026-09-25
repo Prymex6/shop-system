@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Karty podarunkowe (Gift Cards)', () => {
-  test('E-GC.1.1 /manager/gift-cards ładuje się', async ({ page }) => {
+  test('E-GC.1.1 /manager/gift-cards loads', async ({ page }) => {
     await page.goto('/manager/gift-cards')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Karty podarunkowe (Gift Cards)', () => {
     ).toBeFalsy()
   })
 
-  test('E-GC.1.2 Generuj 2 karty po 50 PLN → pojawiają się na liście', async ({ page }) => {
+  test('E-GC.1.2 two cards of 50 PLN show up in the list', async ({ page }) => {
     await page.goto('/manager/gift-cards')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -38,7 +38,7 @@ test.describe('Karty podarunkowe (Gift Cards)', () => {
     }
   })
 
-  test('E-GC.1.3 Błąd przy wartości 0 PLN', async ({ page }) => {
+  test('E-GC.1.3 a card worth nothing is rejected', async ({ page }) => {
     await page.goto('/manager/gift-cards')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -68,7 +68,7 @@ test.describe('Karty podarunkowe (Gift Cards)', () => {
     }
   })
 
-  test('E-GC.1.4 Toggle dezaktywacji karty działa', async ({ page }) => {
+  test('E-GC.1.4 a card can be deactivated', async ({ page }) => {
     await page.goto('/manager/gift-cards')
     await page.waitForLoadState('networkidle')
     const toggleBtn = page

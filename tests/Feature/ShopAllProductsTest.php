@@ -7,7 +7,7 @@ use App\Models\Tenant\Product;
 use Tests\TenantTestCase;
 
 /**
- * Round 23: "Cały sklep" / "Zobacz wszystkie" under Bestsellers/New
+ * Round 23: the "whole shop" and "see all" links under Bestsellers/New
  * Arrivals/Featured Products on the homepage all linked to route('tenant.shop')
  * — the homepage itself, which only ever renders curated sections (max
  * 8-12 items each). Clicking any of them just reloaded the same page —

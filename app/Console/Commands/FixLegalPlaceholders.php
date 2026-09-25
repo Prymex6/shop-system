@@ -43,7 +43,7 @@ class FixLegalPlaceholders extends Command
                     Setting::set($key, $fixed, 'text');
                     $this->info("  [{$tenant->id}] {$key} — naprawiono");
                 } else {
-                    $this->warn("  [{$tenant->id}] {$key} — nie znaleziono 'Nazwa handlowa:', pomijam");
+                    $this->warn("  [{$tenant->id}] {$key} - no 'Nazwa handlowa:' to replace, skipping");
                 }
             }
 

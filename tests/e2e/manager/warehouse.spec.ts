@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Multi-Warehouse', () => {
-  test('E-WH.1.1 Lista magazynów widoczna', async ({ page }) => {
+  test('E-WH.1.1 the warehouses are listed', async ({ page }) => {
     await page.goto('/manager/warehouses')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -12,7 +12,7 @@ test.describe('Multi-Warehouse', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-WH.1.2 Dodaj magazyn „Warszawa E2E" → Widoczny na liście', async ({ page }) => {
+  test('E-WH.1.2 a new warehouse shows up in the list', async ({ page }) => {
     await page.goto('/manager/warehouses')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -33,7 +33,7 @@ test.describe('Multi-Warehouse', () => {
     }
   })
 
-  test('E-WH.1.3 Usuń magazyn „Warszawa E2E" → Znika z listy', async ({ page }) => {
+  test('E-WH.1.3 a deleted warehouse leaves the list', async ({ page }) => {
     await page.goto('/manager/warehouses')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

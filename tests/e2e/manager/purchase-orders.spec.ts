@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Purchase Orders — zamówienia do dostawców', () => {
-  test('E-PO.1.1 Lista zamówień /manager/purchase-orders ładuje się', async ({ page }) => {
+test.describe('Purchase orders to suppliers', () => {
+  test('E-PO.1.1 /manager/purchase-orders loads', async ({ page }) => {
     await page.goto('/manager/purchase-orders')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Purchase Orders — zamówienia do dostawców', () => {
     await expect(page.locator('main, h1').first()).toBeVisible()
   })
 
-  test('E-PO.1.2 Formularz tworzenia PO dostępny', async ({ page }) => {
+  test('E-PO.1.2 the new purchase order form is reachable', async ({ page }) => {
     await page.goto('/manager/purchase-orders/create')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -25,7 +25,7 @@ test.describe('Purchase Orders — zamówienia do dostawców', () => {
     })
   })
 
-  test('E-PO.1.3 Lista dostawców /manager/suppliers ładuje się', async ({ page }) => {
+  test('E-PO.1.3 /manager/suppliers loads', async ({ page }) => {
     await page.goto('/manager/suppliers')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -36,7 +36,7 @@ test.describe('Purchase Orders — zamówienia do dostawców', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-PO.1.4 Historia PO — tabela lub komunikat o braku', async ({ page }) => {
+  test('E-PO.1.4 the purchase order history, or a note that there is none', async ({ page }) => {
     await page.goto('/manager/purchase-orders')
     await page.waitForLoadState('networkidle')
     const hasTable = await page

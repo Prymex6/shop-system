@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Kolekcje produktów', () => {
-  test('E-COL.1.1 /manager/collections ładuje się', async ({ page }) => {
+test.describe('Product collections', () => {
+  test('E-COL.1.1 /manager/collections loads', async ({ page }) => {
     await page.goto('/manager/collections')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Kolekcje produktów', () => {
     ).toBeFalsy()
   })
 
-  test('E-COL.1.2 Dodaj kolekcję „Bestsellery E2E" → widoczna', async ({ page }) => {
+  test('E-COL.1.2 a new collection shows up', async ({ page }) => {
     await page.goto('/manager/collections')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -40,7 +40,7 @@ test.describe('Kolekcje produktów', () => {
     ).toBeFalsy()
   })
 
-  test('E-COL.1.3 Pusta nazwa → błąd walidacji', async ({ page }) => {
+  test('E-COL.1.3 an empty name is rejected', async ({ page }) => {
     await page.goto('/manager/collections')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -66,7 +66,7 @@ test.describe('Kolekcje produktów', () => {
     }
   })
 
-  test('E-COL.1.4 Usuń kolekcję → znika', async ({ page }) => {
+  test('E-COL.1.4 a deleted collection leaves the list', async ({ page }) => {
     await page.goto('/manager/collections')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

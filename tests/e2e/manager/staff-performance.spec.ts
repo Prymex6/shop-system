@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Wydajność pracowników (§16.3)', () => {
-  test('E-SP.1.1 Strona /manager/staff-performance ładuje się', async ({ page }) => {
+test.describe('Staff performance (§16.3)', () => {
+  test('E-SP.1.1 /manager/staff-performance loads', async ({ page }) => {
     await page.goto('/manager/staff-performance')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,10 +12,10 @@ test.describe('Wydajność pracowników (§16.3)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SP.1.2 Tabela pracowników i statystyki widoczne', async ({ page }) => {
+  test('E-SP.1.2 the staff table and its figures are there', async ({ page }) => {
     await page.goto('/manager/staff-performance')
     await page.waitForLoadState('networkidle')
-    // Strona może zwrócić 404 jeśli trasa nie istnieje — sprawdzamy tylko brak 500
+    // The route may not exist, in which case 404 is fine; what matters is that it does not 500
     const is500 = await page
       .getByText(/500|Internal Server Error/i)
       .isVisible()
@@ -24,7 +24,7 @@ test.describe('Wydajność pracowników (§16.3)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SP.1.3 Raporty pracowników — /manager/staff-reports ładuje się', async ({ page }) => {
+  test('E-SP.1.3 /manager/staff-reports loads', async ({ page }) => {
     await page.goto('/manager/staff-reports')
     await page.waitForLoadState('networkidle')
     const is500 = await page

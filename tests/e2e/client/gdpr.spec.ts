@@ -75,7 +75,7 @@ test.describe('GDPR – Delete Account', () => {
   test('delete account button exists on account page', async ({ page }) => {
     await page.goto('/moje-konto')
     await page.waitForLoadState('networkidle')
-    // Delete button is in the "Zmiana hasła" (password) tab
+    // The delete button lives in the password tab
     await page
       .locator('button')
       .filter({ hasText: /zmiana hasła/i })
@@ -91,7 +91,7 @@ test.describe('GDPR – Delete Account', () => {
   test('delete account requires confirmation', async ({ page }) => {
     await page.goto('/moje-konto')
     await page.waitForLoadState('networkidle')
-    // Delete button is in the "Zmiana hasła" (password) tab
+    // The delete button lives in the password tab
     await page
       .locator('button')
       .filter({ hasText: /zmiana hasła/i })

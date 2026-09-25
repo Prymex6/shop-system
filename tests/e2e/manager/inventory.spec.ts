@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Magazyn — Inventory', () => {
-  test('E-INV.1.1 Lista stanów magazynowych widoczna', async ({ page }) => {
+  test('E-INV.1.1 stock levels are listed', async ({ page }) => {
     await page.goto('/manager/inventory')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/manager\/inventory/)
@@ -13,7 +13,7 @@ test.describe('Magazyn — Inventory', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-INV.1.2 Filtruj po nazwie produktu → wyniki filtrowane', async ({ page }) => {
+  test('E-INV.1.2 filtering by product name narrows the results', async ({ page }) => {
     await page.goto('/manager/inventory')
     await page.waitForLoadState('networkidle')
     const searchInput = page.locator('input[name="search"], input[placeholder*="szukaj" i]').first()
@@ -28,7 +28,7 @@ test.describe('Magazyn — Inventory', () => {
     }
   })
 
-  test('E-INV.1.3 Korekta stanu — formularz korekty widoczny', async ({ page }) => {
+  test('E-INV.1.3 the stock correction form is there', async ({ page }) => {
     await page.goto('/manager/inventory')
     await page.waitForLoadState('networkidle')
     const adjustBtn = page
@@ -43,7 +43,7 @@ test.describe('Magazyn — Inventory', () => {
     }
   })
 
-  test('E-INV.1.4 Korekta stanu — błąd przy pustej ilości', async ({ page }) => {
+  test('E-INV.1.4 a stock correction with no quantity is rejected', async ({ page }) => {
     await page.goto('/manager/inventory')
     await page.waitForLoadState('networkidle')
     const adjustBtn = page
@@ -91,7 +91,7 @@ test.describe('Magazyn — Inventory', () => {
     }
   })
 
-  test('E-INV.1.6 Historia ruchów magazynowych widoczna', async ({ page }) => {
+  test('E-INV.1.6 stock movements are listed', async ({ page }) => {
     await page.goto('/manager/inventory')
     await page.waitForLoadState('networkidle')
     const movementsLink = page.locator('a[href*="movements"]').first()

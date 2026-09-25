@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>404 – Nie znaleziono strony</title>
+<title>{{ __('messages.error_404_title') }}</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; color: #1f2937; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
@@ -18,7 +18,7 @@
 <body>
 <div class="card">
   <div class="code">404</div>
-  <h1>Nie znaleziono strony</h1>
+  <h1>{{ __('messages.error_404_heading') }}</h1>
   <p>{{ __('messages.error_404_body') }}</p>
   <a href="/" class="btn">{{ __('messages.error_home_link') }}</a>
 </div>

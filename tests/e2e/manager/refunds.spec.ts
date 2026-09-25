@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Zwroty płatności (Refunds)', () => {
-  test('E-REF.1.1 /manager/refunds ładuje się', async ({ page }) => {
+test.describe('Refunds', () => {
+  test('E-REF.1.1 /manager/refunds loads', async ({ page }) => {
     await page.goto('/manager/refunds')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Zwroty płatności (Refunds)', () => {
     ).toBeFalsy()
   })
 
-  test('E-REF.1.2 Pusta lista → komunikat „brak zwrotów"', async ({ page }) => {
+  test('E-REF.1.2 an empty list says so', async ({ page }) => {
     await page.goto('/manager/refunds')
     await page.waitForLoadState('networkidle')
     const empty = await page
@@ -28,7 +28,7 @@ test.describe('Zwroty płatności (Refunds)', () => {
     expect(empty || hasList).toBeTruthy()
   })
 
-  test('E-REF.1.3 Szczegóły refundu ładują się bez 500', async ({ page }) => {
+  test('E-REF.1.3 the refund detail page loads without a 500', async ({ page }) => {
     await page.goto('/manager/refunds')
     await page.waitForLoadState('networkidle')
     const firstLink = page.locator('a[href*="refund"]').first()
@@ -44,7 +44,7 @@ test.describe('Zwroty płatności (Refunds)', () => {
     }
   })
 
-  test('E-REF.1.4 Filtr statusu działa', async ({ page }) => {
+  test('E-REF.1.4 filtering by status works', async ({ page }) => {
     await page.goto('/manager/refunds')
     await page.waitForLoadState('networkidle')
     const statusFilter = page.locator('select[name="status"]').first()

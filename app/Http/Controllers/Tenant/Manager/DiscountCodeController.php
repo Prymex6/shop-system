@@ -76,7 +76,7 @@ class DiscountCodeController extends Controller
         $validated['valid_until'] = $validated['valid_until'] ?? null;
 
         $code = DiscountCode::create($validated);
-        Log::info('Discount: kod rabatowy utworzony', ['code' => $code->code, 'type' => $code->type, 'value' => $code->value, 'manager_id' => auth('tenant')->id()]);
+        Log::info('Discount: code created', ['code' => $code->code, 'type' => $code->type, 'value' => $code->value, 'manager_id' => auth('tenant')->id()]);
 
         return redirect()->route('tenant.manager.discounts.index')
             ->with('success', __('messages.discount_created'));
@@ -110,7 +110,7 @@ class DiscountCodeController extends Controller
         $validated['valid_until'] = $validated['valid_until'] ?? null;
 
         $discountCode->update($validated);
-        Log::info('Discount: kod rabatowy zaktualizowany', ['code' => $discountCode->code, 'manager_id' => auth('tenant')->id()]);
+        Log::info('Discount: code updated', ['code' => $discountCode->code, 'manager_id' => auth('tenant')->id()]);
 
         return redirect()->route('tenant.manager.discounts.index')
             ->with('success', __('messages.discount_updated'));

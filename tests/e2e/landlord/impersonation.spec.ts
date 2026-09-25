@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Impersonacja managera przez super-admina', () => {
-  test('E46.1.1 Super-admin klika „Impersonuj" dla e2e-test → Przekierowanie na stronę tenanta; żółty banner widoczny', async ({
-    page,
-  }) => {
+  test('E46.1.1 impersonating a shop lands on it with the banner showing', async ({ page }) => {
     await page.goto('/admin/tenants')
     const impersonateBtn = page
       .locator('table tr, [data-row]')
@@ -28,9 +26,7 @@ test.describe('Impersonacja managera przez super-admina', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E46.1.2 Podczas impersonacji widok managera działa normalnie → Dashboard managera załadowany', async ({
-    page,
-  }) => {
+  test('E46.1.2 the manager panel works normally while impersonating', async ({ page }) => {
     await page.goto('/admin/tenants')
     const impersonateBtn = page
       .locator('table tr, [data-row]')
@@ -50,9 +46,7 @@ test.describe('Impersonacja managera przez super-admina', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E46.1.3 Kliknij „Zakończ impersonację" → Powrót do panelu super-admina na centralnej domenie', async ({
-    page,
-  }) => {
+  test('E46.1.3 ending the impersonation returns to the super admin panel', async ({ page }) => {
     await page.goto('/admin/tenants')
     const impersonateBtn = page
       .locator('table tr, [data-row]')

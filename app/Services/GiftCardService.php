@@ -47,7 +47,7 @@ class GiftCardService
         $card = GiftCard::where('code', strtoupper(trim($code)))->first();
 
         if (!$card) {
-            throw new \InvalidArgumentException('Karta podarunkowa nie istnieje.');
+            throw new \InvalidArgumentException(__('messages.gift_card_unknown'));
         }
 
         if (!$card->isValid()) {

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
-  test('E-MKB.1.1 Lista artykułów /manager/knowledge-base ładuje się', async ({ page }) => {
+test.describe('Knowledge base, managed (Manager, §16.4)', () => {
+  test('E-MKB.1.1 /manager/knowledge-base loads', async ({ page }) => {
     await page.goto('/manager/knowledge-base')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/knowledge-base/)
@@ -13,7 +13,7 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
     await expect(page.locator('main, h1').first()).toBeVisible()
   })
 
-  test('E-MKB.1.2 Formularz tworzenia artykułu dostępny', async ({ page }) => {
+  test('E-MKB.1.2 the new article form is reachable', async ({ page }) => {
     await page.goto('/manager/knowledge-base')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -21,7 +21,7 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
       .isVisible()
       .catch(() => false)
     expect(is500).toBeFalsy()
-    // KB create uses modal — check "Nowy artykuł" button
+    // Creating an article opens a modal, behind the new article button
     const newBtn = page
       .locator('button')
       .filter({ hasText: /nowy artykuł|dodaj artykuł|new article/i })
@@ -33,7 +33,7 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
     }
   })
 
-  test('E-MKB.1.3 Utwórz artykuł KB → widoczny na liście', async ({ page }) => {
+  test('E-MKB.1.3 a new article shows up in the list', async ({ page }) => {
     await page.goto('/manager/knowledge-base')
     await page.waitForLoadState('networkidle')
     const newBtn = page
@@ -45,18 +45,18 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
     // Czekaj na otwarcie modalu (div.fixed.inset-0)
     const modal = page.locator('div.fixed.inset-0')
     await expect(modal).toBeVisible({ timeout: 5000 })
-    // Pole tytułu — input[type="text"] wewnątrz modalu (brak placeholder)
+    // The title is the text input inside the modal; it has no placeholder
     const titleInput = modal.locator('input[type="text"]').first()
     await expect(titleInput).toBeVisible({ timeout: 3000 })
-    // Unikalny tytuł — zapobiega konfliktowi slug przy kolejnych przebiegach
+    // A unique title, or the slug collides on a second run
     const uniqueTitle = `Jak przetwarzać zwroty E2E ${Date.now()}`
     await titleInput.fill(uniqueTitle)
-    // Pole treści — textarea wewnątrz modalu (required)
+    // The body is the required textarea inside the modal
     const contentArea = modal.locator('textarea').first()
     await expect(contentArea).toBeVisible({ timeout: 3000 })
     await contentArea.fill('Procedura przetwarzania zwrotów: 1. Sprawdź warunki. 2. Zatwierdź RMA.')
     await modal.locator('button[type="submit"]').first().click()
-    // Czekaj na zamknięcie modalu (onSuccess callback zamyka modal)
+    // Wait for the modal to close, which onSuccess does
     await expect(modal).not.toBeVisible({ timeout: 8000 })
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -64,11 +64,11 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
       .isVisible()
       .catch(() => false)
     expect(is500).toBeFalsy()
-    // Artykuł powinien być widoczny na liście (sprawdzamy prefix tytułu)
+    // The article should be in the list, matched on the start of its title
     await expect(page.getByText(/Jak przetwarzać zwroty E2E/i).first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('E-MKB.1.4 Edycja artykułu KB — formularz ładuje się', async ({ page }) => {
+  test('E-MKB.1.4 the edit form loads', async ({ page }) => {
     await page.goto('/manager/knowledge-base')
     await page.waitForLoadState('networkidle')
     const editLink = page.locator('a[href*="knowledge-base"][href*="edit"]').first()
@@ -84,7 +84,7 @@ test.describe('Baza wiedzy — zarządzanie (Manager, §16.4)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-MKB.1.5 Usuń artykuł KB — brak błędu serwera', async ({ page }) => {
+  test('E-MKB.1.5 deleting an article does not error', async ({ page }) => {
     await page.goto('/manager/knowledge-base')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

@@ -11,7 +11,7 @@ test.describe('Vacation Mode', () => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
 
-    // Look for "Urlop" or "Zamknięcie" tab / section
+    // Look for the holiday or closing tab
     const tab = page
       .locator('button, a, [role="tab"]')
       .filter({ hasText: /urlop|zamknięcie|vacation|closed/i })

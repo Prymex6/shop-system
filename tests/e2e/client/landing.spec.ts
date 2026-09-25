@@ -5,10 +5,8 @@ test.use({
   baseURL: process.env.LANDLORD_URL ?? 'http://localhost:8000',
 })
 
-test.describe('Landing page (domena główna)', () => {
-  test('E49.1.1 Wejście na http://localhost:8000/ → Strona landing widoczna; nie jest to panel managera', async ({
-    page,
-  }) => {
+test.describe('Landing page on the central domain', () => {
+  test('E49.1.1 the central domain serves the landing page, not the manager panel', async ({ page }) => {
     await page.goto('/')
     await expect(page.locator('main, body').first()).toBeVisible()
     const isManagerPanel = page.url().includes('/manager/')
@@ -20,12 +18,10 @@ test.describe('Landing page (domena główna)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E49.1.2 Strona zawiera CTA — przycisk „Zarejestruj się" lub „Rozpocznij" → Widoczny i klikalny', async ({
-    page,
-  }) => {
+  test('E49.1.2 the landing page has a call to action you can click', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
-    // CTA może być linkiem kontaktowym, "Napisz do nas", lub przyciskiem rejestracji
+    // The call to action may be a contact link, a "write to us", or a sign-up button
     const cta = page
       .locator('a, button')
       .filter({ hasText: /zarejestruj|rozpocznij|demo|napisz|kontakt|sign up|get started/i })
@@ -33,9 +29,7 @@ test.describe('Landing page (domena główna)', () => {
     await expect(cta).toBeVisible({ timeout: 8000 })
   })
 
-  test('E49.1.3 Strona zawiera sekcję cenników → Widoczne plany (Starter, Basic, Pro, Premium) lub ich ceny', async ({
-    page,
-  }) => {
+  test('E49.1.3 the landing page shows the plans, or their prices', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     const hasPlanSection = await page
@@ -53,7 +47,7 @@ test.describe('Landing page (domena główna)', () => {
     expect(hasPlanSection || hasText || hasPricingText).toBeTruthy()
   })
 
-  test('E49.1.4 Link do logowania super-admina → Link/przycisk prowadzi do /admin/login', async ({ page }) => {
+  test('E49.1.4 the super admin sign-in link goes to /admin/login', async ({ page }) => {
     await page.goto('/')
     const loginLink = page
       .locator('a[href*="admin/login"], a')

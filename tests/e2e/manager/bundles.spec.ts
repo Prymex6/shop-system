@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Zestawy produktów (Bundles)', () => {
-  test('E-BUN.1.1 /manager/bundles ładuje się', async ({ page }) => {
+test.describe('Product bundles', () => {
+  test('E-BUN.1.1 /manager/bundles loads', async ({ page }) => {
     await page.goto('/manager/bundles')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Zestawy produktów (Bundles)', () => {
     ).toBeFalsy()
   })
 
-  test('E-BUN.1.2 Pusta lista → komunikat', async ({ page }) => {
+  test('E-BUN.1.2 an empty list says so', async ({ page }) => {
     await page.goto('/manager/bundles')
     await page.waitForLoadState('networkidle')
     const empty = await page
@@ -28,7 +28,7 @@ test.describe('Zestawy produktów (Bundles)', () => {
     expect(empty || hasList).toBeTruthy()
   })
 
-  test('E-BUN.1.3 Dodaj zestaw „Starter E2E" → widoczny na liście', async ({ page }) => {
+  test('E-BUN.1.3 a new bundle shows up in the list', async ({ page }) => {
     await page.goto('/manager/bundles')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -55,7 +55,7 @@ test.describe('Zestawy produktów (Bundles)', () => {
     ).toBeFalsy()
   })
 
-  test('E-BUN.1.4 Błąd przy zerowej cenie zestawu', async ({ page }) => {
+  test('E-BUN.1.4 a bundle priced at zero is rejected', async ({ page }) => {
     await page.goto('/manager/bundles')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -85,7 +85,7 @@ test.describe('Zestawy produktów (Bundles)', () => {
     }
   })
 
-  test('E-BUN.1.5 Usuń zestaw → znika z listy', async ({ page }) => {
+  test('E-BUN.1.5 a deleted bundle leaves the list', async ({ page }) => {
     await page.goto('/manager/bundles')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

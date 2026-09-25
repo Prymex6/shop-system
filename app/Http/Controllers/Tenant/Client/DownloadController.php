@@ -26,7 +26,7 @@ class DownloadController extends Controller
         }
 
         if (!$file->exists()) {
-            abort(404, 'Plik nie istnieje na serwerze.');
+            abort(404, __('messages.file_missing_on_server'));
         }
 
         $this->digitalDelivery->recordDownload($link);

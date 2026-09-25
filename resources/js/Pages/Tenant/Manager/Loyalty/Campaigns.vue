@@ -324,10 +324,14 @@ const appliesLabel = (c) => {
   if (c.applies_to === 'all') return t('common.all_products')
   if (c.applies_to === 'category') {
     const cat = props.categories?.find((x) => x.id === c.target_id)
-    return cat ? `Kategoria: ${cat.name}` : `Kategoria #${c.target_id}`
+    return cat
+      ? t('manager.loyalty.campaigns.category_a', { a: cat.name })
+      : t('manager.loyalty.campaigns.category_number', { a: c.target_id })
   }
   const prod = props.products?.find((x) => x.id === c.target_id)
-  return prod ? `Produkt: ${prod.name}` : `Produkt #${c.target_id}`
+  return prod
+    ? t('manager.loyalty.campaigns.product_a', { a: prod.name })
+    : t('manager.loyalty.campaigns.product_number', { a: c.target_id })
 }
 
 const fmtDate = (d) => (d ? d.slice(0, 10) : '')

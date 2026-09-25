@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Super-admin — Modyfikacje (OCMod)', () => {
-  test('E44.1.1 Wejście na /admin/modifications → Lista modyfikacji widoczna lub stan pusty', async ({ page }) => {
+  test('E44.1.1 /admin/modifications lists them, or says there are none', async ({ page }) => {
     await page.goto('/admin/modifications')
     await expect(page).toHaveURL(/modifications/)
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -18,15 +18,13 @@ test.describe('Super-admin — Modyfikacje (OCMod)', () => {
     expect(hasMods || hasEmpty).toBeTruthy()
   })
 
-  test('E44.1.2 Wejście na /admin/modifications/create → Formularz tworzenia modyfikacji widoczny', async ({
-    page,
-  }) => {
+  test('E44.1.2 /admin/modifications/create shows the new modification form', async ({ page }) => {
     await page.goto('/admin/modifications/create')
     await expect(page).toHaveURL(/modifications\/create/)
     await expect(page.locator('form').first()).toBeVisible()
   })
 
-  test('E44.1.3 Utwórz modyfikację „E2E Mod Test" → Widoczna na liście', async ({ page }) => {
+  test('E44.1.3 a new modification shows up in the list', async ({ page }) => {
     await page.goto('/admin/modifications/create')
     // Modification form uses v-model without name attr; use placeholder selectors
     const nameInput = page.locator('input[placeholder*="Sortowanie menu"]').first()
@@ -45,7 +43,7 @@ test.describe('Super-admin — Modyfikacje (OCMod)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E44.1.4 Przełącz modyfikację (włącz/wyłącz) → Status zmienia się', async ({ page }) => {
+  test('E44.1.4 a modification can be switched on and off', async ({ page }) => {
     await page.goto('/admin/modifications')
     const row = page.locator('tr, [data-row]').filter({ hasText: 'E2E Mod Test' }).first()
     if (await row.isVisible()) {
@@ -58,9 +56,7 @@ test.describe('Super-admin — Modyfikacje (OCMod)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E44.1.5 Kliknij „Zastosuj modyfikacje" → Brak błędu 500; komunikat o zastosowaniu lub brak aktywnych modyfikacji', async ({
-    page,
-  }) => {
+  test('E44.1.5 applying modifications does not 500, whether or not any are active', async ({ page }) => {
     await page.goto('/admin/modifications')
     const applyBtn = page
       .locator('button')
@@ -78,7 +74,7 @@ test.describe('Super-admin — Modyfikacje (OCMod)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E44.1.6 Usuń modyfikację „E2E Mod Test" → Znika z listy', async ({ page }) => {
+  test('E44.1.6 a deleted modification leaves the list', async ({ page }) => {
     await page.goto('/admin/modifications')
     page.on('dialog', (d) => d.accept())
     const row = page.locator('tr, [data-row]').filter({ hasText: 'E2E Mod Test' }).first()

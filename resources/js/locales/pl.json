@@ -1465,7 +1465,8 @@
     "period": "Okres",
     "products_in_the_collection": "Produkty w kolekcji:",
     "search_by_name": "Wyszukaj po nazwie...",
-    "start_date": "Data początku"
+    "start_date": "Data początku",
+    "products_in_collection": "Produkty w kolekcji: {a}"
    }
   },
   "customers": {
@@ -1750,7 +1751,11 @@
     "sunday": "Niedziela",
     "thursday": "Czwartek",
     "tuesday": "Wtorek",
-    "wednesday": "Środa"
+    "wednesday": "Środa",
+    "category_a": "Kategoria: {a}",
+    "category_number": "Kategoria #{a}",
+    "product_a": "Produkt: {a}",
+    "product_number": "Produkt #{a}"
    },
    "customerdetail": {
     "add_subtract_points": "Dodaj / odejmij punkty",
@@ -2699,7 +2704,8 @@
     "test_failed_a": "Błąd testu: {a}",
     "test_sent_status_a": "Test wysłany. Status: {a}",
     "token_for_verifying_the_signature_leave": "Token do weryfikacji podpisu — zostaw puste, aby wygenerować automatycznie",
-    "url": "URL *"
+    "url": "URL *",
+    "new_secret_shown_once": "Nowy sekret (zapisz go teraz — nie zostanie pokazany ponownie):\n\n{a}"
    }
   }
  },

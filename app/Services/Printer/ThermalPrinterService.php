@@ -56,7 +56,7 @@ class ThermalPrinterService
         $lines[] = str_repeat('-', 32);
         $lines[] = sprintf('%-20s %8s', 'RAZEM:', number_format($order->total ?? 0, 2, ',', ' ') . ' PLN');
         $lines[] = '';
-        $lines[] = 'Dziekujemy za zamowienie!';
+        $lines[] = __('messages.receipt_thanks');
         $lines[] = "\x1B\x64\x04"; // ESC d 4 – feed 4 lines
         $lines[] = "\x1D\x56\x00"; // GS  V 0 – cut
 

@@ -54,7 +54,7 @@
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
               <p style="margin:0 0 4px 0;">&copy; {{ date('Y') }} {{ $shopName }}</p>
-              <p style="margin:0 0 4px 0;font-size:11px;">Otrzymujesz ten email jako klient lub subskrybent newslettera naszego sklepu.</p>
+              <p style="margin:0 0 4px 0;font-size:11px;">{{ __('mail.campaign_why_receiving') }}</p>
               <p style="margin:0;font-size:11px;">
                 <a href="{{ $unsubscribeUrl }}" style="color:#9ca3af;text-decoration:underline;">{{ __('mail.campaign_unsubscribe') }}</a>
               </p>

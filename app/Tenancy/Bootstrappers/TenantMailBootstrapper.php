@@ -17,7 +17,7 @@ class TenantMailBootstrapper implements TenancyBootstrapper
             $email = Setting::get('shop_email');
             $name = Setting::get('shop_name');
         } catch (\Throwable $e) {
-            // Tabela tenant_settings jeszcze nie istnieje (np. podczas pierwszej migracji)
+            // tenant_settings does not exist yet, which happens during the first migration
             return;
         }
 

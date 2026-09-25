@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Panel staff — Baza wiedzy (§25)', () => {
-  test('E-SK.1.1 Strona /staff/knowledge-base ładuje się', async ({ page }) => {
+  test('E-SK.1.1 /staff/knowledge-base loads', async ({ page }) => {
     await page.goto('/staff/knowledge-base')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Panel staff — Baza wiedzy (§25)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SK.1.2 Lista artykułów lub komunikat o braku widoczny', async ({ page }) => {
+  test('E-SK.1.2 a list of articles, or a note that there are none', async ({ page }) => {
     await page.goto('/staff/knowledge-base')
     await page.waitForLoadState('networkidle')
     const hasList = await page
@@ -33,7 +33,7 @@ test.describe('Panel staff — Baza wiedzy (§25)', () => {
     expect(hasList || hasEmpty || hasContent).toBeTruthy()
   })
 
-  test('E-SK.1.3 Wyszukiwarka artykułów działa', async ({ page }) => {
+  test('E-SK.1.3 the article search works', async ({ page }) => {
     await page.goto('/staff/knowledge-base')
     await page.waitForLoadState('networkidle')
     const searchInput = page
@@ -51,7 +51,7 @@ test.describe('Panel staff — Baza wiedzy (§25)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SK.1.4 Kliknięcie artykułu otwiera pełną treść', async ({ page }) => {
+  test('E-SK.1.4 clicking an article opens it', async ({ page }) => {
     await page.goto('/staff/knowledge-base')
     await page.waitForLoadState('networkidle')
     const articleLink = page.locator('a[href*="knowledge-base"]').first()
@@ -68,7 +68,7 @@ test.describe('Panel staff — Baza wiedzy (§25)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SK.1.5 Staff nie ma dostępu do tworzenia artykułów (tylko podgląd)', async ({ page }) => {
+  test('E-SK.1.5 staff can read articles but not write them', async ({ page }) => {
     await page.goto('/staff/knowledge-base/create')
     await page.waitForLoadState('networkidle')
     // Should redirect or show 403 — NOT a create form

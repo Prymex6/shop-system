@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Dziennik audytu (§18.2)', () => {
-  test('E-AL.1.1 Strona /manager/audit-log ładuje się', async ({ page }) => {
+  test('E-AL.1.1 /manager/audit-log loads', async ({ page }) => {
     await page.goto('/manager/audit-log')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Dziennik audytu (§18.2)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-AL.1.2 Tabela logów lub komunikat o braku aktywności', async ({ page }) => {
+  test('E-AL.1.2 a table of entries, or a note that there are none', async ({ page }) => {
     await page.goto('/manager/audit-log')
     await page.waitForLoadState('networkidle')
     const hasTable = await page
@@ -28,7 +28,7 @@ test.describe('Dziennik audytu (§18.2)', () => {
     expect(hasTable || hasContent).toBeTruthy()
   })
 
-  test('E-AL.1.3 Filtr po akcji działa bez błędu', async ({ page }) => {
+  test('E-AL.1.3 filtering by action does not error', async ({ page }) => {
     await page.goto('/manager/audit-log')
     await page.waitForLoadState('networkidle')
     const actionFilter = page
@@ -45,7 +45,7 @@ test.describe('Dziennik audytu (§18.2)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-AL.1.4 Eksport CSV — brak błędu', async ({ page }) => {
+  test('E-AL.1.4 the CSV export does not error', async ({ page }) => {
     await page.goto('/manager/audit-log')
     await page.waitForLoadState('networkidle')
     const exportBtn = page

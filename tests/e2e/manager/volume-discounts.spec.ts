@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Rabaty wolumenowe (Volume Discounts)', () => {
-  test('E-VD.1.1 /manager/volume-discounts ładuje się', async ({ page }) => {
+  test('E-VD.1.1 /manager/volume-discounts loads', async ({ page }) => {
     await page.goto('/manager/volume-discounts')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Rabaty wolumenowe (Volume Discounts)', () => {
     ).toBeFalsy()
   })
 
-  test('E-VD.1.2 Dodaj rabat wolumenowy → widoczny na liście', async ({ page }) => {
+  test('E-VD.1.2 a new volume discount shows up in the list', async ({ page }) => {
     await page.goto('/manager/volume-discounts')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -38,7 +38,7 @@ test.describe('Rabaty wolumenowe (Volume Discounts)', () => {
     ).toBeFalsy()
   })
 
-  test('E-VD.1.3 Błąd przy minimalnej ilości = 0', async ({ page }) => {
+  test('E-VD.1.3 a minimum quantity of zero is rejected', async ({ page }) => {
     await page.goto('/manager/volume-discounts')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -68,7 +68,7 @@ test.describe('Rabaty wolumenowe (Volume Discounts)', () => {
     }
   })
 
-  test('E-VD.1.4 Usuń rabat wolumenowy → znika', async ({ page }) => {
+  test('E-VD.1.4 a deleted volume discount leaves the list', async ({ page }) => {
     await page.goto('/manager/volume-discounts')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

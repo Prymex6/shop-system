@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Raporty pracownicze (Staff)', () => {
-  test('E39.1.1 Chef wchodzi na /staff/reports → Formularz raportu widoczny', async ({ page }) => {
+  test('E39.1.1 /staff/reports shows the report form', async ({ page }) => {
     await page.goto('/staff/reports')
     await expect(page).toHaveURL(/staff\/reports/)
     await expect(page.locator('body')).toBeVisible()
@@ -18,9 +18,7 @@ test.describe('Raporty pracownicze (Staff)', () => {
     expect(hasForm).toBeTruthy()
   })
 
-  test('E39.1.2 Chef wysyła raport z treścią → Komunikat o przyjęciu raportu; raport widoczny w historii', async ({
-    page,
-  }) => {
+  test('E39.1.2 a report with something in it is accepted and shows up in the history', async ({ page }) => {
     await page.goto('/staff/reports')
     const textarea = page.locator('textarea[name="content"], textarea[name="message"], textarea[name="report"]').first()
     if (await textarea.isVisible()) {
@@ -36,7 +34,7 @@ test.describe('Raporty pracownicze (Staff)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E39.1.3 Wyślij pusty raport → Błąd walidacji; raport nie wysłany', async ({ page }) => {
+  test('E39.1.3 an empty report is refused and not sent', async ({ page }) => {
     await page.goto('/staff/reports')
     const submitBtn = page.locator('button[type="submit"]').first()
     if (await submitBtn.isVisible()) {

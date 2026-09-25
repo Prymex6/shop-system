@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Blog — artykuły (§15.1–15.2)', () => {
-  test('E-MB.1.1 Lista artykułów /manager/articles ładuje się', async ({ page }) => {
+test.describe('Blog articles (§15.1-15.2)', () => {
+  test('E-MB.1.1 /manager/articles loads', async ({ page }) => {
     await page.goto('/manager/articles')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/articles/)
@@ -13,7 +13,7 @@ test.describe('Blog — artykuły (§15.1–15.2)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-MB.1.2 Formularz tworzenia artykułu dostępny', async ({ page }) => {
+  test('E-MB.1.2 the new article form is reachable', async ({ page }) => {
     await page.goto('/manager/articles/create')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -21,7 +21,7 @@ test.describe('Blog — artykuły (§15.1–15.2)', () => {
       .isVisible()
       .catch(() => false)
     expect(is500).toBeFalsy()
-    // Pole "Tytuł" używa v-model bez atrybutu name — szukamy po placeholder
+    // The title field is bound with v-model and has no name, so it is found by its placeholder
     const hasTitleField = await page
       .locator('input[placeholder*="Tytuł artykułu"], input[placeholder*="Tytuł"]')
       .first()
@@ -35,27 +35,27 @@ test.describe('Blog — artykuły (§15.1–15.2)', () => {
     expect(hasTitleField || hasEditor).toBeTruthy()
   })
 
-  test('E-MB.1.3 Utwórz artykuł szkic → widoczny na liście', async ({ page }) => {
+  test('E-MB.1.3 a draft article shows up in the list', async ({ page }) => {
     await page.goto('/manager/articles/create')
     await page.waitForLoadState('networkidle')
     const titleInput = page.locator('input[placeholder*="Tytuł artykułu"], input[placeholder*="Tytuł"]').first()
     await expect(titleInput).toBeVisible({ timeout: 5000 })
-    // Unikalny tytuł — zapobiega błędowi "slug już zajęty" przy kolejnych przebiegach
+    // A unique title, or the slug collides on a second run
     const uniqueTitle = `Artykuł E2E Test Blog ${Date.now()}`
     await titleInput.fill(uniqueTitle)
-    // Pole "Treść" ma atrybut required — to DRUGA textarea (pierwsza to Zajawka)
+    // The body is the second textarea; the first is the excerpt
     const contentArea = page.locator('textarea[placeholder*="Treść"]')
     await expect(contentArea).toBeVisible({ timeout: 5000 })
     await contentArea.fill('Treść artykułu testowego — co najmniej kilka zdań na potrzeby testu E2E.')
     await page.locator('button[type="submit"]').first().click()
-    // Kontroler po zapisaniu przekierowuje do articles/{id}/edit
+    // Saving redirects to articles/{id}/edit
     await page.waitForURL(/articles\/\d+\/edit/, { timeout: 10000 })
     await page.goto('/manager/articles')
     await page.waitForLoadState('networkidle')
     await expect(page.getByText('Artykuł E2E Test Blog').first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('E-MB.1.4 Zmiana statusu artykułu draft → published', async ({ page }) => {
+  test('E-MB.1.4 an article goes from draft to published', async ({ page }) => {
     await page.goto('/manager/articles')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -74,7 +74,7 @@ test.describe('Blog — artykuły (§15.1–15.2)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-MB.1.5 Edycja artykułu — formularz edycji ładuje się', async ({ page }) => {
+  test('E-MB.1.5 the edit form loads', async ({ page }) => {
     await page.goto('/manager/articles')
     await page.waitForLoadState('networkidle')
     const editLink = page.locator('a[href*="articles"][href*="edit"]').first()
@@ -91,7 +91,7 @@ test.describe('Blog — artykuły (§15.1–15.2)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-MB.1.6 Blog publiczny /blog ładuje się', async ({ page }) => {
+  test('E-MB.1.6 the public blog loads', async ({ page }) => {
     await page.goto('/blog')
     await page.waitForLoadState('networkidle')
     const is500 = await page

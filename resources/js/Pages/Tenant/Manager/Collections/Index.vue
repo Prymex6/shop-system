@@ -229,7 +229,9 @@
     >
       <div class="bg-white shadow rounded-lg w-full max-w-lg max-h-[85vh] overflow-y-auto">
         <div class="flex items-center justify-between p-6 border-b border-gray-100">
-          <h3 class="font-bold text-lg text-gray-900">Produkty w kolekcji: {{ currentCollection?.name }}</h3>
+          <h3 class="font-bold text-lg text-gray-900">
+            {{ t('manager.collections.index.products_in_collection', { a: currentCollection?.name }) }}
+          </h3>
           <button @click="showProductsModal = false" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">
             &times;
           </button>

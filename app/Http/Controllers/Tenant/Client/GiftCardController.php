@@ -28,7 +28,7 @@ class GiftCardController extends Controller
         if (!$card) {
             return response()->json([
                 'valid' => false,
-                'message' => 'Karta podarunkowa nie istnieje.',
+                'message' => __('messages.gift_card_unknown'),
             ], 422);
         }
 

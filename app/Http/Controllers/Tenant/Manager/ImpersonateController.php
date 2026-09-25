@@ -37,7 +37,7 @@ class ImpersonateController extends Controller
         $manager = User::find($data['user_id']);
 
         if (!$manager || $manager->role !== 'manager') {
-            abort(403, 'Nie znaleziono konta managera.');
+            abort(403, __('messages.manager_account_not_found'));
         }
 
         Auth::guard('tenant')->login($manager);

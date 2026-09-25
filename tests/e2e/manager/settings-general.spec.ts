@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Ustawienia ogólne', () => {
-  test('E12.1.1 /manager/settings ładuje się z zakładkami', async ({ page }) => {
+test.describe('General settings', () => {
+  test('E12.1.1 /manager/settings loads with its tabs', async ({ page }) => {
     await page.goto('/manager/settings')
     await expect(page).toHaveURL(/manager\/settings/)
     await expect(page.locator('main, form').first()).toBeVisible()
@@ -9,7 +9,7 @@ test.describe('Ustawienia ogólne', () => {
     await expect(tabs.first()).toBeVisible()
   })
 
-  test('E12.1.2 Zmień nazwę sklepu na „E2E Test Shop" → Po zapisaniu nowa nazwa widoczna', async ({ page }) => {
+  test('E12.1.2 a renamed shop shows the new name after saving', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const nameInput = page.locator('input[name="shop_name"]').first()
@@ -39,7 +39,7 @@ test.describe('Ustawienia ogólne', () => {
 })
 
 test.describe('Tryb urlopowy', () => {
-  test('E12.2.1 Zakładka urlop widoczna z przełącznikiem', async ({ page }) => {
+  test('E12.2.1 the holiday tab has a switch', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -54,7 +54,7 @@ test.describe('Tryb urlopowy', () => {
     await expect(toggle).toBeVisible({ timeout: 5000 })
   })
 
-  test('E12.2.2 Włącz tryb urlopowy → Banner widoczny na stronie sklepu', async ({ page, browser }) => {
+  test('E12.2.2 turning holiday mode on puts a banner on the storefront', async ({ page, browser }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -86,7 +86,7 @@ test.describe('Tryb urlopowy', () => {
     // closedMsg may or may not appear depending on shop configuration
   })
 
-  test('E12.2.3 Wyłącz tryb urlopowy → Sklep dostępny', async ({ page }) => {
+  test('E12.2.3 turning it off opens the shop again', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -104,8 +104,8 @@ test.describe('Tryb urlopowy', () => {
   })
 })
 
-test.describe('Zakładka Polityki', () => {
-  test('E12.3.1 Zakładka Polityki widoczna w ustawieniach', async ({ page }) => {
+test.describe('The policies tab', () => {
+  test('E12.3.1 the policies tab is in settings', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -133,7 +133,7 @@ test.describe('Zakładka Polityki', () => {
     }
   })
 
-  test('E12.3.3 Toggle Live Chat → zapisany stan', async ({ page }) => {
+  test('E12.3.3 switching live chat on or off is saved', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -158,8 +158,8 @@ test.describe('Zakładka Polityki', () => {
   })
 })
 
-test.describe('Ustawienia płatności', () => {
-  test('E12.4.1 Zakładka Płatności widoczna', async ({ page }) => {
+test.describe('Payment settings', () => {
+  test('E12.4.1 the payments tab is there', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const tab = page
@@ -173,7 +173,7 @@ test.describe('Ustawienia płatności', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E12.4.2 Brak zakładki SMTP w ustawieniach (konfiguracja przez .env)', async ({ page }) => {
+  test('E12.4.2 there is no SMTP tab, because that is configured in .env', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const smtpTab = page.locator('button, a, [role="tab"]').filter({ hasText: /smtp/i }).first()

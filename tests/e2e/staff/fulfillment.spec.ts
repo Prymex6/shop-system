@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Staff — Fulfillment', () => {
-  test('E-SF.1.1 Panel staff widoczny po zalogowaniu', async ({ page }) => {
+  test('E-SF.1.1 the staff panel opens after signing in', async ({ page }) => {
     await page.goto('/staff')
     await page.waitForLoadState('networkidle')
     const isStaff = page.url().includes('staff')
@@ -13,7 +13,7 @@ test.describe('Staff — Fulfillment', () => {
     expect(isStaff || hasContent).toBeTruthy()
   })
 
-  test('E-SF.1.2 Lista zamówień do przetworzenia widoczna', async ({ page }) => {
+  test('E-SF.1.2 the orders waiting to be picked are listed', async ({ page }) => {
     await page.goto('/staff/fulfillment')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main').first()).toBeVisible()
@@ -24,7 +24,7 @@ test.describe('Staff — Fulfillment', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-SF.1.3 Panel magazynowy widoczny na /staff/warehouse', async ({ page }) => {
+  test('E-SF.1.3 /staff/warehouse opens', async ({ page }) => {
     await page.goto('/staff/warehouse')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main').first()).toBeVisible()
@@ -35,7 +35,7 @@ test.describe('Staff — Fulfillment', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-SF.1.4 Raport pracownika — formularz widoczny', async ({ page }) => {
+  test('E-SF.1.4 the staff report form is there', async ({ page }) => {
     await page.goto('/staff/reports')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -57,7 +57,7 @@ test.describe('Staff — Fulfillment', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-SF.1.5 Wyślij raport → Pojawia się w historii', async ({ page }) => {
+  test('E-SF.1.5 a sent report shows up in the history', async ({ page }) => {
     await page.goto('/staff/reports')
     await page.waitForLoadState('networkidle')
     const titleInput = page

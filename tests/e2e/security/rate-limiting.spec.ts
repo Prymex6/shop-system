@@ -7,8 +7,8 @@ test.use({ storageState: { cookies: [], origins: [] } })
  * These navigate to the form page first to get a valid CSRF/session cookie,
  * then send rapid POST requests. The throttle middleware counts attempts per IP.
  */
-test.describe('Bezpieczeństwo — Rate limiting', () => {
-  test('E48.1.1 6 szybkich żądań POST /kasa → Szóste zwraca HTTP 429', async ({ page }) => {
+test.describe('Security: rate limiting', () => {
+  test('E48.1.1 the sixth quick POST to the checkout gets a 429', async ({ page }) => {
     // Establish session + XSRF cookie
     await page.goto('/')
     await page.waitForLoadState('networkidle')
@@ -25,7 +25,7 @@ test.describe('Bezpieczeństwo — Rate limiting', () => {
     expect([419, 422, 429]).toContain(lastStatus)
   })
 
-  test('E48.1.2 11 żądań POST /login (staff) → Jedenaste zwraca HTTP 429', async ({ page }) => {
+  test('E48.1.2 the eleventh POST to /login gets a 429', async ({ page }) => {
     await page.goto('/login')
     await page.waitForLoadState('networkidle')
     let lastStatus = 200
@@ -41,7 +41,7 @@ test.describe('Bezpieczeństwo — Rate limiting', () => {
     expect(lastStatus).not.toBe(200)
   })
 
-  test('E48.1.3 11 żądań POST /konto/logowanie (klient) → Jedenaste zwraca HTTP 429', async ({ page }) => {
+  test('E48.1.3 the eleventh POST to the customer sign-in gets a 429', async ({ page }) => {
     await page.goto('/konto/logowanie')
     await page.waitForLoadState('networkidle')
     let lastStatus = 200

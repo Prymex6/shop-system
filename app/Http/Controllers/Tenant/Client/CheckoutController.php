@@ -136,7 +136,7 @@ class CheckoutController extends Controller
         $discountCode = DiscountCode::where('code', $code)->first();
 
         if (!$discountCode || !$discountCode->is_active) {
-            return response()->json(['valid' => false, 'message' => 'Kod rabatowy nie istnieje lub jest nieaktywny'], 422);
+            return response()->json(['valid' => false, 'message' => __('messages.discount_code_unknown')], 422);
         }
 
         if ($discountCode->max_uses && $discountCode->used_count >= $discountCode->max_uses) {

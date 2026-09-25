@@ -1465,7 +1465,8 @@
     "period": "Period",
     "products_in_the_collection": "Products in the collection:",
     "search_by_name": "Search by name…",
-    "start_date": "Start date"
+    "start_date": "Start date",
+    "products_in_collection": "Products in the collection: {a}"
    }
   },
   "customers": {
@@ -1750,7 +1751,11 @@
     "sunday": "Sunday",
     "thursday": "Thursday",
     "tuesday": "Tuesday",
-    "wednesday": "Wednesday"
+    "wednesday": "Wednesday",
+    "category_a": "Category: {a}",
+    "category_number": "Category #{a}",
+    "product_a": "Product: {a}",
+    "product_number": "Product #{a}"
    },
    "customerdetail": {
     "add_subtract_points": "Add / subtract points",
@@ -2699,7 +2704,8 @@
     "test_failed_a": "Test failed: {a}",
     "test_sent_status_a": "Test sent. Status: {a}",
     "token_for_verifying_the_signature_leave": "Token for verifying the signature — leave empty to generate one",
-    "url": "URL *"
+    "url": "URL *",
+    "new_secret_shown_once": "The new secret. Save it now; it will not be shown again.\n\n{a}"
    }
   }
  },

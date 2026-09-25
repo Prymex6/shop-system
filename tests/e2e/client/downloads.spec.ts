@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Pobieranie plików cyfrowych (§22.7)', () => {
-  test('E-CD.1.1 Strona Moje pobierania ładuje się', async ({ page }) => {
+test.describe('Digital downloads (§22.7)', () => {
+  test('E-CD.1.1 the downloads page loads', async ({ page }) => {
     await page.goto('/moje-konto/pobierania')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Pobieranie plików cyfrowych (§22.7)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-CD.1.2 Lista pobrań lub komunikat o braku plików widoczny', async ({ page }) => {
+  test('E-CD.1.2 a list of downloads, or a note that there are none', async ({ page }) => {
     await page.goto('/moje-konto/pobierania')
     await page.waitForLoadState('networkidle')
     const hasContent = await page
@@ -28,7 +28,7 @@ test.describe('Pobieranie plików cyfrowych (§22.7)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-CD.1.3 Pusta lista — brak błędu', async ({ page }) => {
+  test('E-CD.1.3 an empty list does not error', async ({ page }) => {
     await page.goto('/moje-konto/pobierania')
     await page.waitForLoadState('networkidle')
     const hasEmptyMsg = await page

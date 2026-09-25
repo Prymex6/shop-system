@@ -45,7 +45,7 @@ test.describe('E49 - Upload: blokowanie niebezpiecznych typow plikow', () => {
     expect(response.status()).toBe(422)
   })
 
-  test('E49.1.3 Upload za duzego pliku 6MB -> 413 lub 422', async ({ page }) => {
+  test('E49.1.3 a 6MB upload is refused', async ({ page }) => {
     await page.goto('/manager/settings')
     await page.waitForLoadState('networkidle')
     const xsrf = await getXsrfToken(page)
@@ -62,10 +62,10 @@ test.describe('E49 - Upload: blokowanie niebezpiecznych typow plikow', () => {
   })
 })
 
-test.describe('E49 - Upload: niezalogowany uzytkownik', () => {
+test.describe('E49 - uploading as a guest', () => {
   test.use({ storageState: { cookies: [], origins: [] } })
 
-  test('E49.1.4 Niezalogowany probuje uploadowac -> Odmowa dostepu', async ({ page }) => {
+  test('E49.1.4 a guest trying to upload is refused', async ({ page }) => {
     const response = await page.request.post(TENANT_URL + '/manager/settings/upload', {
       headers: { Accept: 'application/json' },
       multipart: {
@@ -79,10 +79,10 @@ test.describe('E49 - Upload: niezalogowany uzytkownik', () => {
   })
 })
 
-test.describe('E49 - Niezalogowany nie ma dostepu do shop-search', () => {
+test.describe('E49 - a guest cannot reach the shop search', () => {
   test.use({ storageState: { cookies: [], origins: [] }, baseURL: LANDLORD_URL })
 
-  test('E49.2.1 GET /admin/shop-search -> Przekierowanie na login', async ({ page }) => {
+  test('E49.2.1 GET /admin/shop-search sends a guest to sign in', async ({ page }) => {
     await page.goto('/admin/shop-search')
     const url = page.url()
     expect(url).toContain('login')
@@ -96,7 +96,7 @@ test.describe('E49 - Niezalogowany nie ma dostepu do shop-search', () => {
   })
 })
 
-test.describe('E49 - Super-admin ma dostep do shop-search', () => {
+test.describe('E49 - a super admin can reach the shop search', () => {
   test.use({ storageState: 'tests/e2e/.auth/super-admin.json', baseURL: LANDLORD_URL })
 
   test('E49.2.3 Super-admin widzi /admin/shop-search bez przekierowania', async ({ page }) => {
@@ -109,7 +109,7 @@ test.describe('E49 - Super-admin ma dostep do shop-search', () => {
 test.describe('E49 - Ochrona CSRF', () => {
   test.use({ storageState: { cookies: [], origins: [] } })
 
-  test('E49.3.1 POST /kasa bez tokenu CSRF -> nie zwraca 200', async ({ page }) => {
+  test('E49.3.1 a checkout POST without a CSRF token is refused', async ({ page }) => {
     const response = await page.request.post(TENANT_URL + '/kasa', {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       data: { customer_name: 'Jan Test', items: [] },
@@ -118,7 +118,7 @@ test.describe('E49 - Ochrona CSRF', () => {
     expect([302, 419, 422]).toContain(response.status())
   })
 
-  test('E49.3.2 POST /manager/settings bez tokenu CSRF -> nie zwraca 200', async ({ page }) => {
+  test('E49.3.2 a settings POST without a CSRF token is refused', async ({ page }) => {
     const response = await page.request.post(TENANT_URL + '/manager/settings', {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       data: { shop_name: 'Test' },
@@ -130,7 +130,7 @@ test.describe('E49 - Ochrona CSRF', () => {
 test.describe('E49 - XSS w polach produktu', () => {
   test.use({ storageState: 'tests/e2e/.auth/manager.json' })
 
-  test('E49.4.1 XSS payload w nazwie produktu nie wykonuje skryptu', async ({ page }) => {
+  test('E49.4.1 an XSS payload in a product name does not run', async ({ page }) => {
     const lt = String.fromCharCode(60)
     const gt = String.fromCharCode(62)
     const xssPayload = lt + 'script' + gt + 'window.__xss_ok=1' + lt + '/script' + gt

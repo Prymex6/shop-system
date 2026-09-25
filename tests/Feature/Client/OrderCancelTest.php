@@ -41,7 +41,7 @@ class OrderCancelTest extends TenantTestCase
         ], $overrides));
     }
 
-    /** Można anulować zamówienie pending złożone przed chwilą */
+    /** A pending order placed a moment ago can be cancelled. */
     public function test_customer_can_cancel_own_pending_order_within_5_minutes(): void
     {
         Carbon::setTestNow(now()->subMinutes(2));
@@ -60,7 +60,7 @@ class OrderCancelTest extends TenantTestCase
         ]);
     }
 
-    /** Nie można anulować zamówienia w stanie "preparing" */
+    /** An order already being prepared cannot be cancelled. */
     public function test_customer_cannot_cancel_preparing_order(): void
     {
         Carbon::setTestNow(now()->subMinutes(1));
@@ -78,7 +78,7 @@ class OrderCancelTest extends TenantTestCase
         ]);
     }
 
-    /** Nie można anulować zamówienia po upływie 15 minut */
+    /** After fifteen minutes the order can no longer be cancelled. */
     public function test_customer_cannot_cancel_order_after_5_minutes(): void
     {
         Carbon::setTestNow(now()->subMinutes(20));
@@ -96,7 +96,7 @@ class OrderCancelTest extends TenantTestCase
         ]);
     }
 
-    /** Nie można anulować cudzego zamówienia – powinno zwrócić 404 */
+    /** An order belonging to somebody else answers 404 rather than cancelling. */
     public function test_customer_cannot_cancel_another_customers_order(): void
     {
         Carbon::setTestNow(now()->subMinutes(1));
@@ -114,7 +114,7 @@ class OrderCancelTest extends TenantTestCase
         ]);
     }
 
-    /** Niezalogowany użytkownik nie może anulować zamówienia */
+    /** A signed-out visitor cannot cancel an order. */
     public function test_unauthenticated_user_cannot_cancel_order(): void
     {
         Carbon::setTestNow(now()->subMinutes(1));
@@ -124,7 +124,7 @@ class OrderCancelTest extends TenantTestCase
         $response = $this->withoutTenantMiddleware()
             ->delete("/moje-konto/zamowienia/{$order->order_number}/anuluj");
 
-        // Przekierowanie do logowania lub 403
+        // Either a redirect to sign in, or a 403
         $response->assertStatus(302);
         $this->assertDatabaseHas('orders', [
             'order_number' => $order->order_number,

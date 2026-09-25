@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Kreator stron — Page Builder', () => {
-  test('E-PB.1.1 Lista stron widoczna na /manager/page-builder', async ({ page }) => {
+  test('E-PB.1.1 /manager/page-builder lists the pages', async ({ page }) => {
     await page.goto('/manager/page-builder')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/page-builder/)
@@ -13,7 +13,7 @@ test.describe('Kreator stron — Page Builder', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-PB.1.2 Formularz tworzenia strony dostępny', async ({ page }) => {
+  test('E-PB.1.2 the new page form is reachable', async ({ page }) => {
     await page.goto('/manager/page-builder')
     await page.waitForLoadState('networkidle')
     const newBtn = page
@@ -28,27 +28,27 @@ test.describe('Kreator stron — Page Builder', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-PB.1.3 Utwórz stronę „O nas E2E" → Widoczna na liście', async ({ page }) => {
-    // Edytor stron używa Vue v-model bez atrybutów name — szukamy po placeholder
+  test('E-PB.1.3 a new page shows up in the list', async ({ page }) => {
+    // The page editor binds with v-model and has no names, so fields are found by placeholder
     await page.goto('/manager/page-builder/create')
     await page.waitForLoadState('networkidle')
     const titleInput = page.locator('input[placeholder*="O nas"], input[placeholder*="Np."]').first()
     await expect(titleInput).toBeVisible({ timeout: 5000 })
     await titleInput.fill('O nas E2E')
-    // Przycisk "Zapisz" (nie type=submit)
+    // The save button, which is not a type=submit
     await page
       .locator('button')
       .filter({ hasText: /^Zapisz$/ })
       .first()
       .click()
-    // Po zapisie kontroler przekierowuje do edytora z id — czekamy na zmianę URL
+    // Saving redirects to the editor with an id, so wait for the URL to change
     await page.waitForURL(/page-builder\/\d+\/edit/, { timeout: 10000 })
     await page.goto('/manager/page-builder')
     await page.waitForLoadState('networkidle')
     await expect(page.getByText('O nas E2E').first()).toBeVisible({ timeout: 5000 })
   })
 
-  test('E-PB.1.4 Edytor stron (canvas) ładuje się', async ({ page }) => {
+  test('E-PB.1.4 the page editor canvas loads', async ({ page }) => {
     await page.goto('/manager/page-builder')
     await page.waitForLoadState('networkidle')
     const editLink = page.locator('a[href*="page-builder"][href*="edit"]').first()
@@ -74,13 +74,13 @@ test.describe('Kreator stron — Page Builder', () => {
     }
   })
 
-  test('E-PB.1.5 Zduplikowany slug → Błąd walidacji', async ({ page }) => {
+  test('E-PB.1.5 a duplicate slug is rejected', async ({ page }) => {
     await page.goto('/manager/page-builder/create')
     await page.waitForLoadState('networkidle')
     const titleInput = page.locator('input[placeholder*="O nas"], input[placeholder*="Np."]').first()
     if (await titleInput.isVisible()) {
       await titleInput.fill('O nas E2E')
-      // Nadpisz slug na istniejący
+      // Overwrite the slug with one already in use
       const slugInput = page.locator('input[placeholder*="o-nas"], input[placeholder="o-nas"]').first()
       if (await slugInput.isVisible()) {
         await slugInput.fill('o-nas-e2e')
@@ -91,7 +91,7 @@ test.describe('Kreator stron — Page Builder', () => {
         .first()
         .click()
       await page.waitForLoadState('networkidle')
-      // Przy duplikacie slug powinien zostać błąd lub pozostaje na stronie create
+      // A duplicate slug should error, or at least leave us on the create page
       const hasError = await page
         .getByText(/zajęty|already|slug|unique/i)
         .isVisible()
@@ -101,11 +101,11 @@ test.describe('Kreator stron — Page Builder', () => {
     }
   })
 
-  test('E-PB.1.6 Usuń stronę „O nas E2E" → Znika z listy', async ({ page }) => {
+  test('E-PB.1.6 a deleted page leaves the list', async ({ page }) => {
     await page.goto('/manager/page-builder')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())
-    // Lista stron jest w tabeli (<tr>)
+    // The pages are listed as table rows
     const row = page.locator('tr').filter({ hasText: 'O nas E2E' }).first()
     if (await row.isVisible()) {
       await row
@@ -118,8 +118,8 @@ test.describe('Kreator stron — Page Builder', () => {
   })
 })
 
-test.describe('Kreator strony głównej (Homepage Builder)', () => {
-  test('E-HB.1.1 Kreator strony głównej się ładuje', async ({ page }) => {
+test.describe('Homepage builder', () => {
+  test('E-HB.1.1 the homepage builder loads', async ({ page }) => {
     await page.goto('/manager/homepage-builder')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/homepage-builder/)
@@ -131,7 +131,7 @@ test.describe('Kreator strony głównej (Homepage Builder)', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-HB.1.2 Bloki są widoczne na liście', async ({ page }) => {
+  test('E-HB.1.2 the blocks are listed', async ({ page }) => {
     await page.goto('/manager/homepage-builder')
     await page.waitForLoadState('networkidle')
     // Should have at least the Hero block in the list
@@ -144,7 +144,7 @@ test.describe('Kreator strony głównej (Homepage Builder)', () => {
     expect(hasHero || hasAnyBlock).toBeTruthy()
   })
 
-  test('E-HB.1.3 Kliknięcie na blok otwiera panel ustawień', async ({ page }) => {
+  test('E-HB.1.3 clicking a block opens its settings', async ({ page }) => {
     await page.goto('/manager/homepage-builder')
     await page.waitForLoadState('networkidle')
     const firstBlock = page
@@ -164,7 +164,7 @@ test.describe('Kreator strony głównej (Homepage Builder)', () => {
     }
   })
 
-  test('E-HB.1.4 Zapis kreatora nie zwraca błędu 500', async ({ page }) => {
+  test('E-HB.1.4 saving the builder does not 500', async ({ page }) => {
     await page.goto('/manager/homepage-builder')
     await page.waitForLoadState('networkidle')
     const saveBtn = page

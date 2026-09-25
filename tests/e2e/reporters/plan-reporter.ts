@@ -8,14 +8,14 @@ import * as path from 'path'
  * Format linii w planie:
  *   - [ ] **E1.1.1** Opis testu → Oczekiwany wynik
  *
- * Nazwy testów w spec files muszą zaczynać się od ID, np.:
+ * A test name has to start with its ID, for example:
  *   test('E1.1.1 Opis testu → Oczekiwany wynik', ...)
  *
  * Po przebiegu:
  *   [x] = zaliczony
  *   [!] = niezaliczony
  *   [~] = flaky (zaliczony po retry)
- *   [ ] = nie uruchomiony / pominięty
+ *   [ ] = not run, or skipped
  */
 class PlanReporter implements Reporter {
   private results = new Map<string, 'passed' | 'failed' | 'flaky'>()
@@ -54,7 +54,7 @@ class PlanReporter implements Reporter {
 
     let content = fs.readFileSync(this.planPath, 'utf8')
 
-    // Aktualizuj datę ostatniego uruchomienia
+    // Update the date of the last run
     const dateStr = this.startTime.toLocaleString('pl-PL', {
       year: 'numeric',
       month: '2-digit',
@@ -67,13 +67,13 @@ class PlanReporter implements Reporter {
       `**Data ostatniego uruchomienia:** ${dateStr}`,
     )
 
-    // Aktualizuj każdy checkbox na podstawie ID testu
+    // Update each checkbox from the test ID
     // Format linii: - [ ] **E1.1.1** Opis → Wynik
     content = content.replace(/^(- )\[(.)\] (\*\*E\d+\.\d+\.\d+\*\*)/gm, (_match, prefix, currentMark, boldId) => {
       // boldId = **E1.1.1**  →  extract E1.1.1
       const id = boldId.replace(/\*\*/g, '')
       const status = this.results.get(id)
-      // Jeśli test nie był uruchomiony w tym przebiegu, zachowaj istniejący marker
+      // A test that did not run this time keeps the marker it had
       if (status === undefined) {
         return `${prefix}[${currentMark}] ${boldId}`
       }
@@ -116,7 +116,7 @@ class PlanReporter implements Reporter {
     console.log(`    ✅ zaliczone: ${passed}  〰️ flaky: ${flaky}  ❌ niezaliczone: ${failed}  łącznie: ${total}\n`)
   }
 
-  /** Wyciąga ID testu (np. E1.1.1) z tytułu testu */
+  /** Pulls the test ID, E1.1.1 and the like, out of the test name. */
   private extractId(title: string): string | null {
     const match = title.match(/^(E\d+\.\d+\.\d+)/)
     return match ? match[1] : null

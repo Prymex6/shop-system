@@ -113,7 +113,7 @@ class CloudflareService
         $records = $response->json('result', []);
 
         if (empty($records)) {
-            Log::warning("Cloudflare: nie znaleziono rekordu DNS dla {$name}");
+            Log::warning("Cloudflare: no DNS record for {$name}");
 
             return false;
         }

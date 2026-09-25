@@ -53,7 +53,7 @@ class WarehouseController extends Controller
 
         Warehouse::create($data);
 
-        return back()->with('success', 'Magazyn utworzony.');
+        return back()->with('success', __('messages.warehouse_created'));
     }
 
     public function update(Request $request, Warehouse $warehouse)
@@ -67,7 +67,7 @@ class WarehouseController extends Controller
 
         $warehouse->update($data);
 
-        return back()->with('success', 'Magazyn zaktualizowany.');
+        return back()->with('success', __('messages.warehouse_updated'));
     }
 
     public function destroy(Warehouse $warehouse)

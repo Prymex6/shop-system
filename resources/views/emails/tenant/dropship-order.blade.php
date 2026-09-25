@@ -45,7 +45,7 @@
     <p class="total">{{ __('mail.dropship_total_label') }} @money($purchaseOrder->total, $order->currency ?? 'PLN')</p>
 
     <div class="address">
-        <strong>Adres dostawy do klienta:</strong><br>
+        <strong>{{ __('mail.label_delivery_address') }}</strong><br>
         {{ $order->customer_name }}<br>
         @php $addr = is_array($order->shipping_address) ? $order->shipping_address : json_decode($order->shipping_address, true); @endphp
         {{ $addr['street'] ?? '' }}<br>

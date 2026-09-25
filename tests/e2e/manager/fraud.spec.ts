@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Fraud Detection', () => {
-  test('E-FR.1.1 /manager/fraud ładuje się', async ({ page }) => {
+  test('E-FR.1.1 /manager/fraud loads', async ({ page }) => {
     await page.goto('/manager/fraud')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -12,7 +12,7 @@ test.describe('Fraud Detection', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-FR.1.2 Blocklist — dodaj email do blokady', async ({ page }) => {
+  test('E-FR.1.2 an email can be added to the block list', async ({ page }) => {
     await page.goto('/manager/fraud')
     await page.waitForLoadState('networkidle')
     const blocklistTab = page

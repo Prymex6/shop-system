@@ -38,7 +38,7 @@ class DiscountCode extends Model
         if (!$this->is_active) {
             return [
                 'valid' => false,
-                'message' => 'Kod rabatowy jest nieaktywny',
+                'message' => __('messages.discount_code_inactive'),
             ];
         }
 

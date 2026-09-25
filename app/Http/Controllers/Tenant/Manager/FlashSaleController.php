@@ -77,7 +77,7 @@ class FlashSaleController extends Controller
 
         $flashSale->products()->syncWithoutDetaching($sync);
 
-        return back()->with('success', 'Produkty dodane do flash sale.');
+        return back()->with('success', __('messages.products_added_to_flash_sale'));
     }
 
     public function removeProduct(Request $request, FlashSale $flashSale)

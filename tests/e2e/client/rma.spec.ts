@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Zgłoszenia zwrotu RMA — strona klienta (§22.9)', () => {
-  test('E-CR.1.1 Historia zamówień ładuje się bez błędu', async ({ page }) => {
+test.describe('RMA return requests, customer side (§22.9)', () => {
+  test('E-CR.1.1 the order history loads', async ({ page }) => {
     await page.goto('/moje-konto/zamowienia')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Zgłoszenia zwrotu RMA — strona klienta (§22.9)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-CR.1.2 Strona RMA /moje-konto/zwroty ładuje się', async ({ page }) => {
+  test('E-CR.1.2 the returns page loads', async ({ page }) => {
     await page.goto('/moje-konto/zwroty')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -23,7 +23,7 @@ test.describe('Zgłoszenia zwrotu RMA — strona klienta (§22.9)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-CR.1.3 Formularz RMA — dostępny lub komunikat o braku kwalifikujących zamówień', async ({ page }) => {
+  test('E-CR.1.3 the return form is there, or a note that no order qualifies', async ({ page }) => {
     await page.goto('/moje-konto/zwroty')
     await page.waitForLoadState('networkidle')
     const hasForm = await page

@@ -49,7 +49,7 @@ class PasswordResetTest extends TenantTestCase
     public function test_staff_reset_link_for_unknown_email_does_not_expose_user_existence(): void
     {
         // Previously INVALID_USER surfaced as a distinct form validation
-        // error ("Nie znaleziono użytkownika..."), letting an attacker
+        // error ("no such user"), letting an attacker
         // enumerate which staff accounts exist just by reading the
         // response — no timing analysis needed.
         $response = $this->withoutTenantMiddleware()

@@ -38,7 +38,7 @@ class VolumeDiscountController extends Controller
 
         VolumeDiscount::create($data);
 
-        return back()->with('success', 'Rabat wolumenowy utworzony.');
+        return back()->with('success', __('messages.volume_discount_created'));
     }
 
     public function update(Request $request, VolumeDiscount $volumeDiscount)
@@ -54,7 +54,7 @@ class VolumeDiscountController extends Controller
 
         $volumeDiscount->update($data);
 
-        return back()->with('success', 'Rabat wolumenowy zaktualizowany.');
+        return back()->with('success', __('messages.volume_discount_updated'));
     }
 
     public function destroy(VolumeDiscount $volumeDiscount)

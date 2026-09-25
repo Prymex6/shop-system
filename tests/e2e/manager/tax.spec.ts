@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Stawki VAT', () => {
-  test('E-TAX.1.1 /manager/tax ładuje się', async ({ page }) => {
+  test('E-TAX.1.1 /manager/tax loads', async ({ page }) => {
     await page.goto('/manager/tax')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('main, h1').first()).toBeVisible()
@@ -13,7 +13,7 @@ test.describe('Stawki VAT', () => {
     ).toBeFalsy()
   })
 
-  test('E-TAX.1.2 Dodaj stawkę VAT 23% → widoczna na liście', async ({ page }) => {
+  test('E-TAX.1.2 a 23% VAT rate shows up in the list', async ({ page }) => {
     await page.goto('/manager/tax')
     await page.waitForLoadState('networkidle')
     // The form is shown inline — fill inputs directly, then click submit
@@ -32,7 +32,7 @@ test.describe('Stawki VAT', () => {
     }
   })
 
-  test('E-TAX.1.3 Błąd przy ujemnej stawce VAT', async ({ page }) => {
+  test('E-TAX.1.3 a negative VAT rate is rejected', async ({ page }) => {
     await page.goto('/manager/tax')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -62,7 +62,7 @@ test.describe('Stawki VAT', () => {
     }
   })
 
-  test('E-TAX.1.4 Usuń stawkę VAT → znika z listy', async ({ page }) => {
+  test('E-TAX.1.4 a deleted VAT rate leaves the list', async ({ page }) => {
     await page.goto('/manager/tax')
     await page.waitForLoadState('networkidle')
     page.on('dialog', (d) => d.accept())

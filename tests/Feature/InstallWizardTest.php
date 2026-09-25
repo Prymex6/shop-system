@@ -9,7 +9,7 @@ use Tests\TenantTestCase;
 
 /**
  * Step 1 of the install wizard used to accept an empty shop_address —
- * the seeded legal pages (Regulamin, Polityka Prywatności) substitute it
+ * the seeded legal pages (terms, privacy policy) substitute it
  * into a {shop_address} token, so a shop that only filled shop_name
  * published a Regulamin missing the seller's address, required by art. 12
  * of the Polish consumer rights act. shop_address is now required here.

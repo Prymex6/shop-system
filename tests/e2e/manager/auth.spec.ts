@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test'
 test.use({ storageState: { cookies: [], origins: [] } })
 
 test.describe('Logowanie personelu', () => {
-  test('E2.1.1 Wejście na /login → Formularz logowania z polami e-mail i hasło widoczny', async ({ page }) => {
+  test('E2.1.1 /login shows a form asking for an email and a password', async ({ page }) => {
     await page.goto('/login')
     await expect(page.locator('input[type="email"]')).toBeVisible()
     await expect(page.locator('input[type="password"]')).toBeVisible()
     await expect(page.locator('button[type="submit"]')).toBeVisible()
   })
 
-  test('E2.1.2 Zaloguj się poprawnymi danymi managera → Przekierowanie do /manager/dashboard', async ({ page }) => {
+  test('E2.1.2 a manager signing in correctly lands on /manager/dashboard', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'manager@example.com')
     await page.fill('input[type="password"]', 'password')
@@ -19,9 +19,7 @@ test.describe('Logowanie personelu', () => {
     await expect(page).toHaveURL(/manager/)
   })
 
-  test('E2.1.3 Zaloguj się danymi pracownika fulfillment (staff) → Przekierowanie do panelu staff', async ({
-    page,
-  }) => {
+  test('E2.1.3 a member of fulfillment staff lands on the staff panel', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'staff@example.com')
     await page.fill('input[type="password"]', 'password')
@@ -30,7 +28,7 @@ test.describe('Logowanie personelu', () => {
     await expect(page).toHaveURL(/staff(\/|$)|dashboard/)
   })
 
-  test('E2.1.4 Staff nie ma dostępu do /manager/settings → Przekierowanie lub 403', async ({ page }) => {
+  test('E2.1.4 staff cannot open /manager/settings', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'staff@example.com')
     await page.fill('input[type="password"]', 'password')
@@ -47,7 +45,7 @@ test.describe('Logowanie personelu', () => {
     expect(denied || has403).toBeTruthy()
   })
 
-  test('E2.1.5 Staff nie ma dostępu do /manager/staff → Przekierowanie lub 403', async ({ page }) => {
+  test('E2.1.5 staff cannot open /manager/staff', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'staff@example.com')
     await page.fill('input[type="password"]', 'password')
@@ -64,7 +62,7 @@ test.describe('Logowanie personelu', () => {
     expect(denied || has403).toBeTruthy()
   })
 
-  test('E2.1.6 Wpisz błędne hasło → Komunikat błędu; brak zalogowania; pozostanie na /login', async ({ page }) => {
+  test('E2.1.6 a wrong password leaves you on /login with an error', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'manager@example.com')
     await page.fill('input[type="password"]', 'blednehaslo123')
@@ -73,7 +71,7 @@ test.describe('Logowanie personelu', () => {
     await expect(page).toHaveURL(/login/)
   })
 
-  test('E2.1.7 Wpisz nieistniejący e-mail → Komunikat błędu; brak zalogowania', async ({ page }) => {
+  test('E2.1.7 an email nobody has leaves you signed out with an error', async ({ page }) => {
     await page.goto('/login')
     await page.fill('input[type="email"]', 'nieistnieje@example.com')
     await page.fill('input[type="password"]', 'password')
@@ -82,9 +80,7 @@ test.describe('Logowanie personelu', () => {
     await expect(page).toHaveURL(/login/)
   })
 
-  test('E2.1.8 Wyloguj się (manager) → Powrót do /login; sesja wyczyszczona; ponowne wejście na /manager/ przekierowuje na login', async ({
-    browser,
-  }) => {
+  test('E2.1.8 signing out clears the session, and /manager/ sends you back to /login', async ({ browser }) => {
     test.setTimeout(90000)
     // Part 1: verify logout button exists and redirects to /login
     const context = await browser.newContext({ storageState: 'tests/e2e/.auth/manager.json' })
@@ -108,16 +104,14 @@ test.describe('Logowanie personelu', () => {
   })
 })
 
-test.describe('Reset hasła personelu', () => {
-  test('E2.2.1 Wejście na /forgot-password → Formularz z polem e-mail widoczny', async ({ page }) => {
+test.describe('Staff password reset', () => {
+  test('E2.2.1 /forgot-password asks for an email address', async ({ page }) => {
     await page.goto('/forgot-password')
     await expect(page.locator('input[type="email"]')).toBeVisible()
     await expect(page.locator('button[type="submit"]')).toBeVisible()
   })
 
-  test('E2.2.2 Wyślij formularz z nieistniejącym e-mailem → Ogólny komunikat (brak informacji czy konto istnieje)', async ({
-    page,
-  }) => {
+  test('E2.2.2 an unknown address gets the same answer as a known one', async ({ page }) => {
     await page.goto('/forgot-password')
     await page.fill('input[type="email"]', 'nieistnieje.e2e@example.com')
     await page.click('button[type="submit"]')
@@ -126,30 +120,28 @@ test.describe('Reset hasła personelu', () => {
     // Nie ujawnia czy konto istnieje
   })
 
-  test('E2.2.3 Wyślij formularz z e-mailem managera → Komunikat o wysłaniu linku resetującego', async ({ page }) => {
+  test('E2.2.3 a known manager address is told the link has been sent', async ({ page }) => {
     await page.goto('/forgot-password')
     await page.fill('input[type="email"]', 'manager@example.com')
     await page.click('button[type="submit"]')
     await page.waitForLoadState('networkidle')
-    // Ogólny komunikat – strona się załadowała bez błędu 500
+    // The same answer either way; what matters is that it did not 500
     await expect(page.locator('body')).toBeVisible()
     const status500 = await page.locator('body').textContent()
     expect(status500).not.toMatch(/500|Internal Server Error/i)
   })
 
-  test('E2.2.4 Wejście na /reset-password/{token} z poprawnym tokenem → Formularz nowego hasła widoczny', async ({
-    page,
-  }) => {
-    // Token testowy – weryfikujemy że strona się ładuje
+  test('E2.2.4 a valid token opens the new password form', async ({ page }) => {
+    // A made-up token; all this checks is that the page loads
     await page.goto('/reset-password/test-token-e2e-placeholder')
     await page.waitForLoadState('networkidle')
-    // Strona formularza lub błąd tokenu – brak 500
+    // Either the form or a token error, but not a 500
     const status = (await page.goto('/reset-password/placeholder'))?.status()
     expect(status).not.toBe(500)
   })
 
-  test('E2.2.5 Wyślij nowe hasło → Hasło zmienione; możliwe zalogowanie nowym hasłem', async ({ page }) => {
-    // Ten test wymaga prawdziwego tokenu z e-maila – weryfikujemy tylko że endpoint POST nie zwraca 500
+  test('E2.2.5 the new password is saved and can be signed in with', async ({ page }) => {
+    // A real token would have to come from an email, so this only checks the POST does not 500
     const response = await page.request.post('/reset-password', {
       data: {
         token: 'invalid',

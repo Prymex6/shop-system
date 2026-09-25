@@ -144,7 +144,7 @@ class AiMediaController extends Controller
         $path = $storage->mediaPath($tenantId, 'banners') . '/' . basename($request->input('filename'));
 
         if (!file_exists($path)) {
-            return response()->json(['success' => false, 'message' => 'Plik nie istnieje'], 404);
+            return response()->json(['success' => false, 'message' => __('messages.file_missing')], 404);
         }
 
         unlink($path);

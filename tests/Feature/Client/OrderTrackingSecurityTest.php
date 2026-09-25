@@ -32,7 +32,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         ], $overrides));
     }
 
-    /** Śledzenie z poprawnym tokenem zwraca 200 */
+    /** Tracking with a valid token answers 200. */
     public function test_tracking_with_valid_token_returns_200(): void
     {
         $order = $this->makeOrder();
@@ -43,7 +43,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         $response->assertStatus(200);
     }
 
-    /** Śledzenie z błędnym tokenem bez logowania zwraca 403 */
+    /** Tracking with a wrong token and no session answers 403. */
     public function test_tracking_with_wrong_token_returns_403(): void
     {
         $order = $this->makeOrder();
@@ -54,7 +54,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         $response->assertStatus(403);
     }
 
-    /** Śledzenie bez tokenu i bez logowania zwraca 404 */
+    /** Tracking with neither a token nor a session answers 404. */
     public function test_tracking_without_token_and_not_logged_in_returns_404(): void
     {
         $order = $this->makeOrder();
@@ -65,7 +65,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         $response->assertStatus(404);
     }
 
-    /** Zalogowany właściciel może śledzić bez tokenu */
+    /** The customer who placed the order needs no token. */
     public function test_logged_in_owner_can_track_without_token(): void
     {
         $order = $this->makeOrder();
@@ -77,7 +77,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         $response->assertStatus(200);
     }
 
-    /** Zalogowany klient NIE może śledzić cudzego zamówienia bez tokenu */
+    /** A signed-in customer still cannot track an order belonging to somebody else. */
     public function test_logged_in_customer_cannot_track_someone_elses_order(): void
     {
         $other = Customer::create([
@@ -96,7 +96,7 @@ class OrderTrackingSecurityTest extends TenantTestCase
         $response->assertStatus(404);
     }
 
-    /** Nieistniejący numer zamówienia zwraca 404 */
+    /** An order number that does not exist answers 404. */
     public function test_nonexistent_order_number_returns_404(): void
     {
         $response = $this->withoutTenantMiddleware()

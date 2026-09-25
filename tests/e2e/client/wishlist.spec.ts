@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Lista życzeń klienta (§22.8)', () => {
-  test('E-CW.1.1 Strona listy życzeń ładuje się', async ({ page }) => {
+test.describe('Customer wishlist (§22.8)', () => {
+  test('E-CW.1.1 the wishlist page loads', async ({ page }) => {
     await page.goto('/moje-konto/lista-zyczen')
     await page.waitForLoadState('networkidle')
     const is500 = await page
@@ -12,7 +12,7 @@ test.describe('Lista życzeń klienta (§22.8)', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E-CW.1.2 Pusta lista życzeń — komunikat lub grid produktów', async ({ page }) => {
+  test('E-CW.1.2 an empty wishlist shows a note or a grid', async ({ page }) => {
     await page.goto('/moje-konto/lista-zyczen')
     await page.waitForLoadState('networkidle')
     const hasEmpty = await page
@@ -28,7 +28,7 @@ test.describe('Lista życzeń klienta (§22.8)', () => {
     expect(hasEmpty || hasGrid).toBeTruthy()
   })
 
-  test('E-CW.1.3 Przycisk serca na stronie produktu jest klikalny', async ({ page }) => {
+  test('E-CW.1.3 the heart on a product page can be clicked', async ({ page }) => {
     await page.goto('/sklep')
     await page.waitForLoadState('networkidle')
     const is500 = await page

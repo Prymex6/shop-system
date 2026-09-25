@@ -272,7 +272,7 @@ const regenerateSecret = (wh) => {
       preserveScroll: true,
       onSuccess: (page) => {
         const newSecret = page.props.flash?.new_secret
-        if (newSecret) alert(`Nowy sekret (zapisz go teraz — nie zostanie pokazany ponownie):\n\n${newSecret}`)
+        if (newSecret) alert(t('manager.webhooks.index.new_secret_shown_once', { a: newSecret }))
       },
     },
   )

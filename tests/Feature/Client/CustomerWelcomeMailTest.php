@@ -9,7 +9,7 @@ use Tests\TenantTestCase;
 
 class CustomerWelcomeMailTest extends TenantTestCase
 {
-    /** Rejestracja nowego klienta wysyła email powitalny */
+    /** Signing up sends the welcome email. */
     public function test_registration_queues_welcome_mail(): void
     {
         Mail::fake();
@@ -29,7 +29,7 @@ class CustomerWelcomeMailTest extends TenantTestCase
         });
     }
 
-    /** Klient istnieje w bazie po rejestracji */
+    /** Signing up leaves a customer in the database. */
     public function test_registration_creates_customer_in_database(): void
     {
         Mail::fake();
@@ -46,7 +46,7 @@ class CustomerWelcomeMailTest extends TenantTestCase
         $this->assertDatabaseHas('customers', ['email' => 'jan@nowak.pl']);
     }
 
-    /** Email powitalny zawiera imię klienta i nazwę sklepu */
+    /** The welcome email carries the customer name and the shop name. */
     public function test_welcome_mail_contains_customer_name_and_restaurant(): void
     {
         $this->setSetting('shop_name', 'Pizza Roma');
@@ -62,7 +62,7 @@ class CustomerWelcomeMailTest extends TenantTestCase
         $this->assertStringContainsString('Pizza Roma', $rendered);
     }
 
-    /** Zduplikowany email nie tworzy konta (walidacja unique) */
+    /** An address already in use does not make a second account. */
     public function test_registration_rejects_duplicate_email(): void
     {
         Mail::fake();

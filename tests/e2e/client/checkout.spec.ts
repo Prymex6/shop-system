@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Multi-step Checkout', () => {
-  test('E26.1.1 /kasa ładuje się lub przekierowuje na pierwszy krok', async ({ page }) => {
+  test('E26.1.1 the checkout loads, or sends you to its first step', async ({ page }) => {
     await page.goto('/kasa')
     await page.waitForLoadState('networkidle')
     const isCheckout = page.url().includes('kasa') || page.url().includes('checkout')
@@ -13,7 +13,7 @@ test.describe('Multi-step Checkout', () => {
     expect(isCheckout || hasForm).toBeTruthy()
   })
 
-  test('E26.1.2 Pusty formularz checkout → Błędy walidacji', async ({ page }) => {
+  test('E26.1.2 an empty checkout form comes back with errors', async ({ page }) => {
     await page.goto('/kasa')
     await page.waitForLoadState('networkidle')
     const submitBtn = page
@@ -32,7 +32,7 @@ test.describe('Multi-step Checkout', () => {
     }
   })
 
-  test('E26.1.3 Wypełnij dane dostawy i przejdź do kroku 2', async ({ page }) => {
+  test('E26.1.3 filling in the delivery details moves to step two', async ({ page }) => {
     await page.goto('/kasa')
     await page.waitForLoadState('networkidle')
     const emailInput = page.locator('input[name="email"]').first()
@@ -60,7 +60,7 @@ test.describe('Multi-step Checkout', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E26.1.4 Nieprawidłowy email → Błąd formatu', async ({ page }) => {
+  test('E26.1.4 a malformed email address is rejected', async ({ page }) => {
     await page.goto('/kasa')
     await page.waitForLoadState('networkidle')
     const emailInput = page.locator('input[name="email"]').first()
@@ -77,7 +77,7 @@ test.describe('Multi-step Checkout', () => {
     }
   })
 
-  test('E26.1.5 Pole kodu rabatowego widoczne na kroku płatności', async ({ page }) => {
+  test('E26.1.5 the payment step has a discount code field', async ({ page }) => {
     await page.goto('/kasa')
     await page.waitForLoadState('networkidle')
     // Navigate to payment step if multi-step
@@ -111,7 +111,7 @@ test.describe('Multi-step Checkout', () => {
 })
 
 test.describe('Koszyk', () => {
-  test('E25.1.1 Strona główna sklepu widoczna', async ({ page }) => {
+  test('E25.1.1 the storefront home page is there', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     await expect(page.locator('body')).toBeVisible()
@@ -122,7 +122,7 @@ test.describe('Koszyk', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E25.1.2 Dodaj produkt do koszyka → Badge koszyka +1', async ({ page }) => {
+  test('E25.1.2 adding a product moves the basket count up by one', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     const addBtn = page
@@ -141,7 +141,7 @@ test.describe('Koszyk', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E25.1.3 Koszyk pusty → Komunikat „koszyk jest pusty"', async ({ page }) => {
+  test('E25.1.3 an empty basket says so', async ({ page }) => {
     await page.goto('/koszyk')
     await page.waitForLoadState('networkidle')
     const emptyMsg = await page

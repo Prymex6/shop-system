@@ -13,10 +13,10 @@ import { test, expect } from '@playwright/test'
  *   E-CL.7.x — Error states
  */
 
-test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
+test.describe('Live chat, the customer-side widget (§14.7)', () => {
   // ─── E-CL.1 Widget visibility ─────────────────────────────────────────
 
-  test('E-CL.1.1 Pływający przycisk czatu widoczny na stronie sklepu', async ({ page }) => {
+  test('E-CL.1.1 the chat button is on the storefront', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -39,7 +39,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     }
   })
 
-  test('E-CL.1.2 Kliknięcie przycisku otwiera okno czatu', async ({ page }) => {
+  test('E-CL.1.2 the button opens the chat window', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -61,7 +61,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     await expect(chatWindow).toBeVisible({ timeout: 3000 })
   })
 
-  test('E-CL.1.3 Kliknięcie X zamyka okno czatu', async ({ page }) => {
+  test('E-CL.1.3 the X closes the chat window', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -93,7 +93,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
 
   // ─── E-CL.2 Guest flow ────────────────────────────────────────────────
 
-  test('E-CL.2.1 Gość widzi formularz z polami Imię i Email', async ({ page }) => {
+  test('E-CL.2.1 a guest gets a form asking for a name and an email', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -126,7 +126,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     expect(hasGuestForm || hasMsgInput).toBeTruthy()
   })
 
-  test('E-CL.2.2 Formularz gościa — puste pola blokują rozpoczęcie', async ({ page }) => {
+  test('E-CL.2.2 an empty guest form cannot start a chat', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -157,7 +157,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
 
   // ─── E-CL.3 Sending messages ─────────────────────────────────────────
 
-  test('E-CL.3.1 API /chat/start akceptuje poprawne dane gościa', async ({ request }) => {
+  test('E-CL.3.1 /chat/start accepts a valid guest', async ({ request }) => {
     const response = await request.post('/chat/start', {
       data: {
         name: 'E2E Gość',
@@ -188,7 +188,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     expect(response.status()).toBe(422)
   })
 
-  test('E-CL.3.4 API /chat/{id}/send przyjmuje wiadomość', async ({ request }) => {
+  test('E-CL.3.4 /chat/{id}/send takes a message', async ({ request }) => {
     // Start conversation first
     const startRes = await request.post('/chat/start', {
       data: { name: 'E2E Gość', email: 'e2e@test.com' },
@@ -203,7 +203,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     expect([200, 201]).toContain(sendRes.status())
   })
 
-  test('E-CL.3.5 API /chat/{id}/send odrzuca pustą wiadomość (422)', async ({ request }) => {
+  test('E-CL.3.5 /chat/{id}/send rejects an empty message (422)', async ({ request }) => {
     const startRes = await request.post('/chat/start', {
       data: { name: 'E2E Gość', email: 'e2e@test.com' },
     })
@@ -216,7 +216,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     expect(sendRes.status()).toBe(422)
   })
 
-  test('E-CL.3.6 API /chat/{id}/send odrzuca za długą wiadomość (422)', async ({ request }) => {
+  test('E-CL.3.6 /chat/{id}/send rejects an over-long message (422)', async ({ request }) => {
     const startRes = await request.post('/chat/start', {
       data: { name: 'E2E Gość', email: 'e2e@test.com' },
     })
@@ -231,7 +231,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
 
   // ─── E-CL.4 Closed conversation ──────────────────────────────────────
 
-  test('E-CL.4.1 Klient nie może pisać do zamkniętej rozmowy (403)', async ({ request }) => {
+  test('E-CL.4.1 a customer cannot write to a closed conversation (403)', async ({ request }) => {
     // Create conversation via API
     const startRes = await request.post('/chat/start', {
       data: { name: 'E2E Gość', email: 'e2e@test.com' },
@@ -257,7 +257,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
 
   // ─── E-CL.5 Polling ───────────────────────────────────────────────────
 
-  test('E-CL.5.1 API /chat/{id}/poll zwraca listę wiadomości', async ({ request }) => {
+  test('E-CL.5.1 /chat/{id}/poll returns the messages', async ({ request }) => {
     const startRes = await request.post('/chat/start', {
       data: { name: 'E2E Gość', email: 'e2e@test.com' },
     })
@@ -276,7 +276,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
 
   // ─── E-CL.6 Session persistence ──────────────────────────────────────
 
-  test('E-CL.6.1 Otwarcie i zamknięcie okna czatu nie powoduje błędu 500', async ({ page }) => {
+  test('E-CL.6.1 opening and closing the chat does not 500', async ({ page }) => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
 
@@ -314,7 +314,7 @@ test.describe('Live Chat — widget po stronie klienta (§14.7)', () => {
     expect(is500After).toBeFalsy()
   })
 
-  test('E-CL.6.2 Strona nie wyświetla błędu JS po załadowaniu (konsola)', async ({ page }) => {
+  test('E-CL.6.2 the page loads with a clean console', async ({ page }) => {
     const errors: string[] = []
     page.on('pageerror', (err) => errors.push(err.message))
 

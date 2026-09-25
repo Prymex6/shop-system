@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Super-admin — Zarządzanie tenantami', () => {
-  test('E43.1.1 Wejście na /admin/tenants → Lista tenantów; widoczny', async ({ page }) => {
+test.describe('Super admin: managing shops', () => {
+  test('E43.1.1 /admin/tenants lists the shops', async ({ page }) => {
     await page.goto('/admin/tenants')
     await expect(page).toHaveURL(/admin\/tenants/)
     await expect(page.locator('main, table, [class*="tenant"]').first()).toBeVisible()
   })
 
-  test('E43.1.2 Wejście na szczegóły tenanta → Strona z domeną, planem, statusem active', async ({ page }) => {
+  test('E43.1.2 the shop page shows the domain, the plan and an active status', async ({ page }) => {
     await page.goto('/admin/tenants')
     // Not conditional on the link being visible — a previous version of this
     // test only asserted body visibility inside an `if`, which stayed green
@@ -38,7 +38,7 @@ test.describe('Super-admin — Zarządzanie tenantami', () => {
     expect(hasDomain || hasStatus).toBeTruthy()
   })
 
-  test('E43.1.3 Wejście na /admin/tenants/create → Formularz tworzenia nowego tenanta widoczny', async ({ page }) => {
+  test('E43.1.3 /admin/tenants/create shows the new shop form', async ({ page }) => {
     await page.goto('/admin/tenants/create')
     await expect(page).toHaveURL(/admin\/tenants\/create/)
     await expect(page.locator('form')).toBeVisible()
@@ -51,7 +51,7 @@ test.describe('Super-admin — Zarządzanie tenantami', () => {
     await expect(nameInput).toHaveValue('E2E Test Form')
   })
 
-  test('E43.1.4 Zawieś tenant e2e-test → Status zmienia się na suspended', async ({ page }) => {
+  test('E43.1.4 a suspended shop reads as suspended', async ({ page }) => {
     await page.goto('/admin/tenants')
     const suspendBtn = page
       .locator('table tr, [data-row]')
@@ -65,7 +65,7 @@ test.describe('Super-admin — Zarządzanie tenantami', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E43.1.5 Reaktywuj tenant e2e-test → Status zmienia się na active', async ({ page }) => {
+  test('E43.1.5 a reactivated shop reads as active', async ({ page }) => {
     await page.goto('/admin/tenants')
     const activateBtn = page
       .locator('table tr, [data-row]')
@@ -79,9 +79,7 @@ test.describe('Super-admin — Zarządzanie tenantami', () => {
     await expect(page.locator('body')).toBeVisible()
   })
 
-  test('E43.1.6 Kliknij „Impersonuj" dla e2e-test → Przekierowanie na domenę tenanta z sesją managera', async ({
-    page,
-  }) => {
+  test('E43.1.6 impersonating a shop lands on its domain as its manager', async ({ page }) => {
     await page.goto('/admin/tenants')
     const impersonateBtn = page
       .locator('table tr, [data-row]')

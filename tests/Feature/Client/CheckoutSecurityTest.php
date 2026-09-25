@@ -6,7 +6,7 @@ use Tests\TenantTestCase;
 
 class CheckoutSecurityTest extends TenantTestCase
 {
-    /** GET /kasa przekierowuje do sklepu gdy vacation_mode aktywny */
+    /** While holiday mode is on, the checkout sends you back to the shop. */
     public function test_checkout_page_redirects_when_vacation_mode_active(): void
     {
         $this->setSetting('vacation_mode', '1');
@@ -17,18 +17,18 @@ class CheckoutSecurityTest extends TenantTestCase
         $response->assertRedirect(route('tenant.shop'));
     }
 
-    /** GET /kasa dostępny gdy vacation_mode wyłączony */
+    /** The checkout is reachable while holiday mode is off. */
     public function test_checkout_page_accessible_when_vacation_mode_off(): void
     {
         $this->setSetting('vacation_mode', '0');
 
         $response = $this->withoutTenantMiddleware()->get(route('tenant.checkout'));
 
-        // Inertia zwraca 200 (nie przekierowuje gdy otwarte)
+        // Inertia answers 200 rather than redirecting while the shop is open
         $this->assertNotEquals(302, $response->status(), 'Checkout nie powinien przekierowywać gdy otwarte');
     }
 
-    /** POST /kasa odrzuca gdy brakuje wymaganych pól */
+    /** The checkout refuses a submission missing a required field. */
     public function test_checkout_store_rejects_order_below_min_order_value(): void
     {
         $response = $this->withoutTenantMiddleware()->postJson(route('tenant.checkout.store'), [

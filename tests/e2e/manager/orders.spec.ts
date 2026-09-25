@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Zarządzanie zamówieniami', () => {
-  test('E-ZAM.1.1 Lista zamówień widoczna', async ({ page }) => {
+test.describe('Managing orders', () => {
+  test('E-ZAM.1.1 the orders are listed', async ({ page }) => {
     await page.goto('/manager/orders')
     await page.waitForLoadState('networkidle')
     await expect(page).toHaveURL(/manager\/orders/)
@@ -13,14 +13,14 @@ test.describe('Zarządzanie zamówieniami', () => {
     expect(is500).toBeFalsy()
   })
 
-  test('E-ZAM.1.2 Filtry statusu i daty są dostępne', async ({ page }) => {
+  test('E-ZAM.1.2 the status and date filters are there', async ({ page }) => {
     await page.goto('/manager/orders')
     await page.waitForLoadState('networkidle')
     const hasFilter = (await page.locator('select, input[type="date"], [role="combobox"]').count()) > 0
     expect(hasFilter).toBeTruthy()
   })
 
-  test('E-ZAM.1.3 Lista zamówień: wiersze lub komunikat o braku', async ({ page }) => {
+  test('E-ZAM.1.3 rows of orders, or a note that there are none', async ({ page }) => {
     await page.goto('/manager/orders')
     await page.waitForLoadState('networkidle')
     const hasOrders = (await page.locator('table tbody tr, [data-order]').count()) > 0
@@ -31,12 +31,12 @@ test.describe('Zarządzanie zamówieniami', () => {
     expect(hasOrders || hasEmpty).toBeTruthy()
   })
 
-  test('E-ZAM.1.4 Filtrowanie po statusie „pending" → Tylko oczekujące zamówienia', async ({ page }) => {
+  test('E-ZAM.1.4 filtering by pending leaves only pending orders', async ({ page }) => {
     await page.goto('/manager/orders')
     await page.waitForLoadState('networkidle')
     const statusSelect = page.locator('select').first()
     if (await statusSelect.isVisible()) {
-      // Pobierz dostępne opcje i wybierz "pending/oczekujące" jeśli istnieje
+      // Read the options and pick the pending one if it is there
       const options = await statusSelect.locator('option').allTextContents()
       const pendingOption = options.find((o) => /oczekuj|pending/i.test(o))
       if (pendingOption) {
@@ -51,7 +51,7 @@ test.describe('Zarządzanie zamówieniami', () => {
     }
   })
 
-  test('E-ZAM.1.5 Szczegóły zamówienia — strona się ładuje', async ({ page }) => {
+  test('E-ZAM.1.5 the order detail page loads', async ({ page }) => {
     await page.goto('/manager/orders')
     await page.waitForLoadState('networkidle')
     const firstOrderLink = page.locator('a[href*="/manager/orders/"]').first()
@@ -74,7 +74,7 @@ test.describe('Zarządzanie zamówieniami', () => {
     }
   })
 
-  test('E-ZAM.1.6 Brak zamówień po złym filtrze → Pusty komunikat, brak 500', async ({ page }) => {
+  test('E-ZAM.1.6 a filter matching nothing says so rather than 500ing', async ({ page }) => {
     // Use an unlikely search term to get empty results
     await page.goto('/manager/orders?search=BRAK_ZAMOWIENIA_XYZ_9999')
     await page.waitForLoadState('networkidle')
