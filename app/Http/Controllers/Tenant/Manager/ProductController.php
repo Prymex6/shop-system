@@ -254,9 +254,10 @@ class ProductController extends Controller
     public function togglePublish(Product $product)
     {
         $product->update(['is_published' => !$product->is_published]);
-        $status = $product->is_published ? 'opublikowany' : 'wycofany';
 
-        return back()->with('success', "Produkt {$status}.");
+        return back()->with('success', __(
+            $product->is_published ? 'messages.product_published' : 'messages.product_unpublished'
+        ));
     }
 
     // ─── Images ──────────────────────────────────────────────────────

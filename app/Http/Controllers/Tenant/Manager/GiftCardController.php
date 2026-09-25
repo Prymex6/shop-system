@@ -45,7 +45,7 @@ class GiftCardController extends Controller
             $expiresAt
         );
 
-        return back()->with('success', "Wygenerowano {$cards->count()} kart podarunkowych.");
+        return back()->with('success', __('messages.gift_cards_generated', ['count' => $cards->count()]));
     }
 
     public function show(GiftCard $giftCard)
@@ -67,8 +67,9 @@ class GiftCardController extends Controller
     public function toggle(GiftCard $giftCard)
     {
         $giftCard->update(['is_active' => !$giftCard->is_active]);
-        $status = $giftCard->is_active ? 'aktywowana' : 'dezaktywowana';
 
-        return back()->with('success', "Karta podarunkowa {$status}.");
+        return back()->with('success', __(
+            $giftCard->is_active ? 'messages.gift_card_activated' : 'messages.gift_card_deactivated'
+        ));
     }
 }

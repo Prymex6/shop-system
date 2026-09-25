@@ -155,7 +155,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
         $sessionId = $paymentData['p24_session_id'] ?? null;
 
         if (!$orderId || !$sessionId) {
-            return ['success' => false, 'error' => 'Brak danych transakcji P24 (orderId/sessionId).'];
+            return ['success' => false, 'error' => __('messages.p24_transaction_missing')];
         }
 
         $amount = (int) round($amount * 100);

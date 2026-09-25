@@ -46,7 +46,7 @@ class InventoryController extends Controller
             $data['reason'] ?? null
         );
 
-        return back()->with('success', 'Stan magazynowy zaktualizowany.');
+        return back()->with('success', __('messages.stock_updated'));
     }
 
     public function movements(Product $product)

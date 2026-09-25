@@ -35,7 +35,7 @@ class FlashSaleController extends Controller
 
         FlashSale::create($data);
 
-        return back()->with('success', 'Flash sale utworzona.');
+        return back()->with('success', __('messages.flash_sale_created'));
     }
 
     public function update(Request $request, FlashSale $flashSale)
@@ -52,7 +52,7 @@ class FlashSaleController extends Controller
 
         $flashSale->update($data);
 
-        return back()->with('success', 'Flash sale zaktualizowana.');
+        return back()->with('success', __('messages.flash_sale_updated'));
     }
 
     public function destroy(FlashSale $flashSale)
@@ -105,6 +105,6 @@ class FlashSaleController extends Controller
 
         $flashSale->products()->sync($data['product_ids']);
 
-        return back()->with('success', 'Produkty flash sale zaktualizowane.');
+        return back()->with('success', __('messages.flash_sale_products_updated'));
     }
 }

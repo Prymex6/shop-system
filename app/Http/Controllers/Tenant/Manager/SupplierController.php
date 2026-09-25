@@ -39,7 +39,7 @@ class SupplierController extends Controller
 
         Supplier::create($data);
 
-        return back()->with('success', 'Dostawca dodany.');
+        return back()->with('success', __('messages.supplier_added'));
     }
 
     public function update(Request $request, Supplier $supplier)
@@ -58,7 +58,7 @@ class SupplierController extends Controller
 
         $supplier->update($data);
 
-        return back()->with('success', 'Dostawca zaktualizowany.');
+        return back()->with('success', __('messages.supplier_updated'));
     }
 
     public function destroy(Supplier $supplier)

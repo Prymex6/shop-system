@@ -256,7 +256,7 @@ class AiMediaController extends Controller
 
         $klingKey = Setting::get('kling_api_key', '');
         if (!$klingKey) {
-            return response()->json(['success' => false, 'message' => 'Brak klucza API'], 422);
+            return response()->json(['success' => false, 'message' => __('messages.api_key_missing')], 422);
         }
 
         try {

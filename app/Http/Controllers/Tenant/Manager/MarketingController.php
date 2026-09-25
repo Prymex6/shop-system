@@ -59,7 +59,7 @@ class MarketingController extends Controller
         $campaign->update($validated);
         Log::info('Marketing: kampania zaktualizowana', ['campaign_id' => $campaign->id, 'name' => $campaign->name, 'manager_id' => auth('tenant')->id()]);
 
-        return back()->with('success', 'Kampania zaktualizowana.');
+        return back()->with('success', __('messages.campaign_updated_flash'));
     }
 
     public function send(EmailCampaign $campaign)

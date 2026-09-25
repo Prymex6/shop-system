@@ -49,7 +49,7 @@ class RefundController extends Controller
         $this->refundService->reject($refund, $request->input('reason'));
         AuditService::log('refund.rejected', $refund);
 
-        return back()->with('success', 'Zwrot odrzucony.');
+        return back()->with('success', __('messages.refund_rejected'));
     }
 
     public function process(Refund $refund)

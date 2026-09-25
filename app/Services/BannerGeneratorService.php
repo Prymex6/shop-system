@@ -18,11 +18,30 @@ class BannerGeneratorService
     private const BASE_URL = 'https://image.pollinations.ai/prompt/';
 
     private const SIZES = [
-        'facebook' => ['width' => 1200, 'height' => 628,  'label' => 'Facebook / OG (1200×628)'],
-        'instagram' => ['width' => 1080, 'height' => 1080, 'label' => 'Instagram kwadrat (1080×1080)'],
-        'story' => ['width' => 1080, 'height' => 1920, 'label' => 'Instagram/TikTok Story (1080×1920)'],
-        'wide' => ['width' => 1920, 'height' => 600,  'label' => 'Baner strony (1920×600)'],
+        'facebook' => ['width' => 1200, 'height' => 628],
+        'instagram' => ['width' => 1080, 'height' => 1080],
+        'story' => ['width' => 1080, 'height' => 1920],
+        'wide' => ['width' => 1920, 'height' => 600],
     ];
+
+    /**
+     * The sizes with the labels the manager picks between.
+     *
+     * The labels are not in the constant because a constant cannot call
+     * __(), and one of them is read off a dropdown.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    public static function sizes(): array
+    {
+        $sizes = self::SIZES;
+
+        foreach (array_keys($sizes) as $key) {
+            $sizes[$key]['label'] = __("messages.banner_size_{$key}");
+        }
+
+        return $sizes;
+    }
 
     private Client $http;
 
@@ -53,7 +72,7 @@ class BannerGeneratorService
         string $size = 'facebook',
         string $style = 'modern'
     ): array {
-        $sizeConfig = self::SIZES[$size] ?? self::SIZES['facebook'];
+        $sizeConfig = self::sizes()[$size] ?? self::sizes()['facebook'];
         $prompt = $this->buildPrompt($productName, $description, $price, $style);
         $seed = rand(1, 99999);
 
@@ -123,7 +142,7 @@ class BannerGeneratorService
         string $style = 'modern',
         int $seed = 0
     ): string {
-        $sizeConfig = self::SIZES[$size] ?? self::SIZES['facebook'];
+        $sizeConfig = self::sizes()[$size] ?? self::sizes()['facebook'];
         $prompt = $this->buildPrompt($productName, $description, $price, $style);
         if (!$seed) {
             $seed = rand(1, 99999);
@@ -144,7 +163,7 @@ class BannerGeneratorService
      */
     public static function getSizes(): array
     {
-        return self::SIZES;
+        return self::sizes();
     }
 
     // ──────────────────────────────────────────────────────────────────────────

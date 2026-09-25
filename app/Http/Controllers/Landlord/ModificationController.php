@@ -185,7 +185,7 @@ class ModificationController extends Controller
 
         $service->clearForTenant($request->tenant_id);
 
-        return back()->with('success', 'Cache modyfikacji wyczyszczony.');
+        return back()->with('success', __('messages.modification_cache_cleared'));
     }
 
     /**

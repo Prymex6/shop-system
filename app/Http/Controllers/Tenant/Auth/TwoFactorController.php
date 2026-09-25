@@ -203,7 +203,7 @@ class TwoFactorController extends Controller
 
         $user->update(['two_factor_recovery_codes' => $codes->map(fn ($c) => Hash::make($c))->toArray()]);
 
-        return back()->with('success', 'Kody odzyskiwania wygenerowane.')->with('recovery_codes', $codes->toArray());
+        return back()->with('success', __('messages.recovery_codes_generated'))->with('recovery_codes', $codes->toArray());
     }
 
     protected function completeLogin(Request $request, $user): void

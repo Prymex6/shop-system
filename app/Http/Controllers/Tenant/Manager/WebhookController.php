@@ -37,7 +37,7 @@ class WebhookController extends Controller
 
         Webhook::create($data);
 
-        return back()->with('success', 'Webhook dodany.');
+        return back()->with('success', __('messages.webhook_added'));
     }
 
     public function update(Request $request, Webhook $webhook)
@@ -56,7 +56,7 @@ class WebhookController extends Controller
 
         $webhook->update($data);
 
-        return back()->with('success', 'Webhook zaktualizowany.');
+        return back()->with('success', __('messages.webhook_updated'));
     }
 
     public function regenerateSecret(Webhook $webhook)
@@ -66,7 +66,7 @@ class WebhookController extends Controller
 
         // Shown once, directly in the response — never persisted back to the
         // client afterward (the model hides `secret` from serialization).
-        return back()->with('success', 'Nowy sekret wygenerowany.')->with('new_secret', $secret);
+        return back()->with('success', __('messages.webhook_secret_generated'))->with('new_secret', $secret);
     }
 
     public function destroy(Webhook $webhook)

@@ -28,21 +28,21 @@ class PaymentGatewayFactory
         return [
             'przelewy24' => [
                 'label' => 'Przelewy24',
-                'description' => 'Przelew, BLIK, karta – ponad 200 metod',
+                'description' => __('messages.gateway_p24_description'),
                 'logo' => 'P24',
                 'color' => '#cc1b2a',
                 'setting_key' => 'payment_p24_enabled', // setting prefix differs from method name
             ],
             'payu' => [
                 'label' => 'PayU',
-                'description' => 'Szybki przelew, BLIK, karta',
+                'description' => __('messages.gateway_payu_description'),
                 'logo' => 'PayU',
                 'color' => '#00b3e3',
                 'setting_key' => 'payment_payu_enabled',
             ],
             'tpay' => [
                 'label' => 'Tpay',
-                'description' => 'Szybkie przelewy i BLIK',
+                'description' => __('messages.gateway_tpay_description'),
                 'logo' => 'Tpay',
                 'color' => '#3d9bff',
                 'setting_key' => 'payment_tpay_enabled',

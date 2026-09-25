@@ -168,7 +168,7 @@ class PayUGateway implements PaymentGatewayInterface
         $payuOrderId = $paymentData['payu_order_id'] ?? null;
 
         if (!$payuOrderId) {
-            return ['success' => false, 'error' => 'Brak danych transakcji PayU (orderId).'];
+            return ['success' => false, 'error' => __('messages.payu_transaction_missing')];
         }
 
         $amountInPennies = (int) round($amount * 100);

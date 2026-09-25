@@ -178,7 +178,7 @@ class BackupService
         $filename = basename($filename);
 
         if (!preg_match('/^backup_[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}_[A-Za-z0-9]+\.(zip|json\.gz)$/', $filename)) {
-            abort(404, 'Backup not found.');
+            abort(404, __('messages.backup_not_found'));
         }
 
         return $filename;
@@ -290,7 +290,7 @@ class BackupService
         $disk = Storage::disk('local');
 
         if (!$disk->exists($path)) {
-            abort(404, 'Backup not found.');
+            abort(404, __('messages.backup_not_found'));
         }
 
         $contentType = str_ends_with($filename, '.zip') ? 'application/zip' : 'application/gzip';

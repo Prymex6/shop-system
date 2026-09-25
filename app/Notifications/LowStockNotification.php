@@ -21,8 +21,11 @@ class LowStockNotification extends Notification
     {
         return [
             'type' => 'low_stock',
-            'title' => 'Niski stan magazynowy',
-            'message' => "Produkt \"{$this->product->name}\" ma tylko {$this->stockQty} szt. na stanie",
+            'title' => __('messages.low_stock_title'),
+            'message' => __('messages.low_stock_body', [
+                'product' => $this->product->name,
+                'count' => $this->stockQty,
+            ]),
             'product_id' => $this->product->id,
             'stock_qty' => $this->stockQty,
             'url' => '/manager/inventory',

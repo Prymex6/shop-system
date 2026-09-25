@@ -46,7 +46,7 @@ class CategoryController extends Controller
             $category->update(['image' => $path]);
         }
 
-        return back()->with('success', 'Kategoria dodana.');
+        return back()->with('success', __('messages.category_added'));
     }
 
     public function update(Request $request, Category $category)
@@ -77,7 +77,7 @@ class CategoryController extends Controller
             $category->update(['image' => $path]);
         }
 
-        return back()->with('success', 'Kategoria zaktualizowana.');
+        return back()->with('success', __('messages.category_updated'));
     }
 
     public function destroy(Category $category)

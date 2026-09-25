@@ -30,7 +30,7 @@ class FulfillmentController extends Controller
 
         $this->fulfillment->updateStatus($order, $data['fulfillment_status'], $data['item_ids'] ?? null);
 
-        return back()->with('success', 'Status realizacji zaktualizowany.');
+        return back()->with('success', __('messages.fulfillment_status_updated'));
     }
 
     public function addTracking(Request $request, Order $order)

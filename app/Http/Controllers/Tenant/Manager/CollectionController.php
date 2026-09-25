@@ -41,7 +41,7 @@ class CollectionController extends Controller
 
         $collection = Collection::create($data);
 
-        return back()->with('success', 'Kolekcja utworzona.');
+        return back()->with('success', __('messages.collection_created'));
     }
 
     public function update(Request $request, Collection $collection)
@@ -59,7 +59,7 @@ class CollectionController extends Controller
 
         $collection->update($data);
 
-        return back()->with('success', 'Kolekcja zaktualizowana.');
+        return back()->with('success', __('messages.collection_updated'));
     }
 
     public function destroy(Collection $collection)

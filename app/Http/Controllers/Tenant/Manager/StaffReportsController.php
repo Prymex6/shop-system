@@ -45,14 +45,14 @@ class StaffReportsController extends Controller
     {
         $report->update(['status' => 'read']);
 
-        return back()->with('success', 'Raport oznaczony jako przeczytany.');
+        return back()->with('success', __('messages.report_marked_read'));
     }
 
     public function markAllRead()
     {
         StaffReport::where('status', 'new')->update(['status' => 'read']);
 
-        return back()->with('success', 'Wszystkie raporty oznaczone jako przeczytane.');
+        return back()->with('success', __('messages.reports_all_marked_read'));
     }
 
     public function export(Request $request)

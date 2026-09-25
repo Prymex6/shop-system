@@ -101,7 +101,7 @@ class WarehouseController extends Controller
         $product = Product::findOrFail($data['product_id']);
         $this->warehouseService->adjustStock($warehouse->id, $product, $data['quantity'], $data['reason'] ?? 'manual adjustment');
 
-        return back()->with('success', 'Stan magazynowy zaktualizowany.');
+        return back()->with('success', __('messages.stock_updated'));
     }
 
     public function transferStock(Request $request, Warehouse $warehouse)

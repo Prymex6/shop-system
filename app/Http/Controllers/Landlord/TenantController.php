@@ -734,14 +734,14 @@ HTML, 'text');
     {
         $tenant->update(['status' => 'active']);
 
-        return back()->with('success', "Sklep '{$tenant->name}' został aktywowany!");
+        return back()->with('success', __('messages.shop_activated', ['name' => $tenant->name]));
     }
 
     public function suspend(Tenant $tenant)
     {
         $tenant->update(['status' => 'suspended']);
 
-        return back()->with('success', "Sklep '{$tenant->name}' został zawieszony!");
+        return back()->with('success', __('messages.shop_suspended', ['name' => $tenant->name]));
     }
 
     /**
@@ -754,7 +754,7 @@ HTML, 'text');
         DB::table('cache')->truncate();
         tenancy()->end();
 
-        return back()->with('success', 'Cache sklepu "' . $tenant->name . '" został wyczyszczony.');
+        return back()->with('success', __('messages.shop_cache_cleared', ['name' => $tenant->name]));
     }
 
     /**
@@ -768,7 +768,7 @@ HTML, 'text');
         tenancy()->end();
 
         if (!$manager) {
-            return back()->withErrors(['error' => 'Brak konta managera w tym sklepie.']);
+            return back()->withErrors(['error' => __('messages.no_manager_in_shop')]);
         }
 
         // Generate short-lived token stored in cache (5 minutes)

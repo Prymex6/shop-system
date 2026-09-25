@@ -40,7 +40,7 @@ class TaxController extends Controller
             ]
         );
 
-        return back()->with('success', "Stawka EU OSS dla {$data['country_code']} zapisana.");
+        return back()->with('success', __('messages.oss_rate_saved', ['country' => $data['country_code']]));
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class TaxController extends Controller
 
         TaxRate::create($data);
 
-        return back()->with('success', 'Stawka VAT dodana.');
+        return back()->with('success', __('messages.vat_rate_added'));
     }
 
     public function update(Request $request, TaxRate $taxRate)
@@ -78,7 +78,7 @@ class TaxController extends Controller
 
         $taxRate->update($data);
 
-        return back()->with('success', 'Stawka VAT zaktualizowana.');
+        return back()->with('success', __('messages.vat_rate_updated'));
     }
 
     public function destroy(TaxRate $taxRate)

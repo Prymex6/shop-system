@@ -66,7 +66,7 @@ class RmaController extends Controller
             'refunded' => $this->refundRma($rma, $data),
         };
 
-        return back()->with('success', 'Status RMA zaktualizowany.');
+        return back()->with('success', __('messages.rma_status_updated'));
     }
 
     /**

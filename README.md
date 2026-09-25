@@ -86,7 +86,7 @@ php artisan queue:listen # Queue worker
 ## Testing and quality
 
 ```bash
-php artisan test         # 755 feature and unit tests
+php artisan test         # 756 feature and unit tests
 npx playwright test      # end-to-end, 66 specs across four panels
 
 composer run lint        # Pint, Laravel preset
@@ -186,7 +186,7 @@ Each tenant is identified by subdomain (`shop.yourdomain.com`) or custom domain.
 | Models            | 67                            |
 | Services          | 44                            |
 | Migrations        | 108                           |
-| Tests             | 755 PHP, 66 Playwright specs  |
+| Tests             | 756 PHP, 66 Playwright specs  |
 | Interface strings | 1833 keys, Polish and English |
 
 ## License

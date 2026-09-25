@@ -86,7 +86,7 @@ class SocialAuthController extends Controller
         ]);
 
         return redirect()->route('tenant.shop')
-            ->with('success', 'Zalogowano przez ' . ucfirst($provider) . '!');
+            ->with('success', __('messages.signed_in_with', ['provider' => ucfirst($provider)]));
     }
 
     protected function validateProvider(string $provider): void

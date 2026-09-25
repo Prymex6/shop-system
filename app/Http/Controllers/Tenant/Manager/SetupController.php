@@ -47,7 +47,7 @@ class SetupController extends Controller
                 ->with('success', __('messages.install_finished', ['app' => config('app.name')]));
         }
 
-        return back()->with('success', 'Zapisano.');
+        return back()->with('success', __('messages.saved'));
     }
 
     private function saveHours(Request $request): void

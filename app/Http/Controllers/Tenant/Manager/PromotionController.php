@@ -33,7 +33,7 @@ class PromotionController extends Controller
 
         Promotion::create($data);
 
-        return back()->with('success', 'Promocja utworzona.');
+        return back()->with('success', __('messages.promotion_created'));
     }
 
     public function update(Request $request, Promotion $promotion)
@@ -49,7 +49,7 @@ class PromotionController extends Controller
 
         $promotion->update($data);
 
-        return back()->with('success', 'Promocja zaktualizowana.');
+        return back()->with('success', __('messages.promotion_updated'));
     }
 
     public function saveBanner(Request $request)
@@ -64,7 +64,7 @@ class PromotionController extends Controller
         Setting::set('announcement_text', $data['announcement_text'] ?? '', 'string');
         Setting::set('announcement_color', $data['announcement_color'] ?? '#4F46E5', 'string');
 
-        return back()->with('success', 'Banner zaktualizowany.');
+        return back()->with('success', __('messages.banner_updated'));
     }
 
     public function destroy(Promotion $promotion)

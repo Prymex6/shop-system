@@ -35,7 +35,7 @@ class ProductReviewController extends Controller
         // A double-click or repeated request must not double-count the review
         // or double-award loyalty points.
         if ($review->is_approved) {
-            return back()->with('success', 'Recenzja zatwierdzona.');
+            return back()->with('success', __('messages.review_approved'));
         }
 
         $review->update(['is_approved' => true]);
@@ -57,7 +57,7 @@ class ProductReviewController extends Controller
             }
         }
 
-        return back()->with('success', 'Recenzja zatwierdzona.');
+        return back()->with('success', __('messages.review_approved'));
     }
 
     public function reject(ProductReview $review)
@@ -68,7 +68,7 @@ class ProductReviewController extends Controller
         $review->update(['is_approved' => false]);
         $this->recalcAvg($review->product_id);
 
-        return back()->with('success', 'Recenzja odrzucona.');
+        return back()->with('success', __('messages.review_rejected'));
     }
 
     public function reply(Request $request, ProductReview $review)

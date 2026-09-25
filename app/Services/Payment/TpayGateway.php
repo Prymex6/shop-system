@@ -233,7 +233,7 @@ class TpayGateway implements PaymentGatewayInterface
         $transactionId = $paymentData['tpay_transaction_id'] ?? null;
 
         if (!$transactionId) {
-            return ['success' => false, 'error' => 'Brak danych transakcji Tpay (transactionId).'];
+            return ['success' => false, 'error' => __('messages.tpay_transaction_missing')];
         }
 
         try {

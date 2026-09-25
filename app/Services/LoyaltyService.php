@@ -464,7 +464,7 @@ class LoyaltyService
             'customer_id' => $customer->id,
             'points' => $points,
             'type' => 'birthday',
-            'description' => 'Bonus urodzinowy',
+            'description' => __('messages.loyalty_birthday_bonus'),
         ]);
         $customer->increment('loyalty_points', $points);
         $customer->increment('loyalty_points_earned_total', $points);
