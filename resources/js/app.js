@@ -15,7 +15,7 @@ axios.interceptors.response.use(
 import { createApp, h } from 'vue'
 import { createInertiaApp, router } from '@inertiajs/vue3'
 import { createPinia } from 'pinia'
-import { ZiggyVue } from '../../vendor/tightenco/ziggy'
+import { ZiggyVue } from 'ziggy-js'
 import { createI18nFor } from './i18n'
 
 // Purge the service worker's caches on logout (staff /logout, customer
