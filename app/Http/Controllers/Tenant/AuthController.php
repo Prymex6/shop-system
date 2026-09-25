@@ -102,7 +102,7 @@ class AuthController extends Controller
             $status = Password::RESET_LINK_SENT;
         }
 
-        Log::info('Auth[staff]: żądanie resetu hasła', ['email' => $request->email, 'status' => $status]);
+        Log::info('Auth[staff]: password reset requested', ['email' => $request->email, 'status' => $status]);
 
         // Always the same response regardless of whether the email exists —
         // INVALID_USER previously surfaced as a distinct form validation
@@ -155,7 +155,7 @@ class AuthController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            Log::info('Auth[staff]: hasło zresetowane', ['email' => $request->email]);
+            Log::info('Auth[staff]: password reset', ['email' => $request->email]);
 
             return redirect()->route('tenant.login')->with('status', 'Hasło zostało zmienione. Możesz się teraz zalogować.');
         }

@@ -81,7 +81,7 @@ class InstallController extends Controller
             'shop_phone' => ['nullable', 'string', 'max:30'],
             'shop_email' => ['nullable', 'email', 'max:255'],
             'shop_nip' => ['nullable', 'string', 'max:20'],
-            // Required: the seeded legal pages (Regulamin, Polityka Prywatności)
+            // Required: the seeded legal pages (terms, privacy policy)
             // substitute this into a {shop_address} token — without it those
             // pages publish with an empty "Adres: " field, missing the seller
             // identification required by art. 12 of the consumer rights act.

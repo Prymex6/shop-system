@@ -155,7 +155,7 @@ class MarketingController extends Controller
             'recipients_count' => $count,
         ]);
 
-        Log::info('Marketing: kampania wysłana', [
+        Log::info('Marketing: campaign sent', [
             'campaign_id' => $campaign->id,
             'name' => $campaign->name,
             'target' => $campaign->target,

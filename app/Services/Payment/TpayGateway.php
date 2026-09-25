@@ -261,7 +261,7 @@ class TpayGateway implements PaymentGatewayInterface
             'status' => 'confirmed',
             'payment_data' => array_merge($paymentData, ['tpay_transaction_id' => $transactionId, 'verified_at' => now()->toDateTimeString()]),
         ]);
-        Log::info('Tpay: płatność potwierdzona', ['order_number' => $order->order_number, 'total' => $order->total, 'transaction_id' => $transactionId]);
+        Log::info('Tpay: payment confirmed', ['order_number' => $order->order_number, 'total' => $order->total, 'transaction_id' => $transactionId]);
         event(new OrderCreated($order->fresh()));
     }
 }

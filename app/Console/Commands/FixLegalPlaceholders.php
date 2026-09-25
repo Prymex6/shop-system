@@ -32,7 +32,7 @@ class FixLegalPlaceholders extends Command
                     continue;
                 }
 
-                // Zamień "Nazwa handlowa: cokolwiek" na placeholder
+                // Swap a literal "Nazwa handlowa: anything" for the placeholder
                 $fixed = preg_replace(
                     '/Nazwa handlowa: [^<\n]+/',
                     'Nazwa handlowa: {shop_name}',

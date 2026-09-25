@@ -35,7 +35,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Inicjalizuj płatność – wybiera gateway na podstawie payment_method zamówienia
+     * Start a payment, picking the gateway from the order's payment_method.
      */
     public function initiate(Request $request, string $orderNumber)
     {
@@ -73,7 +73,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Powrót klienta z bramki płatności
+     * The customer coming back from the payment gateway.
      */
     public function return(Request $request, string $orderNumber)
     {

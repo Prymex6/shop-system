@@ -10,7 +10,7 @@ use Inertia\Inertia;
 
 class HomepageBuilderController extends Controller
 {
-    // Domyślna konfiguracja wszystkich dostępnych bloków
+    // What every available block looks like before anyone edits it
     private const DEFAULT_BLOCKS = [
         ['id' => 'hero', 'type' => 'hero', 'enabled' => true, 'settings' => [
             'heading' => '', 'subheading' => 'Odkryj nasze produkty', 'cta_label' => 'Przeglądaj sklep', 'height' => 'md', 'slides' => '',

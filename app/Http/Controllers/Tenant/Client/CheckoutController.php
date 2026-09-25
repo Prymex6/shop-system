@@ -95,8 +95,8 @@ class CheckoutController extends Controller
         }
 
         // Order bump: a single merchant-picked product offered as a one-click
-        // add right before payment (Settings > Zamówienia > "Produkt-dodatek
-        // w kasie"). Only offered while still published/active — the setting
+        // add right before payment (Settings > Orders > "Product offered
+        // at checkout"). Only offered while still published/active - the setting
         // can otherwise point at a product the merchant later unpublished.
         $orderBumpProduct = null;
         if ($orderBumpProductId = Setting::get('order_bump_product_id')) {
@@ -710,7 +710,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            Log::info('Checkout: zamówienie złożone', [
+            Log::info('Checkout: order placed', [
                 'order_number' => $order->order_number,
                 'customer_email' => $order->customer_email,
                 'total' => $order->total,

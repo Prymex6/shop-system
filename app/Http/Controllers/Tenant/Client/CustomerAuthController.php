@@ -144,13 +144,13 @@ class CustomerAuthController extends Controller
             $status = Password::RESET_LINK_SENT;
         }
 
-        Log::info('Auth[customer]: żądanie resetu hasła', ['email' => $request->email, 'status' => $status]);
+        Log::info('Auth[customer]: password reset requested', ['email' => $request->email, 'status' => $status]);
 
         // Always the same response regardless of whether the email exists,
         // was throttled, or actually got sent — INVALID_USER previously
-        // surfaced as a distinct form validation error ("Nie znaleziono
-        // użytkownika..."), letting an attacker enumerate which emails have
-        // an account here just by reading the response, no timing needed.
+        // surfaced as a distinct form validation error ("No such user"),
+        // letting an attacker enumerate which emails have an account here
+        // just by reading the response, no timing needed.
         return back()->with('success', __('messages.password_reset_sent'));
     }
 
@@ -198,7 +198,7 @@ class CustomerAuthController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            Log::info('Auth[customer]: hasło zresetowane', ['email' => $request->email]);
+            Log::info('Auth[customer]: password reset', ['email' => $request->email]);
 
             return redirect()->route('tenant.client.login')
                 ->with('status', 'Hasło zostało zmienione. Możesz się teraz zalogować.');

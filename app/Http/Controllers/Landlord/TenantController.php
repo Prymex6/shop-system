@@ -87,7 +87,7 @@ class TenantController extends Controller
             'domain' => $validated['subdomain'] . '.' . $baseDomain,
         ]);
 
-        // Automatycznie dodaj rekord DNS w Cloudflare (jeśli skonfigurowane)
+        // Add the DNS record in Cloudflare, when one is configured
         $cloudflare = app(CloudflareService::class);
         if ($cloudflare->isConfigured()) {
             $dnsRecordId = $cloudflare->addSubdomain($validated['subdomain']);

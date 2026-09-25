@@ -121,7 +121,7 @@ class DiscountCodeController extends Controller
      */
     public function destroy(DiscountCode $discountCode): RedirectResponse
     {
-        Log::info('Discount: kod rabatowy usunięty', ['code' => $discountCode->code, 'manager_id' => auth('tenant')->id()]);
+        Log::info('Discount: code deleted', ['code' => $discountCode->code, 'manager_id' => auth('tenant')->id()]);
         $discountCode->delete();
 
         return redirect()->route('tenant.manager.discounts.index')

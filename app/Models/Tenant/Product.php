@@ -54,7 +54,7 @@ class Product extends Model
     ];
 
     // `isInStock()` (below) existed but nothing ever appended it to JSON — the
-    // product page's "Niedostępny" badge read `product.is_in_stock`, which was
+    // product page's "out of stock" badge read `product.is_in_stock`, which was
     // always undefined, so it showed "unavailable" on every single product
     // regardless of real stock state.
     protected $appends = ['is_in_stock'];

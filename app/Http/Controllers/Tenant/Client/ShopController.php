@@ -74,7 +74,7 @@ class ShopController extends Controller
     }
 
     /**
-     * Full product catalog, paginated — the "Cały sklep"/"Zobacz wszystkie"
+     * Full product catalog, paginated - the "Whole shop"/"See all"
      * links under Bestsellers/New Arrivals/Featured Products on the
      * homepage all pointed at route('tenant.shop') itself (this controller's
      * own index()), which only ever renders curated homepage sections

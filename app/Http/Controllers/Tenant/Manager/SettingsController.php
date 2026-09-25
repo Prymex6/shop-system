@@ -22,200 +22,200 @@ class SettingsController extends Controller
      */
     protected array $settingsSchema = [
         // Shop info
-        'shop_name' => ['type' => 'string', 'description' => 'Nazwa sklepu', 'group' => 'general'],
-        'shop_owner_name' => ['type' => 'string', 'description' => 'Imię i nazwisko właściciela / nazwa firmy (do dokumentów prawnych)', 'group' => 'general'],
-        'shop_phone' => ['type' => 'string', 'description' => 'Numer telefonu', 'group' => 'general'],
-        'shop_email' => ['type' => 'string', 'description' => 'Adres e-mail', 'group' => 'general'],
-        'shop_address' => ['type' => 'string', 'description' => 'Adres sklepu', 'group' => 'general'],
-        'shop_description' => ['type' => 'string', 'description' => 'Opis sklepu', 'group' => 'general'],
-        'shop_nip' => ['type' => 'string', 'description' => 'NIP sklepu (do faktur)', 'group' => 'general'],
-        'currency' => ['type' => 'string', 'description' => 'Waluta sklepu (PLN/EUR/USD/GBP)', 'group' => 'general'],
-        'google_place_id' => ['type' => 'string', 'description' => 'Google Place ID (do opinii z wizytówki Google)', 'group' => 'general'],
+        'shop_name' => ['type' => 'string', 'description' => 'Shop name', 'group' => 'general'],
+        'shop_owner_name' => ['type' => 'string', 'description' => 'Owner name or company name (used on legal documents)', 'group' => 'general'],
+        'shop_phone' => ['type' => 'string', 'description' => 'Phone number', 'group' => 'general'],
+        'shop_email' => ['type' => 'string', 'description' => 'Email address', 'group' => 'general'],
+        'shop_address' => ['type' => 'string', 'description' => 'Shop address', 'group' => 'general'],
+        'shop_description' => ['type' => 'string', 'description' => 'Shop description', 'group' => 'general'],
+        'shop_nip' => ['type' => 'string', 'description' => 'Shop tax ID (used on invoices)', 'group' => 'general'],
+        'currency' => ['type' => 'string', 'description' => 'Shop currency (PLN/EUR/USD/GBP)', 'group' => 'general'],
+        'google_place_id' => ['type' => 'string', 'description' => 'Google Place ID (for reviews from the Google listing)', 'group' => 'general'],
 
         // Appearance
-        'logo_url' => ['type' => 'string', 'description' => 'URL logo sklepu', 'group' => 'appearance'],
-        'favicon_url' => ['type' => 'string', 'description' => 'URL favicon', 'group' => 'appearance'],
-        'hero_image_url' => ['type' => 'string', 'description' => 'URL zdjęcia hero na stronie głównej', 'group' => 'appearance'],
-        'hero_title' => ['type' => 'string', 'description' => 'Tytuł na hero (domyślnie nazwa sklepu)', 'group' => 'appearance'],
-        'hero_subtitle' => ['type' => 'string', 'description' => 'Podtytuł na hero', 'group' => 'appearance'],
+        'logo_url' => ['type' => 'string', 'description' => 'Shop logo URL', 'group' => 'appearance'],
+        'favicon_url' => ['type' => 'string', 'description' => 'Favicon URL', 'group' => 'appearance'],
+        'hero_image_url' => ['type' => 'string', 'description' => 'Homepage hero image URL', 'group' => 'appearance'],
+        'hero_title' => ['type' => 'string', 'description' => 'Hero title (defaults to the shop name)', 'group' => 'appearance'],
+        'hero_subtitle' => ['type' => 'string', 'description' => 'Hero subtitle', 'group' => 'appearance'],
 
         // About us
-        'about_enabled' => ['type' => 'boolean', 'description' => 'Sekcja O nas włączona', 'group' => 'modules'],
-        'about_title' => ['type' => 'string', 'description' => 'Tytuł sekcji O nas', 'group' => 'modules'],
-        'about_text' => ['type' => 'string', 'description' => 'Treść sekcji O nas', 'group' => 'modules'],
-        'about_image_url' => ['type' => 'string', 'description' => 'Zdjęcie w sekcji O nas', 'group' => 'modules'],
+        'about_enabled' => ['type' => 'boolean', 'description' => 'About section enabled', 'group' => 'modules'],
+        'about_title' => ['type' => 'string', 'description' => 'About section title', 'group' => 'modules'],
+        'about_text' => ['type' => 'string', 'description' => 'About section text', 'group' => 'modules'],
+        'about_image_url' => ['type' => 'string', 'description' => 'About section image', 'group' => 'modules'],
 
         // Gallery
-        'gallery_enabled' => ['type' => 'boolean', 'description' => 'Galeria zdjęć włączona', 'group' => 'modules'],
-        'gallery_title' => ['type' => 'string', 'description' => 'Tytuł sekcji galerii', 'group' => 'modules'],
-        'gallery_images' => ['type' => 'json', 'description' => 'Zdjęcia w galerii (JSON)', 'group' => 'modules'],
+        'gallery_enabled' => ['type' => 'boolean', 'description' => 'Photo gallery enabled', 'group' => 'modules'],
+        'gallery_title' => ['type' => 'string', 'description' => 'Gallery section title', 'group' => 'modules'],
+        'gallery_images' => ['type' => 'json', 'description' => 'Gallery images (JSON)', 'group' => 'modules'],
 
         // Orders
-        'min_order_value' => ['type' => 'string', 'description' => 'Minimalna wartość zamówienia', 'group' => 'orders'],
-        'order_auto_accept' => ['type' => 'boolean', 'description' => 'Automatyczne przyjmowanie zamówień', 'group' => 'orders'],
-        'orders_paused' => ['type' => 'boolean', 'description' => 'Zamówienia wstrzymane (chwilowa przerwa)', 'group' => 'orders'],
-        'low_stock_threshold' => ['type' => 'integer', 'description' => 'Próg niskiego stanu magazynowego', 'group' => 'orders'],
-        'free_shipping_threshold' => ['type' => 'string', 'description' => 'Darmowa dostawa od (PLN, 0 = wyłączone)', 'group' => 'orders'],
-        'order_bump_product_id' => ['type' => 'integer', 'description' => 'Produkt proponowany jako dodatek w kasie (order bump)', 'group' => 'orders'],
+        'min_order_value' => ['type' => 'string', 'description' => 'Minimum order value', 'group' => 'orders'],
+        'order_auto_accept' => ['type' => 'boolean', 'description' => 'Accept orders automatically', 'group' => 'orders'],
+        'orders_paused' => ['type' => 'boolean', 'description' => 'Orders paused (short break)', 'group' => 'orders'],
+        'low_stock_threshold' => ['type' => 'integer', 'description' => 'Low stock threshold', 'group' => 'orders'],
+        'free_shipping_threshold' => ['type' => 'string', 'description' => 'Free shipping above (PLN, 0 = off)', 'group' => 'orders'],
+        'order_bump_product_id' => ['type' => 'integer', 'description' => 'Product offered as an add-on at checkout (order bump)', 'group' => 'orders'],
 
         // Payments
-        'payment_cash_on_delivery_enabled' => ['type' => 'boolean', 'description' => 'Płatność przy odbiorze (gotówka)', 'group' => 'payments'],
-        'payment_bank_transfer_enabled' => ['type' => 'boolean', 'description' => 'Przelew bankowy', 'group' => 'payments'],
-        'payment_online_enabled' => ['type' => 'boolean', 'description' => 'Płatność online (legacy)', 'group' => 'payments'],
+        'payment_cash_on_delivery_enabled' => ['type' => 'boolean', 'description' => 'Cash on delivery', 'group' => 'payments'],
+        'payment_bank_transfer_enabled' => ['type' => 'boolean', 'description' => 'Bank transfer', 'group' => 'payments'],
+        'payment_online_enabled' => ['type' => 'boolean', 'description' => 'Online payment (legacy)', 'group' => 'payments'],
         // Przelewy24
-        'payment_p24_enabled' => ['type' => 'boolean', 'description' => 'Przelewy24 aktywne', 'group' => 'payments'],
-        'p24_merchant_id' => ['type' => 'string', 'description' => 'Przelewy24 Merchant ID', 'group' => 'payments'],
+        'payment_p24_enabled' => ['type' => 'boolean', 'description' => 'Przelewy24 enabled', 'group' => 'payments'],
+        'p24_merchant_id' => ['type' => 'string', 'description' => 'Przelewy24 merchant ID', 'group' => 'payments'],
         'p24_pos_id' => ['type' => 'string', 'description' => 'Przelewy24 POS ID', 'group' => 'payments'],
-        'p24_api_key' => ['type' => 'encrypted', 'description' => 'Przelewy24 API Key', 'group' => 'payments'],
-        'p24_crc' => ['type' => 'encrypted', 'description' => 'Przelewy24 CRC Key', 'group' => 'payments'],
-        'p24_sandbox' => ['type' => 'boolean', 'description' => 'Przelewy24 tryb sandbox', 'group' => 'payments'],
+        'p24_api_key' => ['type' => 'encrypted', 'description' => 'Przelewy24 API key', 'group' => 'payments'],
+        'p24_crc' => ['type' => 'encrypted', 'description' => 'Przelewy24 CRC key', 'group' => 'payments'],
+        'p24_sandbox' => ['type' => 'boolean', 'description' => 'Przelewy24 sandbox mode', 'group' => 'payments'],
         // PayU
-        'payment_payu_enabled' => ['type' => 'boolean', 'description' => 'PayU aktywne', 'group' => 'payments'],
+        'payment_payu_enabled' => ['type' => 'boolean', 'description' => 'PayU enabled', 'group' => 'payments'],
         'payu_pos_id' => ['type' => 'string', 'description' => 'PayU POS ID', 'group' => 'payments'],
-        'payu_signature_key' => ['type' => 'encrypted', 'description' => 'PayU MD5 Signature Key', 'group' => 'payments'],
-        'payu_client_id' => ['type' => 'string', 'description' => 'PayU OAuth Client ID', 'group' => 'payments'],
-        'payu_client_secret' => ['type' => 'encrypted', 'description' => 'PayU OAuth Client Secret', 'group' => 'payments'],
-        'payu_mode' => ['type' => 'string', 'description' => 'PayU tryb (sandbox/production)', 'group' => 'payments'],
+        'payu_signature_key' => ['type' => 'encrypted', 'description' => 'PayU MD5 signature key', 'group' => 'payments'],
+        'payu_client_id' => ['type' => 'string', 'description' => 'PayU OAuth client ID', 'group' => 'payments'],
+        'payu_client_secret' => ['type' => 'encrypted', 'description' => 'PayU OAuth client secret', 'group' => 'payments'],
+        'payu_mode' => ['type' => 'string', 'description' => 'PayU mode (sandbox/production)', 'group' => 'payments'],
         // Tpay
-        'payment_tpay_enabled' => ['type' => 'boolean', 'description' => 'Tpay aktywne', 'group' => 'payments'],
-        'tpay_client_id' => ['type' => 'string', 'description' => 'Tpay Client ID', 'group' => 'payments'],
-        'tpay_client_secret' => ['type' => 'encrypted', 'description' => 'Tpay Client Secret', 'group' => 'payments'],
-        'tpay_notification_secret' => ['type' => 'encrypted', 'description' => 'Tpay kod bezpieczeństwa powiadomień (Notification Security Code)', 'group' => 'payments'],
-        'tpay_mode' => ['type' => 'string', 'description' => 'Tpay tryb (sandbox/production)', 'group' => 'payments'],
+        'payment_tpay_enabled' => ['type' => 'boolean', 'description' => 'Tpay enabled', 'group' => 'payments'],
+        'tpay_client_id' => ['type' => 'string', 'description' => 'Tpay client ID', 'group' => 'payments'],
+        'tpay_client_secret' => ['type' => 'encrypted', 'description' => 'Tpay client secret', 'group' => 'payments'],
+        'tpay_notification_secret' => ['type' => 'encrypted', 'description' => 'Tpay notification security code', 'group' => 'payments'],
+        'tpay_mode' => ['type' => 'string', 'description' => 'Tpay mode (sandbox/production)', 'group' => 'payments'],
 
         // Printer
-        'printer_enabled' => ['type' => 'boolean', 'description' => 'Drukowanie bonów włączone', 'group' => 'printer'],
-        'printer_type' => ['type' => 'string', 'description' => 'Typ drukarki (bluetooth/network/usb)', 'group' => 'printer'],
-        'printer_address' => ['type' => 'string', 'description' => 'Adres drukarki (IP lub MAC)', 'group' => 'printer'],
+        'printer_enabled' => ['type' => 'boolean', 'description' => 'Receipt printing enabled', 'group' => 'printer'],
+        'printer_type' => ['type' => 'string', 'description' => 'Printer type (bluetooth/network/usb)', 'group' => 'printer'],
+        'printer_address' => ['type' => 'string', 'description' => 'Printer address (IP or MAC)', 'group' => 'printer'],
 
         // Notifications
-        'notification_sound_enabled' => ['type' => 'boolean', 'description' => 'Dźwięk powiadomień', 'group' => 'notifications'],
-        'notification_email_enabled' => ['type' => 'boolean', 'description' => 'Powiadomienia e-mail', 'group' => 'notifications'],
-        'notification_email_address' => ['type' => 'string', 'description' => 'Adres e-mail do powiadomień', 'group' => 'notifications'],
+        'notification_sound_enabled' => ['type' => 'boolean', 'description' => 'Notification sound', 'group' => 'notifications'],
+        'notification_email_enabled' => ['type' => 'boolean', 'description' => 'Email notifications', 'group' => 'notifications'],
+        'notification_email_address' => ['type' => 'string', 'description' => 'Email address for notifications', 'group' => 'notifications'],
 
         // SMS (SMSAPI.pl)
-        'sms_enabled' => ['type' => 'boolean', 'description' => 'Powiadomienia SMS włączone', 'group' => 'sms'],
-        'sms_sender_name' => ['type' => 'string', 'description' => 'Nazwa nadawcy SMS (maks. 11 znaków)', 'group' => 'sms'],
+        'sms_enabled' => ['type' => 'boolean', 'description' => 'SMS notifications enabled', 'group' => 'sms'],
+        'sms_sender_name' => ['type' => 'string', 'description' => 'SMS sender name (11 characters at most)', 'group' => 'sms'],
 
         // Theme / custom styling (Level A + B)
-        'theme_primary_color' => ['type' => 'string', 'description' => 'Główny kolor akcentu (HEX)', 'group' => 'appearance'],
-        'theme_font' => ['type' => 'string', 'description' => 'Czcionka witryny', 'group' => 'appearance'],
-        'custom_css' => ['type' => 'string', 'description' => 'Własny CSS witryny klienta', 'group' => 'appearance'],
+        'theme_primary_color' => ['type' => 'string', 'description' => 'Primary accent colour (HEX)', 'group' => 'appearance'],
+        'theme_font' => ['type' => 'string', 'description' => 'Storefront font', 'group' => 'appearance'],
+        'custom_css' => ['type' => 'string', 'description' => 'Custom CSS for the storefront', 'group' => 'appearance'],
 
         // Homepage blocks (Level C)
-        'homepage_blocks' => ['type' => 'json', 'description' => 'Bloki strony głównej', 'group' => 'modules'],
+        'homepage_blocks' => ['type' => 'json', 'description' => 'Homepage blocks', 'group' => 'modules'],
 
         // Social media
-        'facebook_url' => ['type' => 'string', 'description' => 'Link do Facebook', 'group' => 'social'],
-        'instagram_url' => ['type' => 'string', 'description' => 'Link do Instagram', 'group' => 'social'],
-        'tiktok_url' => ['type' => 'string', 'description' => 'Link do TikTok', 'group' => 'social'],
+        'facebook_url' => ['type' => 'string', 'description' => 'Facebook link', 'group' => 'social'],
+        'instagram_url' => ['type' => 'string', 'description' => 'Instagram link', 'group' => 'social'],
+        'tiktok_url' => ['type' => 'string', 'description' => 'TikTok link', 'group' => 'social'],
 
         // Analytics & integrations
-        'google_analytics_id' => ['type' => 'string', 'description' => 'Google Analytics GA4 Measurement ID (legacy key)', 'group' => 'integrations'],
-        'ga4_measurement_id' => ['type' => 'string', 'description' => 'Google Analytics 4 Measurement ID (G-XXXXXXXX)', 'group' => 'integrations'],
+        'google_analytics_id' => ['type' => 'string', 'description' => 'Google Analytics GA4 measurement ID (legacy key)', 'group' => 'integrations'],
+        'ga4_measurement_id' => ['type' => 'string', 'description' => 'Google Analytics 4 measurement ID (G-XXXXXXXX)', 'group' => 'integrations'],
         'facebook_pixel_id' => ['type' => 'string', 'description' => 'Facebook Pixel ID', 'group' => 'integrations'],
         'tiktok_pixel_id' => ['type' => 'string', 'description' => 'TikTok Pixel ID', 'group' => 'integrations'],
 
         // SMTP per tenant (#12)
-        'smtp_host' => ['type' => 'string', 'description' => 'Serwer SMTP', 'group' => 'smtp'],
-        'smtp_port' => ['type' => 'integer', 'description' => 'Port SMTP', 'group' => 'smtp'],
-        'smtp_username' => ['type' => 'string', 'description' => 'Login SMTP', 'group' => 'smtp'],
-        'smtp_password' => ['type' => 'encrypted', 'description' => 'Hasło SMTP', 'group' => 'smtp'],
-        'smtp_from_address' => ['type' => 'string', 'description' => 'Adres nadawcy e-mail', 'group' => 'smtp'],
-        'smtp_from_name' => ['type' => 'string', 'description' => 'Nazwa nadawcy e-mail', 'group' => 'smtp'],
-        'smtp_encryption' => ['type' => 'string', 'description' => 'Szyfrowanie (tls/ssl/none)', 'group' => 'smtp'],
+        'smtp_host' => ['type' => 'string', 'description' => 'SMTP host', 'group' => 'smtp'],
+        'smtp_port' => ['type' => 'integer', 'description' => 'SMTP port', 'group' => 'smtp'],
+        'smtp_username' => ['type' => 'string', 'description' => 'SMTP username', 'group' => 'smtp'],
+        'smtp_password' => ['type' => 'encrypted', 'description' => 'SMTP password', 'group' => 'smtp'],
+        'smtp_from_address' => ['type' => 'string', 'description' => 'Sender email address', 'group' => 'smtp'],
+        'smtp_from_name' => ['type' => 'string', 'description' => 'Sender name on email', 'group' => 'smtp'],
+        'smtp_encryption' => ['type' => 'string', 'description' => 'Encryption (tls/ssl/none)', 'group' => 'smtp'],
 
         // Loyalty program configuration
-        'loyalty_enabled' => ['type' => 'boolean', 'description' => 'Program lojalnościowy włączony', 'group' => 'loyalty'],
-        'loyalty_earn_mode' => ['type' => 'string', 'description' => 'Tryb naliczania: per_pln / per_order / tiered', 'group' => 'loyalty'],
-        'loyalty_points_per_pln' => ['type' => 'integer', 'description' => 'Punkty za 1 PLN zamówienia', 'group' => 'loyalty'],
-        'loyalty_points_per_order' => ['type' => 'integer', 'description' => 'Stała liczba pkt za zamówienie (tryb per_order)', 'group' => 'loyalty'],
-        'loyalty_tiers' => ['type' => 'json', 'description' => 'Progi poziomów lojalnościowych', 'group' => 'loyalty'],
-        'loyalty_tier_basis' => ['type' => 'string', 'description' => 'Podstawa poziomów: ever_earned / current_balance', 'group' => 'loyalty'],
-        'loyalty_points_expiry_days' => ['type' => 'integer', 'description' => 'Wygasanie punktów (dni, 0 = brak)', 'group' => 'loyalty'],
-        'loyalty_expiry_warning_days' => ['type' => 'integer', 'description' => 'Ostrzeżenie o wygasaniu (dni przed)', 'group' => 'loyalty'],
-        'loyalty_bonus_registration' => ['type' => 'integer', 'description' => 'Bonus za rejestrację (pkt)', 'group' => 'loyalty'],
-        'loyalty_bonus_first_order' => ['type' => 'integer', 'description' => 'Bonus za pierwsze zamówienie (pkt)', 'group' => 'loyalty'],
-        'loyalty_bonus_referral' => ['type' => 'integer', 'description' => 'Bonus za polecenie (pkt)', 'group' => 'loyalty'],
-        'loyalty_bonus_birthday' => ['type' => 'integer', 'description' => 'Bonus urodzinowy (pkt)', 'group' => 'loyalty'],
-        'loyalty_bonus_birthday_multiplier' => ['type' => 'float', 'description' => 'Mnożnik zamówień w miesiącu urodzin', 'group' => 'loyalty'],
+        'loyalty_enabled' => ['type' => 'boolean', 'description' => 'Loyalty programme enabled', 'group' => 'loyalty'],
+        'loyalty_earn_mode' => ['type' => 'string', 'description' => 'Earning mode: per_pln / per_order / tiered', 'group' => 'loyalty'],
+        'loyalty_points_per_pln' => ['type' => 'integer', 'description' => 'Points per 1 PLN of an order', 'group' => 'loyalty'],
+        'loyalty_points_per_order' => ['type' => 'integer', 'description' => 'Fixed points per order (per_order mode)', 'group' => 'loyalty'],
+        'loyalty_tiers' => ['type' => 'json', 'description' => 'Loyalty tier thresholds', 'group' => 'loyalty'],
+        'loyalty_tier_basis' => ['type' => 'string', 'description' => 'Tier basis: ever_earned / current_balance', 'group' => 'loyalty'],
+        'loyalty_points_expiry_days' => ['type' => 'integer', 'description' => 'Point expiry (days, 0 = never)', 'group' => 'loyalty'],
+        'loyalty_expiry_warning_days' => ['type' => 'integer', 'description' => 'Expiry warning (days before)', 'group' => 'loyalty'],
+        'loyalty_bonus_registration' => ['type' => 'integer', 'description' => 'Registration bonus (points)', 'group' => 'loyalty'],
+        'loyalty_bonus_first_order' => ['type' => 'integer', 'description' => 'First order bonus (points)', 'group' => 'loyalty'],
+        'loyalty_bonus_referral' => ['type' => 'integer', 'description' => 'Referral bonus (points)', 'group' => 'loyalty'],
+        'loyalty_bonus_birthday' => ['type' => 'integer', 'description' => 'Birthday bonus (points)', 'group' => 'loyalty'],
+        'loyalty_bonus_birthday_multiplier' => ['type' => 'float', 'description' => 'Points multiplier during the birthday month', 'group' => 'loyalty'],
 
         // Regulations / terms (#14)
-        'terms_content' => ['type' => 'string', 'description' => 'Treść regulaminu (HTML)', 'group' => 'regulations'],
-        'privacy_content' => ['type' => 'string', 'description' => 'Treść polityki prywatności (HTML)', 'group' => 'regulations'],
-        'shipping_content' => ['type' => 'string', 'description' => 'Informacje o dostawie i płatnościach (HTML)', 'group' => 'regulations'],
-        'returns_content' => ['type' => 'string', 'description' => 'Polityka zwrotów i reklamacji (HTML)', 'group' => 'regulations'],
-        'faq_content' => ['type' => 'string', 'description' => 'FAQ – najczęstsze pytania (HTML)', 'group' => 'regulations'],
+        'terms_content' => ['type' => 'string', 'description' => 'Terms and conditions text (HTML)', 'group' => 'regulations'],
+        'privacy_content' => ['type' => 'string', 'description' => 'Privacy policy text (HTML)', 'group' => 'regulations'],
+        'shipping_content' => ['type' => 'string', 'description' => 'Delivery and payment information (HTML)', 'group' => 'regulations'],
+        'returns_content' => ['type' => 'string', 'description' => 'Returns and complaints policy (HTML)', 'group' => 'regulations'],
+        'faq_content' => ['type' => 'string', 'description' => 'FAQ page (HTML)', 'group' => 'regulations'],
 
         // Vacation / maintenance mode (#34)
-        'vacation_mode' => ['type' => 'boolean', 'description' => 'Tryb urlopowy – blokada zamówień', 'group' => 'general'],
-        'vacation_message' => ['type' => 'string', 'description' => 'Komunikat wyświetlany podczas trybu urlopowego', 'group' => 'general'],
+        'vacation_mode' => ['type' => 'boolean', 'description' => 'Holiday mode, which stops orders', 'group' => 'general'],
+        'vacation_message' => ['type' => 'string', 'description' => 'Message shown while holiday mode is on', 'group' => 'general'],
 
         // Announcement Banner
-        'announcement_enabled' => ['type' => 'boolean', 'description' => 'Baner z ogłoszeniem włączony', 'group' => 'general'],
-        'announcement_text' => ['type' => 'string', 'description' => 'Treść ogłoszenia w banerze', 'group' => 'general'],
-        'announcement_color' => ['type' => 'string', 'description' => 'Kolor tła banera (HEX)', 'group' => 'general'],
+        'announcement_enabled' => ['type' => 'boolean', 'description' => 'Announcement banner enabled', 'group' => 'general'],
+        'announcement_text' => ['type' => 'string', 'description' => 'Announcement banner text', 'group' => 'general'],
+        'announcement_color' => ['type' => 'string', 'description' => 'Banner background colour (HEX)', 'group' => 'general'],
 
         // Newsletter
-        'newsletter_enabled' => ['type' => 'boolean', 'description' => 'Sekcja newslettera włączona', 'group' => 'modules'],
-        'newsletter_title' => ['type' => 'string',  'description' => 'Tytuł sekcji newslettera', 'group' => 'modules'],
-        'newsletter_text' => ['type' => 'string',  'description' => 'Opis sekcji newslettera', 'group' => 'modules'],
+        'newsletter_enabled' => ['type' => 'boolean', 'description' => 'Newsletter section enabled', 'group' => 'modules'],
+        'newsletter_title' => ['type' => 'string',  'description' => 'Newsletter section title', 'group' => 'modules'],
+        'newsletter_text' => ['type' => 'string',  'description' => 'Newsletter section text', 'group' => 'modules'],
 
         // Trust badges
-        'trust_badges_enabled' => ['type' => 'boolean', 'description' => 'Sekcja ikon zaufania włączona', 'group' => 'modules'],
-        'trust_badges' => ['type' => 'json',    'description' => 'Lista ikon zaufania (JSON)', 'group' => 'modules'],
+        'trust_badges_enabled' => ['type' => 'boolean', 'description' => 'Trust badges section enabled', 'group' => 'modules'],
+        'trust_badges' => ['type' => 'json',    'description' => 'Trust badges (JSON)', 'group' => 'modules'],
 
         // Reviews section
-        'reviews_section_enabled' => ['type' => 'boolean', 'description' => 'Sekcja opinii na stronie głównej włączona', 'group' => 'modules'],
+        'reviews_section_enabled' => ['type' => 'boolean', 'description' => 'Homepage reviews section enabled', 'group' => 'modules'],
 
         // Reports
-        'weekly_report_enabled' => ['type' => 'boolean', 'description' => 'Wysyłaj cotygodniowe raporty e-mail do managera', 'group' => 'notifications'],
-        'inpost_api_token' => ['type' => 'encrypted', 'description' => 'Token API InPost', 'group' => 'integrations'],
-        'inpost_organization_id' => ['type' => 'string', 'description' => 'ID organizacji InPost', 'group' => 'integrations'],
-        'smsapi_token' => ['type' => 'encrypted', 'description' => 'Token SMSAPI (OAuth2)', 'group' => 'sms'],
-        'trustpilot_business_id' => ['type' => 'string', 'description' => 'Trustpilot Business ID', 'group' => 'integrations'],
+        'weekly_report_enabled' => ['type' => 'boolean', 'description' => 'Email a weekly report to the manager', 'group' => 'notifications'],
+        'inpost_api_token' => ['type' => 'encrypted', 'description' => 'InPost API token', 'group' => 'integrations'],
+        'inpost_organization_id' => ['type' => 'string', 'description' => 'InPost organisation ID', 'group' => 'integrations'],
+        'smsapi_token' => ['type' => 'encrypted', 'description' => 'SMSAPI token (OAuth2)', 'group' => 'sms'],
+        'trustpilot_business_id' => ['type' => 'string', 'description' => 'Trustpilot business ID', 'group' => 'integrations'],
 
         // Language & multi-currency
-        'shop_language' => ['type' => 'string', 'description' => 'Język panelu i sklepu (pl/en)', 'group' => 'general'],
-        'enabled_currencies' => ['type' => 'json', 'description' => 'Aktywne waluty', 'group' => 'general'],
+        'shop_language' => ['type' => 'string', 'description' => 'Language of the panel and the storefront (pl/en)', 'group' => 'general'],
+        'enabled_currencies' => ['type' => 'json', 'description' => 'Enabled currencies', 'group' => 'general'],
 
         // Reviews moderation
-        'reviews_require_approval' => ['type' => 'boolean', 'description' => 'Recenzje wymagają zatwierdzenia', 'group' => 'orders'],
-        'reviews_min_order_required' => ['type' => 'boolean', 'description' => 'Recenzja tylko po zakupie', 'group' => 'orders'],
+        'reviews_require_approval' => ['type' => 'boolean', 'description' => 'Reviews need approval', 'group' => 'orders'],
+        'reviews_min_order_required' => ['type' => 'boolean', 'description' => 'Reviews only after a purchase', 'group' => 'orders'],
 
         // Refund & RMA policies
-        'refund_window_days' => ['type' => 'integer', 'description' => 'Czas na zwrot (dni)', 'group' => 'orders'],
-        'rma_enabled' => ['type' => 'boolean', 'description' => 'Zwroty (RMA) włączone', 'group' => 'orders'],
-        'rma_window_days' => ['type' => 'integer', 'description' => 'Czas na zgłoszenie RMA (dni)', 'group' => 'orders'],
-        'rma_auto_approve' => ['type' => 'boolean', 'description' => 'Automatyczne zatwierdzanie RMA', 'group' => 'orders'],
+        'refund_window_days' => ['type' => 'integer', 'description' => 'Return window (days)', 'group' => 'orders'],
+        'rma_enabled' => ['type' => 'boolean', 'description' => 'Returns (RMA) enabled', 'group' => 'orders'],
+        'rma_window_days' => ['type' => 'integer', 'description' => 'Window for opening an RMA (days)', 'group' => 'orders'],
+        'rma_auto_approve' => ['type' => 'boolean', 'description' => 'Approve RMA requests automatically', 'group' => 'orders'],
 
         // Live Chat
-        'chat_enabled' => ['type' => 'boolean', 'description' => 'Live Chat włączony', 'group' => 'notifications'],
-        'chat_greeting' => ['type' => 'string', 'description' => 'Wiadomość powitalna w chacie', 'group' => 'notifications'],
+        'chat_enabled' => ['type' => 'boolean', 'description' => 'Live chat enabled', 'group' => 'notifications'],
+        'chat_greeting' => ['type' => 'string', 'description' => 'Chat greeting', 'group' => 'notifications'],
 
         // Gift Cards
-        'gift_cards_enabled' => ['type' => 'boolean', 'description' => 'Karty podarunkowe włączone', 'group' => 'orders'],
-        'gift_card_expiry_days' => ['type' => 'integer', 'description' => 'Ważność kart podarunkowych (dni, 0=bezterminowo)', 'group' => 'orders'],
+        'gift_cards_enabled' => ['type' => 'boolean', 'description' => 'Gift cards enabled', 'group' => 'orders'],
+        'gift_card_expiry_days' => ['type' => 'integer', 'description' => 'Gift card validity (days, 0 = never expires)', 'group' => 'orders'],
 
         // Fraud detection
-        'fraud_detection_enabled' => ['type' => 'boolean', 'description' => 'Automatyczne wykrywanie fraudów', 'group' => 'orders'],
-        'fraud_auto_block' => ['type' => 'boolean', 'description' => 'Automatyczne blokowanie podejrzanych zamówień', 'group' => 'orders'],
+        'fraud_detection_enabled' => ['type' => 'boolean', 'description' => 'Automatic fraud detection', 'group' => 'orders'],
+        'fraud_auto_block' => ['type' => 'boolean', 'description' => 'Block suspicious orders automatically', 'group' => 'orders'],
         // AI
-        'ai_provider' => ['type' => 'string',  'description' => 'Dostawca AI (openai/anthropic)', 'group' => 'ai'],
-        'ai_api_key' => ['type' => 'string',  'description' => 'Klucz API do generowania opisów', 'group' => 'ai'],
-        'ai_model' => ['type' => 'string',  'description' => 'Model AI (opcjonalnie)', 'group' => 'ai'],
+        'ai_provider' => ['type' => 'string',  'description' => 'AI provider (openai/anthropic)', 'group' => 'ai'],
+        'ai_api_key' => ['type' => 'string',  'description' => 'API key for generating descriptions', 'group' => 'ai'],
+        'ai_model' => ['type' => 'string',  'description' => 'AI model (optional)', 'group' => 'ai'],
         // Urgency CTA
-        'urgency_countdown_enabled' => ['type' => 'boolean', 'description' => 'Odliczanie do końca promocji/flash sale', 'group' => 'urgency'],
-        'urgency_stock_enabled' => ['type' => 'boolean', 'description' => 'Ostrzeżenie o niskim stanie magazynu', 'group' => 'urgency'],
-        'urgency_stock_threshold' => ['type' => 'integer', 'description' => 'Próg niskiego stanu (szt.)', 'group' => 'urgency'],
-        'urgency_viewers_enabled' => ['type' => 'boolean', 'description' => 'Licznik oglądających', 'group' => 'urgency'],
-        'urgency_viewers_min' => ['type' => 'integer', 'description' => 'Min. liczba oglądających (losowo)', 'group' => 'urgency'],
-        'urgency_viewers_max' => ['type' => 'integer', 'description' => 'Max. liczba oglądających (losowo)', 'group' => 'urgency'],
-        'urgency_sold_enabled' => ['type' => 'boolean', 'description' => 'Licznik sprzedanych (ostatnie 24h)', 'group' => 'urgency'],
-        'urgency_sold_min' => ['type' => 'integer', 'description' => 'Min. sprzedanych (losowo)', 'group' => 'urgency'],
-        'urgency_sold_max' => ['type' => 'integer', 'description' => 'Max. sprzedanych (losowo)', 'group' => 'urgency'],
-        'urgency_delivery_enabled' => ['type' => 'boolean', 'description' => 'Timer "zamów do X — wyślemy dziś"', 'group' => 'urgency'],
-        'urgency_delivery_cutoff' => ['type' => 'string',  'description' => 'Godzina graniczna wysyłki (np. 14:00)', 'group' => 'urgency'],
+        'urgency_countdown_enabled' => ['type' => 'boolean', 'description' => 'Countdown to the end of a promotion or flash sale', 'group' => 'urgency'],
+        'urgency_stock_enabled' => ['type' => 'boolean', 'description' => 'Low stock warning', 'group' => 'urgency'],
+        'urgency_stock_threshold' => ['type' => 'integer', 'description' => 'Low stock threshold (units)', 'group' => 'urgency'],
+        'urgency_viewers_enabled' => ['type' => 'boolean', 'description' => 'Live viewer counter', 'group' => 'urgency'],
+        'urgency_viewers_min' => ['type' => 'integer', 'description' => 'Lowest viewer count shown (randomised)', 'group' => 'urgency'],
+        'urgency_viewers_max' => ['type' => 'integer', 'description' => 'Highest viewer count shown (randomised)', 'group' => 'urgency'],
+        'urgency_sold_enabled' => ['type' => 'boolean', 'description' => 'Units sold counter (last 24h)', 'group' => 'urgency'],
+        'urgency_sold_min' => ['type' => 'integer', 'description' => 'Lowest units-sold count shown (randomised)', 'group' => 'urgency'],
+        'urgency_sold_max' => ['type' => 'integer', 'description' => 'Highest units-sold count shown (randomised)', 'group' => 'urgency'],
+        'urgency_delivery_enabled' => ['type' => 'boolean', 'description' => 'Countdown for "order by X and it ships today"', 'group' => 'urgency'],
+        'urgency_delivery_cutoff' => ['type' => 'string',  'description' => 'Same-day dispatch cut-off (e.g. 14:00)', 'group' => 'urgency'],
     ];
 
     public function index()
@@ -246,7 +246,6 @@ class SettingsController extends Controller
 
         return Inertia::render('Tenant/Manager/Settings/Index', [
             'settings' => $settings,
-            'schema' => $this->settingsSchema,
             'secretsConfigured' => $secretsConfigured,
             'products' => Product::published()->select('id', 'name')->orderBy('name')->get(),
         ]);

@@ -29,12 +29,12 @@ class CloudflareService
 
     /**
      * Dodaje rekord A dla subdomeny tenanta.
-     * Zwraca ID rekordu DNS lub null przy błędzie.
+     * Returns the DNS record ID, or null if the call failed.
      */
     public function addSubdomain(string $subdomain): ?string
     {
         if (!$this->isConfigured()) {
-            Log::info("Cloudflare: pominięto (brak konfiguracji) — subdomena: {$subdomain}");
+            Log::info("Cloudflare: skipped, nothing configured - subdomain: {$subdomain}");
 
             return null;
         }
@@ -58,7 +58,7 @@ class CloudflareService
             return $recordId;
         }
 
-        Log::error('Cloudflare: błąd dodawania rekordu DNS', [
+        Log::error('Cloudflare: could not add the DNS record', [
             'subdomain' => $name,
             'errors' => $response->json('errors'),
         ]);
@@ -79,12 +79,12 @@ class CloudflareService
             ->delete("{$this->baseUrl}/zones/{$this->zoneId}/dns_records/{$dnsRecordId}");
 
         if ($response->successful() && $response->json('success')) {
-            Log::info("Cloudflare: usunięto rekord DNS ID: {$dnsRecordId}");
+            Log::info("Cloudflare: deleted DNS record ID: {$dnsRecordId}");
 
             return true;
         }
 
-        Log::error('Cloudflare: błąd usuwania rekordu DNS', [
+        Log::error('Cloudflare: could not delete the DNS record', [
             'dns_record_id' => $dnsRecordId,
             'errors' => $response->json('errors'),
         ]);
@@ -94,7 +94,7 @@ class CloudflareService
 
     /**
      * Szuka rekordu DNS po nazwie subdomeny i usuwa go.
-     * Używane jako fallback gdy nie mamy zapisanego ID.
+     * Used as a fallback when no ID was stored.
      */
     public function removeSubdomainByName(string $subdomain): bool
     {

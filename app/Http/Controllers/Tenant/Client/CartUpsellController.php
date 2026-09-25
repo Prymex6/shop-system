@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class CartUpsellController extends Controller
 {
     /**
-     * Cross-sell suggestions for the cart sidebar ("Dodaj też:"). Reuses
+     * Cross-sell suggestions for the cart sidebar ("Add as well"). Reuses
      * ProductRecommendationService::getFrequentlyBoughtTogether(), which
      * already existed (product page only) but had no cart-page equivalent —
      * the cart itself never suggested anything beyond what's already in it.

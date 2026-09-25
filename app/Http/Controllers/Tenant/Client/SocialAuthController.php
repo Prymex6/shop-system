@@ -24,7 +24,7 @@ class SocialAuthController extends Controller
         try {
             $socialUser = Socialite::driver($provider)->user();
         } catch (\Exception $e) {
-            Log::warning('Auth[social]: błąd logowania ' . $provider, ['error' => $e->getMessage(), 'ip' => request()->ip()]);
+            Log::warning('Auth[social]: sign-in failed ' . $provider, ['error' => $e->getMessage(), 'ip' => request()->ip()]);
 
             return redirect()->route('tenant.client.login')
                 ->with('error', 'Nie udało się zalogować przez ' . ucfirst($provider) . '.');

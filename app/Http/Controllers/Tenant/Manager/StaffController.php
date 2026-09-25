@@ -122,7 +122,7 @@ class StaffController extends Controller
             return back()->withErrors(['error' => 'Nie możesz usunąć własnego konta.']);
         }
 
-        Log::info('Staff: pracownik usunięty', ['user_id' => $staff->id, 'email' => $staff->email, 'role' => $staff->role, 'manager_id' => Auth::guard('tenant')->id()]);
+        Log::info('Staff: member removed', ['user_id' => $staff->id, 'email' => $staff->email, 'role' => $staff->role, 'manager_id' => Auth::guard('tenant')->id()]);
         AuditService::log('staff.deleted', $staff, ['email' => $staff->email, 'role' => $staff->role], []);
         $staff->delete();
 

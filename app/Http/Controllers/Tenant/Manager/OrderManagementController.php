@@ -180,7 +180,7 @@ class OrderManagementController extends Controller
                     $result = $gateway->refund($order, $refundable);
                     if ($result['success'] ?? false) {
                         $order->update(['payment_status' => 'refunded']);
-                        Log::info('Order: zwrot płatności pomyślny', ['order_number' => $order->order_number, 'method' => $order->payment_method]);
+                        Log::info('Order: refund succeeded', ['order_number' => $order->order_number, 'method' => $order->payment_method]);
                     } else {
                         $order->update(['payment_status' => 'refund_failed']);
                         Log::warning('Refund failed for order ' . $order->order_number . ': ' . ($result['error'] ?? ''));
@@ -203,7 +203,7 @@ class OrderManagementController extends Controller
             try {
                 $order->load('items');
                 app(InventoryService::class)->releaseForOrder($order);
-                Log::info('Order: przywrócono stan magazynowy', ['order_number' => $order->order_number]);
+                Log::info('Order: stock returned', ['order_number' => $order->order_number]);
             } catch (\Exception $e) {
                 Log::warning('Stock restore failed: ' . $e->getMessage());
             }
@@ -229,7 +229,7 @@ class OrderManagementController extends Controller
         $old = $order->payment_status;
         $order->update(['payment_status' => $validated['payment_status']]);
 
-        Log::info('Order: zmiana statusu płatności', [
+        Log::info('Order: payment status changed', [
             'order_number' => $order->order_number,
             'old_payment_status' => $old,
             'new_payment_status' => $validated['payment_status'],

@@ -42,14 +42,14 @@ class DashboardController extends Controller
             ->tap($revenueScope)
             ->sum('total');
 
-        // Statystyki miesięczne
+        // This month
         $monthStart = Carbon::now($tz)->startOfMonth()->setTimezone('UTC');
         $monthOrders = Order::where('created_at', '>=', $monthStart)->count();
         $monthRevenue = Order::where('created_at', '>=', $monthStart)
             ->tap($revenueScope)
             ->sum('total');
 
-        // Ostatnie zamówienia
+        // The most recent orders
         $recentOrders = Order::with(['items', 'customer'])
             ->latest()
             ->limit(10)
@@ -100,7 +100,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        // Statystyki według metody płatności
+        // Broken down by payment method
         $ordersByType = Order::select('payment_method', DB::raw('count(*) as count'))
             ->where('created_at', '>=', $monthStart->copy())
             ->whereNotNull('payment_method')
@@ -108,7 +108,7 @@ class DashboardController extends Controller
             ->get()
             ->pluck('count', 'payment_method');
 
-        // Liczba produktów i kategorii
+        // How many products and categories there are
         $productsCount = Product::count();
         $categoriesCount = Category::count();
         $activeProductsCount = Product::where('is_published', true)->count();

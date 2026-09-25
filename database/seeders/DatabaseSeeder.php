@@ -11,13 +11,13 @@ class DatabaseSeeder extends Seeder
      *
      * Uruchomienie:
      *   php artisan db:seed                    → tylko central DB (plany + super admin)
-     *   php artisan tenants:seed               → TenantSeeder dla każdego aktywnego tenanta
-     *   php artisan db:seed --class=TenantSeeder (wewnątrz kontekstu tenanta)
+     *   php artisan tenants:seed               -> TenantSeeder for every active tenant
+     *   php artisan db:seed --class=TenantSeeder (inside a tenant context)
      */
     public function run(): void
     {
         // ── Central (landlord) DB ──────────────────────────────────────────────
-        // Plany subskrypcji i super admin zapisywane są do bazy centralnej.
+        // Subscription plans and the super admin go into the central database.
         $this->call(LandlordSeeder::class);
 
         $this->command->info('');

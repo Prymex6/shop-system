@@ -139,7 +139,7 @@ class PayUGateway implements PaymentGatewayInterface
                     'status' => 'confirmed',
                     'payment_data' => array_merge($paymentData, ['payu_status' => $status, 'verified_at' => now()->toDateTimeString()]),
                 ]);
-                Log::info('PayU: płatność potwierdzona', ['order_number' => $order->order_number, 'total' => $order->total]);
+                Log::info('PayU: payment confirmed', ['order_number' => $order->order_number, 'total' => $order->total]);
                 event(new OrderCreated($order->fresh()));
 
                 return true;

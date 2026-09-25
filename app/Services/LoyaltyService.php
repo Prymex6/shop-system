@@ -117,7 +117,7 @@ class LoyaltyService
             $customer->increment('loyalty_points_earned_total', $points);
             $this->updateTier($customer->fresh());
 
-            Log::info('Loyalty: punkty przyznane za zamówienie', [
+            Log::info('Loyalty: points awarded for an order', [
                 'customer_id' => $customer->id,
                 'order_number' => $order->order_number,
                 'base_points' => $basePoints,
@@ -229,7 +229,7 @@ class LoyaltyService
         ]);
         $this->updateTier($customer->fresh());
 
-        Log::info('Loyalty: punkty cofnięte (anulowanie zamówienia)', [
+        Log::info('Loyalty: points taken back (order cancelled)', [
             'customer_id' => $customer->id,
             'order_number' => $order->order_number,
             'points' => $earned->points,
@@ -389,7 +389,7 @@ class LoyaltyService
         $customer->increment('loyalty_points', $points);
         $customer->increment('loyalty_points_earned_total', $points);
         $this->updateTier($customer->fresh());
-        Log::info('Loyalty: bonus za pierwsze zamówienie', ['customer_id' => $customer->id, 'points' => $points]);
+        Log::info('Loyalty: first order bonus', ['customer_id' => $customer->id, 'points' => $points]);
     }
 
     public function awardReferralBonus(Customer $referrer): void
@@ -489,7 +489,7 @@ class LoyaltyService
         $customer->increment('loyalty_points', $points);
         $customer->increment('loyalty_points_earned_total', $points);
         $this->updateTier($customer->fresh());
-        Log::info('Loyalty: miesięczny bonus', ['customer_id' => $customer->id, 'tier' => $customer->loyalty_tier, 'points' => $points]);
+        Log::info('Loyalty: monthly bonus', ['customer_id' => $customer->id, 'tier' => $customer->loyalty_tier, 'points' => $points]);
     }
 
     // -------------------------------------------------------------------------
@@ -531,7 +531,7 @@ class LoyaltyService
             $point->update(['expires_at' => null]);
             $affected++;
 
-            Log::info('Loyalty: punkty wygasły', [
+            Log::info('Loyalty: points expired', [
                 'customer_id' => $customer->id,
                 'points' => $point->points,
                 'expired_at' => $point->created_at?->format('Y-m-d'),
@@ -539,7 +539,7 @@ class LoyaltyService
         }
 
         if ($affected > 0) {
-            Log::info("Loyalty: wygasanie punktów zakończone — {$affected} wpisów przetworzono");
+            Log::info("Loyalty: point expiry finished, {$affected} entries processed");
         }
 
         return $affected;
@@ -646,7 +646,7 @@ class LoyaltyService
 
         $this->updateTier($customer->fresh());
 
-        Log::info('Loyalty: ręczne punkty', [
+        Log::info('Loyalty: points adjusted by hand', [
             'customer_id' => $customer->id,
             'points' => $points,
             'description' => $description,

@@ -241,7 +241,7 @@ class AccountController extends Controller
         // the current one and logs out any session that's now stale.
         Auth::guard('customer')->logoutOtherDevices($validated['password']);
 
-        Log::info('Account: hasło zmienione', ['customer_id' => $customer->id]);
+        Log::info('Account: password changed', ['customer_id' => $customer->id]);
 
         return back()->with('success', __('messages.password_changed'));
     }
@@ -262,7 +262,7 @@ class AccountController extends Controller
         }
 
         $order->update(['status' => 'cancelled']);
-        Log::info('Account: zamówienie anulowane przez klienta', ['order_number' => $order->order_number, 'customer_id' => $customer->id]);
+        Log::info('Account: order cancelled by the customer', ['order_number' => $order->order_number, 'customer_id' => $customer->id]);
 
         // Restore stock for tracked products (variant-aware — a variant's own
         // stock, not the parent product's, is what checkout actually decremented)
@@ -291,7 +291,7 @@ class AccountController extends Controller
             'customer_id' => null,
         ]);
 
-        Log::info('Account: konto usunięte (GDPR)', ['customer_id' => $customer->id, 'email' => $customer->email]);
+        Log::info('Account: account deleted (GDPR)', ['customer_id' => $customer->id, 'email' => $customer->email]);
 
         Auth::guard('customer')->logout();
         $request->session()->invalidate();

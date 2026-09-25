@@ -236,7 +236,7 @@ class Przelewy24Gateway implements PaymentGatewayInterface
                     'status' => 'paid',
                     'payment_data' => array_merge($paymentData, ['p24_order_id' => $orderId, 'verified_at' => now()->toDateTimeString()]),
                 ]);
-                Log::info('P24: płatność potwierdzona', ['order_number' => $order->order_number, 'total' => $order->total]);
+                Log::info('P24: payment confirmed', ['order_number' => $order->order_number, 'total' => $order->total]);
                 event(new OrderCreated($order->fresh()));
 
                 return true;

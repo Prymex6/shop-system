@@ -30,7 +30,7 @@ class OrderStatusChanged implements ShouldBroadcast
     {
         return [
             new PrivateChannel('orders.' . tenant('id')),              // dla personelu (kuchnia, manager)
-            new Channel('order.' . $this->order->order_number),       // dla klienta na stronie śledzenia
+            new Channel('order.' . $this->order->order_number),       // for the customer watching the tracking page
         ];
     }
 
