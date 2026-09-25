@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nowe zamówienie</title>
+  <title>{{ __('mail.new_order_title') }}</title>
 </head>
 @php
   $primaryColor = \App\Models\Tenant\Setting::get('theme_primary_color', '#4f46e5');
@@ -32,7 +32,7 @@
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="background:{{ $primaryColor }};padding:28px 32px;">
-                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Nowe zamówienie!</p>
+                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">{{ __('mail.new_order_heading') }}</p>
                     <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">{{ $shopName }}</p>
                   </td>
                 </tr>
@@ -43,7 +43,7 @@
                 <tr>
                   <td style="padding:32px;">
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">Otrzymałeś nowe zamówienie.</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">{{ __('mail.new_order_body') }}</p>
                     <p style="margin:0 0 20px 0;font-size:30px;font-weight:800;color:{{ $primaryColor }};">#{{ $order->order_number }}</p>
 
                     {{-- Info box --}}
@@ -55,17 +55,17 @@
                           <strong>Telefon:</strong> {{ $order->customer_phone }}<br>
                           @endif
                           @if($order->shippingMethod)
-                          <strong>Wysyłka:</strong> {{ $order->shippingMethod->name }}<br>
+                          <strong>{{ __('mail.label_shipping') }}</strong> {{ $order->shippingMethod->name }}<br>
                           @endif
                           @php $shipAddr = collect([$order->shipping_address['street'] ?? null, trim(($order->shipping_address['postcode'] ?? '') . ' ' . ($order->shipping_address['city'] ?? '')), $order->shipping_address['country'] ?? null])->filter()->implode(', '); @endphp
                           @if($shipAddr !== '')
-                          <strong>Adres wysyłki:</strong> {{ $shipAddr }}<br>
+                          <strong>{{ __('mail.label_shipping_address') }}</strong> {{ $shipAddr }}<br>
                           @endif
-                          <strong>Płatność:</strong>
-                          @php $pmLabels = ['przelewy24'=>'Przelewy24','payu'=>'PayU','tpay'=>'Tpay','stripe'=>'Stripe','bank_transfer'=>'Przelew bankowy','cash_on_delivery'=>'Płatność przy odbiorze']; @endphp
+                          <strong>{{ __('mail.label_payment') }}</strong>
+                          @php $pmLabels = ['przelewy24'=>'Przelewy24','payu'=>'PayU','tpay'=>'Tpay','stripe'=>'Stripe','bank_transfer'=>__('mail.payment_bank_transfer'),'cash_on_delivery'=>__('mail.payment_on_delivery')]; @endphp
                           {{ $pmLabels[$order->payment_method] ?? $order->payment_method }}<br>
-                          <strong>Status płatności:</strong> {{ $order->payment_status }}<br>
-                          <strong>Złożone:</strong> {{ $order->created_at->format('d.m.Y H:i') }}
+                          <strong>{{ __('mail.label_payment_status') }}</strong> {{ $order->payment_status }}<br>
+                          <strong>{{ __('mail.label_placed_at') }}</strong> {{ $order->created_at->format('d.m.Y H:i') }}
                         </td>
                       </tr>
                     </table>
@@ -75,7 +75,7 @@
                       <thead>
                         <tr>
                           <th style="background:#f3f4f6;padding:9px 10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;font-weight:600;">Produkt</th>
-                          <th style="background:#f3f4f6;padding:9px 10px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;font-weight:600;">Ilość</th>
+                          <th style="background:#f3f4f6;padding:9px 10px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;font-weight:600;">{{ __('mail.label_quantity') }}</th>
                           <th style="background:#f3f4f6;padding:9px 10px;text-align:right;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;font-weight:600;">Cena</th>
                         </tr>
                       </thead>
@@ -87,24 +87,24 @@
                             @if($item->variant_name)<br><span style="font-size:12px;color:#6b7280;">{{ $item->variant_name }}</span>@endif
                           </td>
                           <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:center;">{{ $item->quantity }}×</td>
-                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;">{{ number_format($item->price * $item->quantity, 2, ',', ' ') }} zł</td>
+                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;">@money($item->price * $item->quantity, $order->currency ?? 'PLN')</td>
                         </tr>
                         @endforeach
                         @if($order->shipping_cost > 0)
                         <tr>
-                          <td colspan="2" style="padding:10px;border-bottom:1px solid #f3f4f6;color:#6b7280;">Wysyłka</td>
-                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;color:#6b7280;">{{ number_format($order->shipping_cost, 2, ',', ' ') }} zł</td>
+                          <td colspan="2" style="padding:10px;border-bottom:1px solid #f3f4f6;color:#6b7280;">{{ __('mail.table_shipping') }}</td>
+                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;color:#6b7280;">@money($order->shipping_cost, $order->currency ?? 'PLN')</td>
                         </tr>
                         @endif
                         @if($order->discount > 0)
                         <tr>
                           <td colspan="2" style="padding:10px;border-bottom:1px solid #f3f4f6;color:#16a34a;">Rabat</td>
-                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;color:#16a34a;">−{{ number_format($order->discount, 2, ',', ' ') }} zł</td>
+                          <td style="padding:10px;border-bottom:1px solid #f3f4f6;text-align:right;color:#16a34a;">−@money($order->discount, $order->currency ?? 'PLN')</td>
                         </tr>
                         @endif
                         <tr>
                           <td colspan="2" style="padding:14px 10px 10px 10px;font-weight:700;font-size:17px;">RAZEM</td>
-                          <td style="padding:14px 10px 10px 10px;font-weight:700;font-size:17px;text-align:right;color:{{ $primaryColor }};">{{ number_format($order->total, 2, ',', ' ') }} zł</td>
+                          <td style="padding:14px 10px 10px 10px;font-weight:700;font-size:17px;text-align:right;color:{{ $primaryColor }};">@money($order->total, $order->currency ?? 'PLN')</td>
                         </tr>
                       </tbody>
                     </table>
@@ -123,7 +123,7 @@
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td>
-                          <a href="{{ $adminUrl }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">Zarządzaj zamówieniami</a>
+                          <a href="{{ $adminUrl }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">{{ __('mail.manage_orders_button') }}</a>
                         </td>
                       </tr>
                     </table>
@@ -138,7 +138,7 @@
           {{-- Footer --}}
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-              &copy; {{ date('Y') }} {{ $shopName }}. Wiadomość wysłana automatycznie &mdash; nie odpowiadaj na ten e-mail.
+              &copy; {{ date('Y') }} {{ $shopName }}. {{ __('mail.footer_automatic') }}
             </td>
           </tr>
 

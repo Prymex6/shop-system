@@ -29,8 +29,8 @@
                 <tr>
                   <td align="center" style="background:{{ $primaryColor }};padding:28px 32px;">
                     <p style="margin:0 0 4px 0;font-size:24px;">📥</p>
-                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Twoje pliki są gotowe!</p>
-                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">Zamówienie #{{ $order->order_number }}</p>
+                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">{{ __('mail.downloads_ready') }}</p>
+                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">{{ __('mail.order_number_label', ['number' => $order->order_number]) }}</p>
                   </td>
                 </tr>
               </table>
@@ -39,9 +39,9 @@
                 <tr>
                   <td style="padding:32px;">
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">Cześć, <strong>{{ $order->customer_name }}</strong>!</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">{!! __('mail.greeting_named', ['name' => '<strong>' . e($order->customer_name) . '</strong>']) !!}</p>
                     <p style="margin:0 0 24px 0;font-size:14px;color:#6b7280;line-height:1.7;">
-                      Twoja płatność została potwierdzona. Poniżej znajdziesz linki do pobrania zakupionych plików.
+                      {{ __('mail.downloads_body') }}
                     </p>
 
                     @foreach($downloadLinks as $link)
@@ -58,7 +58,7 @@
                           <p style="margin:0 0 8px 0;font-size:12px;color:#9ca3af;">Wygasa: {{ $link->expires_at->format('d.m.Y H:i') }}</p>
                           @endif
                           @if($link->download_limit)
-                          <p style="margin:0 0 8px 0;font-size:12px;color:#9ca3af;">Limit pobrań: {{ $link->download_limit }}</p>
+                          <p style="margin:0 0 8px 0;font-size:12px;color:#9ca3af;">{{ __('mail.download_limit', ['limit' => $link->download_limit]) }}</p>
                           @endif
                           <a href="{{ url('/pobieranie/' . $link->token) }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:9px 20px;border-radius:6px;font-weight:600;font-size:13px;">Pobierz plik</a>
                         </td>
@@ -67,7 +67,7 @@
                     @endforeach
 
                     <p style="margin:24px 0 0 0;font-size:13px;color:#6b7280;line-height:1.6;">
-                      Wszystkie pobrane pliki znajdziesz również na swoim
+                      {{ __('mail.downloads_also_on_account') }}
                       <a href="{{ url('/moje-konto/pobrane') }}" style="color:{{ $primaryColor }};text-decoration:none;font-weight:600;">koncie klienta</a>.
                     </p>
 
@@ -80,7 +80,7 @@
 
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;">
-              &copy; {{ date('Y') }} {{ $shopName }} &middot; Dziękujemy za zakup!
+              &copy; {{ date('Y') }} {{ $shopName }} &middot; {{ __('mail.footer_thanks_purchase') }}
             </td>
           </tr>
 

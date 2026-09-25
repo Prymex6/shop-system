@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Awans w programie lojalnościowym</title>
+  <title>{{ __('mail.tier_upgrade_title') }}</title>
 </head>
 @php
   $primaryColor = \App\Models\Tenant\Setting::get('theme_primary_color', '#4f46e5');
@@ -21,7 +21,7 @@
           <tr>
             <td align="center" style="padding:0 0 24px 0;">
               <p style="margin:0 0 4px 0;font-size:22px;font-weight:700;color:{{ $primaryColor }};">{{ $shopName }}</p>
-              <p style="margin:0;font-size:13px;color:#6b7280;">Program Lojalnościowy</p>
+              <p style="margin:0;font-size:13px;color:#6b7280;">{{ __('mail.loyalty_kicker') }}</p>
             </td>
           </tr>
 
@@ -44,7 +44,7 @@
                 <tr>
                   <td style="padding:32px;text-align:center;">
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;line-height:1.7;">Osiągnąłeś nowy poziom w programie lojalnościowym!</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;line-height:1.7;">{{ __('mail.tier_upgrade_body') }}</p>
 
                     {{-- Tier badge --}}
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
@@ -55,34 +55,36 @@
                       </tr>
                     </table>
 
-                    <p style="margin:0 0 20px 0;font-size:15px;color:#374151;line-height:1.7;">Twoja lojalność została doceniona. Ciesz się nowymi przywilejami!</p>
+                    <p style="margin:0 0 20px 0;font-size:15px;color:#374151;line-height:1.7;">{{ __('mail.tier_upgrade_enjoy') }}</p>
 
                     {{-- Perks box --}}
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
                       <tr>
                         <td style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:18px 20px;text-align:left;font-size:14px;line-height:1.9;color:#374151;">
                           @if(!empty($tierConfig['multiplier']) && $tierConfig['multiplier'] > 1)
-                          <div style="margin-bottom:4px;">&#10024; <strong style="color:{{ $tierColor }};">Mnożnik punktów:</strong> &times;{{ number_format($tierConfig['multiplier'], 2) }}</div>
+                          <div style="margin-bottom:4px;">&#10024; <strong style="color:{{ $tierColor }};">{{ __('mail.tier_multiplier') }}</strong> &times;{{ number_format($tierConfig['multiplier'], 2) }}</div>
                           @endif
                           @if(!empty($tierConfig['monthly_bonus']) && $tierConfig['monthly_bonus'] > 0)
-                          <div style="margin-bottom:4px;">🎁 <strong style="color:{{ $tierColor }};">Miesięczny bonus:</strong> {{ $tierConfig['monthly_bonus'] }} punktów</div>
+                          <div style="margin-bottom:4px;">🎁 <strong style="color:{{ $tierColor }};">{{ __('mail.tier_monthly_bonus') }}</strong> {{ __('mail.points_count', ['count' => $tierConfig['monthly_bonus']]) }}</div>
                           @endif
                           @if(!empty($tierConfig['delivery_bonus']) && $tierConfig['delivery_bonus'] >= 999)
-                          <div style="margin-bottom:4px;">🚚 <strong style="color:{{ $tierColor }};">Darmowa dostawa</strong> przy każdym zamówieniu</div>
+                          <div style="margin-bottom:4px;">🚚 <strong style="color:{{ $tierColor }};">{{ __('mail.tier_free_delivery') }}</strong> {{ __('mail.tier_free_delivery_note') }}</div>
                           @elseif(!empty($tierConfig['delivery_bonus']) && $tierConfig['delivery_bonus'] > 0)
-                          <div style="margin-bottom:4px;">🚚 <strong style="color:{{ $tierColor }};">Zniżka na dostawę:</strong> {{ $tierConfig['delivery_bonus'] }} PLN</div>
+                          <div style="margin-bottom:4px;">🚚 <strong style="color:{{ $tierColor }};">{{ __('mail.tier_delivery_discount') }}</strong> {{ $tierConfig['delivery_bonus'] }} PLN</div>
                           @endif
                         </td>
                       </tr>
                     </table>
 
-                    <p style="margin:0 0 20px 0;font-size:13px;color:#6b7280;">Aktualny stan punktów: <strong style="color:{{ $tierColor }};">{{ $customer->loyalty_points }} pkt</strong></p>
+                    <p style="margin:0 0 20px 0;font-size:13px;color:#6b7280;">{!! __('mail.tier_points_now', [
+                        'balance' => '<strong style="color:' . e($tierColor) . ';">' . __('mail.points_short', ['count' => $customer->loyalty_points]) . '</strong>',
+                    ]) !!}</p>
 
                     {{-- Button --}}
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center">
-                          <a href="{{ url('/moje-konto') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">Sprawdź swoje konto</a>
+                          <a href="{{ url('/moje-konto') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">{{ __('mail.tier_button') }}</a>
                         </td>
                       </tr>
                     </table>
@@ -97,7 +99,7 @@
           {{-- Footer --}}
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-              &copy; {{ date('Y') }} {{ $shopName }} &middot; Dziękujemy za lojalność!
+              &copy; {{ date('Y') }} {{ $shopName }} &middot; {{ __('mail.footer_thanks_loyalty') }}
             </td>
           </tr>
 

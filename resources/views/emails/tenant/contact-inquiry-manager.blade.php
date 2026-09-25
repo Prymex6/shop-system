@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nowa wiadomość kontaktowa</title>
+  <title>{{ __('mail.enquiry_title') }}</title>
 </head>
 @php
   $primaryColor = \App\Models\Tenant\Setting::get('theme_primary_color', '#4f46e5');
@@ -32,8 +32,8 @@
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="background:{{ $primaryColor }};padding:28px 32px;">
-                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Nowa wiadomość kontaktowa</p>
-                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">Ktoś napisał do Ciebie przez stronę</p>
+                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">{{ __('mail.enquiry_title') }}</p>
+                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">{{ __('mail.enquiry_subtitle') }}</p>
                   </td>
                 </tr>
               </table>
@@ -47,7 +47,7 @@
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
                       <tr>
                         <td style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 16px;font-size:14px;line-height:1.7;color:#374151;">
-                          <strong>Imię i nazwisko:</strong> {{ $senderName }}<br>
+                          <strong>{{ __('mail.label_full_name') }}</strong> {{ $senderName }}<br>
                           <strong>Adres e-mail:</strong>
                           <a href="mailto:{{ $senderEmail }}" style="color:{{ $primaryColor }};text-decoration:none;">{{ $senderEmail }}</a>
                         </td>
@@ -55,7 +55,7 @@
                     </table>
 
                     {{-- Message --}}
-                    <p style="margin:0 0 8px 0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;">Treść wiadomości</p>
+                    <p style="margin:0 0 8px 0;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;">{{ __('mail.enquiry_body_heading') }}</p>
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                       <tr>
                         <td style="background:#f9fafb;border-left:4px solid {{ $primaryColor }};border-radius:0 8px 8px 0;padding:14px 16px;font-size:14px;line-height:1.8;color:#374151;">
@@ -68,7 +68,7 @@
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td>
-                          <a href="mailto:{{ $senderEmail }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">Odpowiedz na wiadomość</a>
+                          <a href="mailto:{{ $senderEmail }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">{{ __('mail.enquiry_reply') }}</a>
                         </td>
                       </tr>
                     </table>
@@ -83,7 +83,7 @@
           {{-- Footer --}}
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-              &copy; {{ date('Y') }} {{ $shopName }} &middot; Wiadomość wysłana przez formularz kontaktowy
+              &copy; {{ date('Y') }} {{ $shopName }} &middot; {{ __('mail.footer_contact_form') }}
             </td>
           </tr>
 

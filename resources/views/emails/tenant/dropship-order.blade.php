@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Zamówienie dropship #{{ $order->order_number }}</title>
+    <title>{{ __('mail.dropship_title', ['number' => $order->order_number]) }}</title>
     <style>
         body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -17,15 +17,15 @@
 </head>
 <body>
 <div class="container">
-    <h2>Zamówienie dropship #{{ $order->order_number }}</h2>
-    <p>Dzień dobry {{ $supplier->name }},</p>
-    <p>Prosimy o realizację poniższego zamówienia dropshippingowego (PO #{{ $purchaseOrder->id }}).</p>
+    <h2>{{ __('mail.dropship_title', ['number' => $order->order_number]) }}</h2>
+    <p>{{ __('mail.dropship_greeting', ['name' => $supplier->name]) }}</p>
+    <p>{{ __('mail.dropship_request', ['po' => $purchaseOrder->id]) }}</p>
 
     <table>
         <thead>
             <tr>
                 <th>Produkt</th>
-                <th>Ilość</th>
+                <th>{{ __('mail.label_quantity') }}</th>
                 <th>Cena jedn.</th>
                 <th>Razem</th>
             </tr>
@@ -42,7 +42,7 @@
         </tbody>
     </table>
 
-    <p class="total">Łącznie: {{ number_format($purchaseOrder->total, 2, ',', ' ') }} PLN</p>
+    <p class="total">{{ __('mail.dropship_total_label') }} @money($purchaseOrder->total, $order->currency ?? 'PLN')</p>
 
     <div class="address">
         <strong>Adres dostawy do klienta:</strong><br>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="footer">
-        <p>To jest automatyczna wiadomość wygenerowana przez system sprzedaży. W razie pytań prosimy o kontakt.</p>
+        <p>{{ __('mail.dropship_footer') }}</p>
     </div>
 </div>
 </body>

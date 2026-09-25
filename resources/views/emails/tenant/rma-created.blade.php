@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zgłoszenie zwrotu</title>
+  <title>{{ __('mail.rma_title') }}</title>
 </head>
 @php
   $primaryColor = \App\Models\Tenant\Setting::get('theme_primary_color', '#4f46e5');
@@ -20,7 +20,7 @@
           <tr>
             <td align="center" style="padding:0 0 24px 0;">
               <p style="margin:0 0 4px 0;font-size:22px;font-weight:700;color:{{ $primaryColor }};">{{ $shopName }}</p>
-              <p style="margin:0;font-size:13px;color:#6b7280;">Obsługa zwrotów</p>
+              <p style="margin:0;font-size:13px;color:#6b7280;">{{ __('mail.rma_kicker') }}</p>
             </td>
           </tr>
 
@@ -33,7 +33,7 @@
                 <tr>
                   <td align="center" style="background:{{ $primaryColor }};padding:28px 32px;">
                     <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Zwrot zarejestrowany</p>
-                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">Numer zgłoszenia: {{ $rma->rma_number }}</p>
+                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">{{ __('mail.rma_number_label', ['number' => $rma->rma_number]) }}</p>
                   </td>
                 </tr>
               </table>
@@ -43,20 +43,22 @@
                 <tr>
                   <td>
                     <p style="margin:0 0 16px 0;font-size:15px;line-height:1.6;">
-                      Cześć, <strong>{{ $rma->customer_name }}</strong>!
+                      {!! __('mail.greeting_named', ['name' => '<strong>' . e($rma->customer_name) . '</strong>']) !!}
                     </p>
                     <p style="margin:0 0 16px 0;font-size:15px;line-height:1.6;">
-                      Twoje zgłoszenie zwrotu dla zamówienia <strong>#{{ $order->order_number }}</strong> zostało przyjęte przez nasz system.
+                      {!! __('mail.rma_body', [
+                          'order' => '<strong>#' . e($order->order_number) . '</strong>',
+                      ]) !!}
                     </p>
 
                     {{-- RMA Details --}}
                     <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:8px;padding:16px;margin:0 0 20px 0;">
                       <tr>
-                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">Numer zgłoszenia:</td>
+                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">{{ __('mail.rma_number_row') }}</td>
                         <td style="padding:4px 0;font-size:14px;font-weight:600;text-align:right;">{{ $rma->rma_number }}</td>
                       </tr>
                       <tr>
-                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">Zamówienie:</td>
+                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">{{ __('mail.rma_order_row') }}</td>
                         <td style="padding:4px 0;font-size:14px;text-align:right;">#{{ $order->order_number }}</td>
                       </tr>
                       <tr>
@@ -64,17 +66,19 @@
                         <td style="padding:4px 0;font-size:14px;text-align:right;">Oczekuje na rozpatrzenie</td>
                       </tr>
                       <tr>
-                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">Powód zwrotu:</td>
+                        <td style="padding:4px 0;font-size:14px;color:#6b7280;">{{ __('mail.rma_reason_row') }}</td>
                         <td style="padding:4px 0;font-size:14px;text-align:right;">{{ $rma->reason }}</td>
                       </tr>
                     </table>
 
                     <p style="margin:0 0 16px 0;font-size:14px;line-height:1.6;color:#6b7280;">
-                      Nasz zespół rozpatrzy Twoje zgłoszenie w ciągu 2-5 dni roboczych. Otrzymasz wiadomość email z dalszymi instrukcjami.
+                      {{ __('mail.rma_next') }}
                     </p>
 
                     <p style="margin:0;font-size:14px;line-height:1.6;color:#6b7280;">
-                      Jeśli masz pytania, skontaktuj się z nami podając numer zgłoszenia: <strong>{{ $rma->rma_number }}</strong>.
+                      {!! __('mail.rma_quote_number', [
+                          'number' => '<strong>' . e($rma->rma_number) . '</strong>',
+                      ]) !!}
                     </p>
                   </td>
                 </tr>
@@ -84,7 +88,7 @@
               <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e7eb;padding:20px 32px;">
                 <tr>
                   <td align="center" style="font-size:12px;color:#9ca3af;">
-                    © {{ date('Y') }} {{ $shopName }}. Wszystkie prawa zastrzeżone.
+                    © {{ date('Y') }} {{ $shopName }}. {{ __('mail.footer_all_rights') }}
                   </td>
                 </tr>
               </table>

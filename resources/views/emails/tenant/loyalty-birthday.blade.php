@@ -20,7 +20,7 @@
           <tr>
             <td align="center" style="padding:0 0 24px 0;">
               <p style="margin:0 0 4px 0;font-size:22px;font-weight:700;color:{{ $primaryColor }};">{{ $shopName }}</p>
-              <p style="margin:0;font-size:13px;color:#6b7280;">Program Lojalnościowy</p>
+              <p style="margin:0;font-size:13px;color:#6b7280;">{{ __('mail.loyalty_kicker') }}</p>
             </td>
           </tr>
 
@@ -45,20 +45,22 @@
 
                     <p style="margin:0 0 16px 0;font-size:64px;line-height:1;">🎂</p>
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;line-height:1.7;">Cześć, <strong>{{ $customer->name }}</strong>!</p>
-                    <p style="margin:0 0 20px 0;font-size:15px;color:#374151;line-height:1.7;">Z okazji Twoich urodzin chcemy sprawić Ci radość. Dlatego dodaliśmy do Twojego konta specjalny bonus!</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;line-height:1.7;">{!! __('mail.greeting_named', ['name' => '<strong>' . e($customer->name) . '</strong>']) !!}</p>
+                    <p style="margin:0 0 20px 0;font-size:15px;color:#374151;line-height:1.7;">{{ __('mail.birthday_body') }}</p>
 
                     <p style="margin:0 0 16px 0;font-size:40px;font-weight:800;color:{{ $primaryColor }};">+{{ $bonusPoints }} pkt</p>
 
-                    <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;line-height:1.7;">Punkty zostały automatycznie doliczone do Twojego salda.<br>Aktualnie masz: <strong style="color:{{ $primaryColor }};">{{ $customer->loyalty_points }} punktów</strong></p>
+                    <p style="margin:0 0 16px 0;font-size:13px;color:#6b7280;line-height:1.7;">{!! __('mail.points_added_balance', [
+                        'balance' => '<strong style="color:' . e($primaryColor) . ';">' . __('mail.points_count', ['count' => $customer->loyalty_points]) . '</strong>',
+                    ]) !!}</p>
 
-                    <p style="margin:0 0 24px 0;font-size:15px;color:#374151;line-height:1.7;">W tym miesiącu urodzinowym każde Twoje zamówienie zbiera punkty w podwójnej wysokości!</p>
+                    <p style="margin:0 0 24px 0;font-size:15px;color:#374151;line-height:1.7;">{{ __('mail.birthday_double_points') }}</p>
 
                     {{-- Button --}}
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center">
-                          <a href="{{ url('/zamow') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">Zamów i zbieraj punkty x2</a>
+                          <a href="{{ url('/zamow') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:13px 28px;border-radius:7px;font-weight:700;font-size:15px;">{{ __('mail.birthday_button') }}</a>
                         </td>
                       </tr>
                     </table>
@@ -73,7 +75,7 @@
           {{-- Footer --}}
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-              &copy; {{ date('Y') }} {{ $shopName }} &middot; Program Lojalnościowy
+              &copy; {{ date('Y') }} {{ $shopName }} &middot; {{ __('mail.footer_loyalty') }}
             </td>
           </tr>
 

@@ -40,7 +40,7 @@
                   <td style="padding:32px;">
 
                     <p style="margin:0 0 24px 0;font-size:14px;color:#6b7280;line-height:1.7;">
-                      Stan magazynowy poniższego produktu jest niski i wymaga uzupełnienia.
+                      {{ __('mail.low_stock_body') }}
                     </p>
 
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
@@ -62,7 +62,7 @@
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td>
-                          <a href="{{ url('/panel/magazyn') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:11px 24px;border-radius:7px;font-weight:600;font-size:14px;">Przejdź do magazynu</a>
+                          <a href="{{ url('/panel/magazyn') }}" style="display:inline-block;background:{{ $primaryColor }};color:#ffffff;text-decoration:none;padding:11px 24px;border-radius:7px;font-weight:600;font-size:14px;">{{ __('mail.low_stock_button') }}</a>
                         </td>
                       </tr>
                     </table>

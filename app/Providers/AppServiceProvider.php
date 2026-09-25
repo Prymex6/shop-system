@@ -14,6 +14,7 @@ use App\Listeners\SendPushNotificationOnOrder;
 use App\Listeners\SendShippingNotificationSms;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
@@ -99,6 +100,15 @@ class AppServiceProvider extends ServiceProvider
                 'job' => $event->job->resolveName(),
                 'exception' => $event->exception->getMessage(),
             ]);
+        });
+
+        // Emails and the PDF invoice printed every amount as "zl" regardless
+        // of what the shop actually sells in, and a shop can be set to EUR,
+        // USD, GBP or CZK. @money takes the amount and the currency, which
+        // for an order is the currency that order was placed in rather than
+        // whatever the setting says today.
+        Blade::directive('money', function (string $expression) {
+            return "<?php echo e(\App\Support\Money::format({$expression})); ?>";
         });
     }
 }

@@ -31,7 +31,7 @@
                   <td align="center" style="background:#16a34a;padding:28px 32px;">
                     <p style="margin:0 0 4px 0;font-size:24px;">✅</p>
                     <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Zwrot przetworzony</p>
-                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">Zamówienie #{{ $order->order_number ?? '' }}</p>
+                    <p style="margin:0;font-size:13px;color:#ffffff;opacity:.85;">{{ __('mail.order_number_label', ['number' => $order->order_number ?? '']) }}</p>
                   </td>
                 </tr>
               </table>
@@ -40,26 +40,26 @@
                 <tr>
                   <td style="padding:32px;">
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">Cześć, <strong>{{ $order->customer_name ?? '' }}</strong>!</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">{!! __('mail.greeting_named', ['name' => '<strong>' . e($order->customer_name ?? '') . '</strong>']) !!}</p>
                     <p style="margin:0 0 24px 0;font-size:14px;color:#6b7280;line-height:1.7;">
-                      Twój wniosek o zwrot został przetworzony. Poniżej znajdziesz szczegóły.
+                      {{ __('mail.refund_body') }}
                     </p>
 
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                       <tr>
                         <td style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;font-size:14px;line-height:1.9;color:#374151;">
                           <strong>Kwota zwrotu:</strong>
-                          <span style="font-size:18px;font-weight:700;color:#16a34a;">{{ number_format($refund->amount, 2, ',', ' ') }} zł</span><br>
+                          <span style="font-size:18px;font-weight:700;color:#16a34a;">@money($refund->amount, $order->currency ?? 'PLN')</span><br>
                           @if($refund->reason)
-                          <strong>Powód:</strong> {{ $refund->reason }}<br>
+                          <strong>{{ __('mail.label_reason') }}</strong> {{ $refund->reason }}<br>
                           @endif
-                          <strong>Status:</strong> <span style="color:#16a34a;font-weight:600;">Zakończony</span>
+                          <strong>{{ __('mail.label_status') }}</strong> <span style="color:#16a34a;font-weight:600;">{{ __('mail.refund_done') }}</span>
                         </td>
                       </tr>
                     </table>
 
                     <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.6;">
-                      Środki zostaną zwrócone na Twoje konto w ciągu 3–5 dni roboczych, w zależności od Twojego banku.
+                      {{ __('mail.refund_timing') }}
                     </p>
 
                   </td>

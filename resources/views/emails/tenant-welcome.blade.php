@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Twój sklep jest gotowy!</title>
+  <title>{{ __('mail.shop_ready_title') }}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#111827;">
 
@@ -16,7 +16,7 @@
           <tr>
             <td align="center" style="padding:0 0 24px 0;">
               <p style="margin:0 0 4px 0;font-size:22px;font-weight:700;color:#1e40af;">{{ config('app.name') }}</p>
-              <p style="margin:0;font-size:13px;color:#6b7280;">System zarządzania sklepem</p>
+              <p style="margin:0;font-size:13px;color:#6b7280;">{{ __('mail.shop_management_kicker') }}</p>
             </td>
           </tr>
 
@@ -28,7 +28,7 @@
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="background:#1e40af;padding:28px 32px;">
-                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">Twój sklep jest gotowy!</p>
+                    <p style="margin:0 0 6px 0;font-size:20px;font-weight:700;color:#ffffff;">{{ __('mail.shop_ready_title') }}</p>
                     <p style="margin:0;font-size:13px;color:#bfdbfe;">{{ config('app.name') }}</p>
                   </td>
                 </tr>
@@ -39,9 +39,11 @@
                 <tr>
                   <td style="padding:32px;">
 
-                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">Cześć <strong>{{ $ownerName }}</strong>,</p>
+                    <p style="margin:0 0 16px 0;font-size:15px;color:#374151;">{!! __('mail.greeting_comma', ['name' => '<strong>' . e($ownerName) . '</strong>']) !!}</p>
                     <p style="margin:0 0 20px 0;font-size:14px;color:#6b7280;line-height:1.7;">
-                      Konto dla sklepu <strong style="color:#374151;">{{ $shopName }}</strong> zostało utworzone. Możesz już się zalogować i zacząć konfigurować swój panel.
+                      {!! __('mail.shop_account_created', [
+                          'shop' => '<strong style="color:#374151;">' . e($shopName) . '</strong>',
+                      ]) !!}
                     </p>
 
                     {{-- Credentials box --}}
@@ -50,8 +52,8 @@
                         <td style="background:#ffffff;border:1px solid #d1d5db;border-radius:8px;padding:20px;">
                           <p style="margin:0 0 12px 0;font-size:15px;font-weight:700;color:#111827;">Twoje dane logowania</p>
                           <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Login:</strong> {{ $email }}</p>
-                          <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>Hasło:</strong> {{ $password }}</p>
-                          <p style="margin:0;font-size:13px;color:#ef4444;">Zmień hasło po pierwszym logowaniu!</p>
+                          <p style="margin:0 0 8px 0;font-size:14px;color:#374151;"><strong>{{ __('mail.label_password') }}</strong> {{ $password }}</p>
+                          <p style="margin:0;font-size:13px;color:#ef4444;">{{ __('mail.change_password_first') }}</p>
                         </td>
                       </tr>
                     </table>
@@ -60,14 +62,14 @@
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                       <tr>
                         <td align="center">
-                          <a href="{{ $loginUrl }}" style="display:inline-block;background:#1e40af;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:8px;font-weight:700;font-size:15px;">Przejdź do panelu &rarr;</a>
+                          <a href="{{ $loginUrl }}" style="display:inline-block;background:#1e40af;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:8px;font-weight:700;font-size:15px;">{{ __('mail.go_to_panel') }}</a>
                         </td>
                       </tr>
                     </table>
 
-                    <p style="margin:0 0 8px 0;font-size:14px;color:#6b7280;line-height:1.7;">Jeśli masz pytania, skontaktuj się z nami odpowiadając na tę wiadomość.</p>
+                    <p style="margin:0 0 8px 0;font-size:14px;color:#6b7280;line-height:1.7;">{{ __('mail.reply_with_questions') }}</p>
                     <p style="margin:0 0 8px 0;font-size:14px;color:#6b7280;">Powodzenia!</p>
-                    <p style="margin:0;font-size:14px;color:#6b7280;"><em>Zespół {{ config('app.name') }}</em></p>
+                    <p style="margin:0;font-size:14px;color:#6b7280;"><em>{{ __('mail.team_signature', ['app' => config('app.name')]) }}</em></p>
 
                   </td>
                 </tr>
@@ -79,7 +81,7 @@
           {{-- Footer --}}
           <tr>
             <td align="center" style="padding:24px 0 0 0;font-size:12px;color:#9ca3af;line-height:1.6;">
-              {{ config('app.name') }} &ndash; System zarządzania sklepem
+              {{ config('app.name') }} &ndash; {{ __('mail.shop_management_kicker') }}
             </td>
           </tr>
 

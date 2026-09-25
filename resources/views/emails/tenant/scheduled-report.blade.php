@@ -46,13 +46,13 @@
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                       <tr>
                         <td style="width:50%;padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;text-align:center;">
-                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">Zamówienia</p>
+                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">{{ __('mail.report_orders') }}</p>
                           <p style="margin:0;font-size:28px;font-weight:800;color:{{ $primaryColor }};">{{ $stats['orders_count'] ?? 0 }}</p>
                         </td>
                         <td style="width:16px;"></td>
                         <td style="width:50%;padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;text-align:center;">
-                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">Przychód</p>
-                          <p style="margin:0;font-size:28px;font-weight:800;color:#16a34a;">{{ number_format($stats['revenue'] ?? 0, 2, ',', ' ') }} zł</p>
+                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">{{ __('mail.report_revenue') }}</p>
+                          <p style="margin:0;font-size:28px;font-weight:800;color:#16a34a;">@money($stats['revenue'] ?? 0, $currency ?? 'PLN')</p>
                         </td>
                       </tr>
                     </table>
@@ -65,8 +65,8 @@
                         </td>
                         <td style="width:16px;"></td>
                         <td style="width:50%;padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;text-align:center;">
-                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">Śr. wartość</p>
-                          <p style="margin:0;font-size:28px;font-weight:800;color:#374151;">{{ number_format($stats['avg_order_value'] ?? 0, 2, ',', ' ') }} zł</p>
+                          <p style="margin:0 0 4px 0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;">{{ __('mail.report_average') }}</p>
+                          <p style="margin:0;font-size:28px;font-weight:800;color:#374151;">@money($stats['avg_order_value'] ?? 0, $currency ?? 'PLN')</p>
                         </td>
                       </tr>
                     </table>
