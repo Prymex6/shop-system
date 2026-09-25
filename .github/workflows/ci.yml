@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Prepare environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
       - name: Check formatting
         run: composer run lint
 

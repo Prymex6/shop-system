@@ -79,8 +79,9 @@ export default [
   },
 
   {
-    // Build configuration and the E2E suite run in Node, not a browser.
-    files: ['*.config.js', '*.config.ts', 'tests/e2e/**/*.ts', 'tests/e2e/**/*.js'],
+    // Build configuration, the maintenance scripts and the E2E suite run
+    // in Node, not a browser.
+    files: ['*.config.js', '*.config.ts', 'tools/**/*.mjs', 'tests/e2e/**/*.ts', 'tests/e2e/**/*.js'],
     languageOptions: {
       globals: { ...globals.node },
     },
