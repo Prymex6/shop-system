@@ -72,7 +72,7 @@ class PageBuilderController extends Controller
 
         if (Page::where('slug', $data['slug'])->exists()) {
             throw ValidationException::withMessages([
-                'slug' => ['Strona o tym adresie URL już istnieje.'],
+                'slug' => [__('messages.page_url_taken')],
             ]);
         }
 

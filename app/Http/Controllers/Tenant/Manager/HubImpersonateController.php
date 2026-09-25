@@ -21,7 +21,7 @@ class HubImpersonateController extends Controller
     public function handle(Request $request, string $token)
     {
         if (!DB::connection('central')->getSchemaBuilder()->hasTable('hub_impersonation_tokens')) {
-            abort(403, 'Brak tokenów impersonacji.');
+            abort(403, __('messages.impersonation_no_tokens'));
         }
 
         $row = DB::connection('central')->table('hub_impersonation_tokens')
@@ -29,11 +29,11 @@ class HubImpersonateController extends Controller
             ->first();
 
         if (!$row || now()->greaterThan($row->expires_at)) {
-            abort(403, 'Token impersonacji wygasł lub jest nieprawidłowy.');
+            abort(403, __('messages.impersonation_token_expired'));
         }
 
         if ((string) $row->tenant_id !== (string) tenant('id')) {
-            abort(403, 'Token nie należy do tego tenanta.');
+            abort(403, __('messages.impersonation_wrong_tenant'));
         }
 
         DB::connection('central')->table('hub_impersonation_tokens')->where('token', $token)->delete();
@@ -41,7 +41,7 @@ class HubImpersonateController extends Controller
         $user = User::find($row->user_id);
 
         if (!$user) {
-            abort(403, 'Nie znaleziono użytkownika.');
+            abort(403, __('messages.user_not_found'));
         }
 
         Auth::guard('tenant')->login($user);

@@ -115,9 +115,9 @@ class TwoFactorController extends Controller
         try {
             $shopName = Setting::get('shop_name', config('app.name'));
             Mail::raw(
-                "Twój kod weryfikacyjny 2FA to: {$code}\n\nKod jest ważny przez 10 minut.\n\n{$shopName}",
+                __('messages.two_factor_code_body', ['code' => $code, 'shop' => $shopName]),
                 function ($message) use ($user, $shopName) {
-                    $message->to($user->email)->subject("Kod weryfikacyjny 2FA — {$shopName}");
+                    $message->to($user->email)->subject(__('messages.two_factor_code_subject', ['shop' => $shopName]));
                 }
             );
         } catch (\Throwable $e) {
@@ -140,13 +140,13 @@ class TwoFactorController extends Controller
         $userId = $request->session()->get('2fa_user_id');
 
         if (!$userId) {
-            return back()->withErrors(['code' => 'Sesja wygasła. Zaloguj się ponownie.']);
+            return back()->withErrors(['code' => __('messages.session_expired_sign_in')]);
         }
 
         $user = User::find($userId);
 
         if (!$user) {
-            return back()->withErrors(['code' => 'Użytkownik nie istnieje.']);
+            return back()->withErrors(['code' => __('messages.user_not_found')]);
         }
 
         $inputCode = trim($request->code);
@@ -174,7 +174,7 @@ class TwoFactorController extends Controller
             $user->two_factor_code_expires_at->isPast() ||
             !hash_equals((string) $user->two_factor_code, $inputCode)
         ) {
-            return back()->withErrors(['code' => 'Nieprawidłowy lub wygasły kod weryfikacyjny.']);
+            return back()->withErrors(['code' => __('messages.two_factor_code_invalid')]);
         }
 
         // Valid code

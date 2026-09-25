@@ -83,7 +83,7 @@ class WebhookController extends Controller
             'timestamp' => now()->toIso8601String(),
         ]);
 
-        return back()->with('success', 'Testowy ping wysłany do ' . $webhook->url);
+        return back()->with('success', __('messages.webhook_ping_sent', ['url' => $webhook->url]));
     }
 
     protected function availableEvents(): array

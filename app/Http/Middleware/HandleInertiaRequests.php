@@ -94,7 +94,7 @@ class HandleInertiaRequests extends Middleware
     {
         if ($user = auth('tenant')->user()) {
             $permissions = $user->role === 'manager'
-                ? array_keys(RolePermissionsController::PERMISSIONS)
+                ? RolePermissionsController::PERMISSIONS
                 : RolePermission::permissionsFor($user->role);
 
             return [

@@ -58,7 +58,7 @@ class PaymentController extends Controller
         }
 
         if (!$gateway->isConfigured()) {
-            return redirect()->route('tenant.shop')->with('error', "Bramka płatności {$gateway->getName()} nie jest skonfigurowana.");
+            return redirect()->route('tenant.shop')->with('error', __('messages.gateway_not_configured', ['gateway' => $gateway->getName()]));
         }
 
         $result = $gateway->createPayment($order);
@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
         Log::error('Payment initiation failed', ['method' => $method, 'error' => $result['error'] ?? '?']);
 
-        return redirect()->route('tenant.shop')->with('error', 'Nie udało się zainicjować płatności: ' . ($result['error'] ?? ''));
+        return redirect()->route('tenant.shop')->with('error', __('messages.payment_start_failed', ['reason' => $result['error'] ?? '']));
     }
 
     /**
@@ -83,7 +83,7 @@ class PaymentController extends Controller
         try {
             $gateway = PaymentGatewayFactory::make($method);
         } catch (\InvalidArgumentException) {
-            return $this->paymentResultPage(false, 'Nieznana metoda płatności.');
+            return $this->paymentResultPage(false, __('messages.payment_method_unknown'));
         }
 
         $success = $gateway->handleReturn($request, $order);
@@ -96,7 +96,7 @@ class PaymentController extends Controller
             return redirect(route('tenant.order.tracking', $order->order_number) . '?token=' . $order->tracking_token);
         }
 
-        return $this->paymentResultPage(false, 'Nie udało się zweryfikować płatności. Skontaktuj się z nami.');
+        return $this->paymentResultPage(false, __('messages.payment_verify_failed'));
     }
 
     /**

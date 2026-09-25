@@ -60,7 +60,7 @@ class PurchaseOrderController extends Controller
         $po = $this->poService->create($supplier, $data);
 
         return redirect()->route('tenant.manager.purchase-orders.index')
-            ->with('success', "Zamówienie {$po->po_number} zostało utworzone.");
+            ->with('success', __('messages.purchase_order_created', ['number' => $po->po_number]));
     }
 
     public function show(PurchaseOrder $purchaseOrder)

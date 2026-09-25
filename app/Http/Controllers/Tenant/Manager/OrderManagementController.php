@@ -89,7 +89,7 @@ class OrderManagementController extends Controller
         }
 
         if (!in_array($newStatus, self::ALLOWED_STATUS_TRANSITIONS[$oldStatus] ?? [], true)) {
-            return back()->with('error', "Nie można zmienić statusu z \"{$oldStatus}\" na \"{$newStatus}\".");
+            return back()->with('error', __('messages.order_status_change_not_allowed', ['from' => $oldStatus, 'to' => $newStatus]));
         }
 
         $updateData = ['status' => $newStatus];
@@ -334,8 +334,8 @@ class OrderManagementController extends Controller
                 'fulfillment_status' => 'unfulfilled',
                 'notes' => $validated['notes'] ?? null,
                 'internal_notes' => ($validated['internal_notes'] ?? null)
-                    ? '[RĘCZNE] ' . $validated['internal_notes']
-                    : '[RĘCZNE — dodane przez managera]',
+                    ? __('messages.order_note_manual') . ' ' . $validated['internal_notes']
+                    : __('messages.order_note_manual_added'),
             ]);
 
             foreach ($validated['items'] as $item) {

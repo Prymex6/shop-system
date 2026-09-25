@@ -20,7 +20,7 @@ class ImpersonateController extends Controller
         $token = $request->query('token', '');
 
         if (!$token) {
-            abort(403, 'Nieprawidłowy token impersonacji.');
+            abort(403, __('messages.impersonation_token_invalid'));
         }
 
         // Use file store explicitly to bypass CacheTenancyBootstrapper (database store doesn't support tags)
@@ -31,7 +31,7 @@ class ImpersonateController extends Controller
         }
 
         if ((string) ($data['tenant_id'] ?? '') !== (string) tenant('id')) {
-            abort(403, 'Token nie należy do tego sklepu.');
+            abort(403, __('messages.impersonation_wrong_shop'));
         }
 
         $manager = User::find($data['user_id']);

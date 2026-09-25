@@ -15,14 +15,14 @@ class DownloadController extends Controller
         $link = $this->digitalDelivery->resolveToken($token);
 
         if (!$link) {
-            abort(403, 'Link do pobrania jest nieprawidłowy, wygasł lub osiągnął limit pobrań.');
+            abort(403, __('messages.download_link_invalid'));
         }
 
         $file = $link->file;
 
         if (!$file) {
             // Generic product download without specific file (not yet set up)
-            abort(404, 'Plik nie jest jeszcze dostępny. Skontaktuj się z obsługą sklepu.');
+            abort(404, __('messages.download_not_ready'));
         }
 
         if (!$file->exists()) {

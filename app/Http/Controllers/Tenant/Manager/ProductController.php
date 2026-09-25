@@ -65,7 +65,7 @@ class ProductController extends Controller
         try {
             $limit = tenancy()->tenant?->plan?->max_products;
             if ($limit !== null && Product::count() >= $limit) {
-                return back()->withErrors(['name' => 'Osiągnięto limit produktów Twojego planu. Skontaktuj się z obsługą, aby zwiększyć limit.']);
+                return back()->withErrors(['name' => __('messages.product_limit_reached')]);
             }
         } catch (\Exception $e) {
             Log::warning('Plan product-limit check failed, allowing creation: ' . $e->getMessage());
@@ -113,7 +113,7 @@ class ProductController extends Controller
             try {
                 $plan = tenancy()->tenant?->plan;
                 if ($plan && !$plan->hasFeature('digital_products')) {
-                    return back()->withErrors(['type' => 'Produkty cyfrowe nie są dostępne w Twoim planie. Skontaktuj się z obsługą, aby zmienić plan.']);
+                    return back()->withErrors(['type' => __('messages.digital_products_not_in_plan')]);
                 }
             } catch (\Exception $e) {
                 Log::warning('Plan digital_products feature check failed, allowing creation: ' . $e->getMessage());
@@ -200,7 +200,7 @@ class ProductController extends Controller
             try {
                 $plan = tenancy()->tenant?->plan;
                 if ($plan && !$plan->hasFeature('digital_products')) {
-                    return back()->withErrors(['type' => 'Produkty cyfrowe nie są dostępne w Twoim planie. Skontaktuj się z obsługą, aby zmienić plan.']);
+                    return back()->withErrors(['type' => __('messages.digital_products_not_in_plan')]);
                 }
             } catch (\Exception $e) {
                 Log::warning('Plan digital_products feature check failed, allowing update: ' . $e->getMessage());
@@ -428,7 +428,7 @@ class ProductController extends Controller
             ksort($otherAttributes);
             if (json_encode($otherAttributes) === $normalized) {
                 throw ValidationException::withMessages([
-                    'attributes' => 'Wariant z taką samą kombinacją atrybutów już istnieje dla tego produktu.',
+                    'attributes' => __('messages.variant_combination_exists'),
                 ]);
             }
         }

@@ -42,7 +42,7 @@ class PlanController extends Controller
         Plan::create($validated);
 
         return redirect()->route('landlord.plans.index')
-            ->with('success', "Plan '{$validated['name']}' został utworzony!");
+            ->with('success', __('messages.plan_created', ['name' => $validated['name']]));
     }
 
     public function edit(Plan $plan)
@@ -70,7 +70,7 @@ class PlanController extends Controller
         $plan->update($validated);
 
         return redirect()->route('landlord.plans.index')
-            ->with('success', "Plan '{$plan->name}' został zaktualizowany!");
+            ->with('success', __('messages.plan_updated', ['name' => $plan->name]));
     }
 
     public function destroy(Plan $plan)
@@ -82,6 +82,6 @@ class PlanController extends Controller
         $name = $plan->name;
         $plan->delete();
 
-        return back()->with('success', "Plan '{$name}' został usunięty.");
+        return back()->with('success', __('messages.plan_deleted', ['name' => $name]));
     }
 }

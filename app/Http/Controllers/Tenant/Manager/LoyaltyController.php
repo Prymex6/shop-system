@@ -47,9 +47,10 @@ class LoyaltyController extends Controller
 
         $this->loyalty->addManualPoints($customer, $validated['points'], $validated['description']);
 
-        $action = $validated['points'] > 0 ? 'dodane' : 'odjęte';
-
-        return back()->with('success', "Punkty zostały {$action} dla klienta {$customer->name}.");
+        return back()->with('success', __(
+            $validated['points'] > 0 ? 'messages.loyalty_points_added_for' : 'messages.loyalty_points_removed_for',
+            ['customer' => $customer->name]
+        ));
     }
 
     public function customerDetail(Customer $customer)

@@ -20,7 +20,7 @@ class InvoiceController extends Controller
     public function showForManager(Request $request, string $orderNumber)
     {
         if ((tenancy()->tenant?->version ?? 'stable') !== 'test') {
-            abort(403, 'Faktury VAT dostępne tylko w wersji testowej systemu.');
+            abort(403, __('messages.invoices_demo_only'));
         }
 
         $order = Order::with('items')

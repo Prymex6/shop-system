@@ -27,7 +27,7 @@ class SocialAuthController extends Controller
             Log::warning('Auth[social]: sign-in failed ' . $provider, ['error' => $e->getMessage(), 'ip' => request()->ip()]);
 
             return redirect()->route('tenant.client.login')
-                ->with('error', 'Nie udało się zalogować przez ' . ucfirst($provider) . '.');
+                ->with('error', __('messages.social_login_failed', ['provider' => ucfirst($provider)]));
         }
 
         $providerIdField = $provider . '_id';
@@ -50,7 +50,7 @@ class SocialAuthController extends Controller
                 ]);
 
                 return redirect()->route('tenant.client.login')
-                    ->with('error', 'Konto z tym adresem e-mail już istnieje. Zaloguj się hasłem, aby je połączyć z ' . ucfirst($provider) . '.');
+                    ->with('error', __('messages.social_email_taken', ['provider' => ucfirst($provider)]));
             }
             $customer = $emailMatch;
         }
@@ -67,7 +67,7 @@ class SocialAuthController extends Controller
         } else {
             // Create new customer
             $customer = Customer::create([
-                'name' => $socialUser->getName() ?? $socialUser->getNickname() ?? 'Użytkownik',
+                'name' => $socialUser->getName() ?? $socialUser->getNickname() ?? __('messages.social_default_name'),
                 'email' => $socialUser->getEmail(),
                 $providerIdField => $socialUser->getId(),
                 'avatar' => $socialUser->getAvatar(),
@@ -96,7 +96,7 @@ class SocialAuthController extends Controller
         }
 
         if ((tenancy()->tenant?->version ?? 'stable') !== 'test') {
-            abort(403, 'Logowanie społecznościowe dostępne tylko w wersji testowej systemu.');
+            abort(403, __('messages.social_login_demo_only'));
         }
     }
 }

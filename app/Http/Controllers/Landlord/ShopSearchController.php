@@ -153,7 +153,7 @@ class ShopSearchController extends Controller
             ]);
 
         if ($geo->failed() || empty($geo->json())) {
-            return response()->json(['error' => 'Nie znaleziono miasta „' . $city . '". Sprawdź pisownię.'], 422);
+            return response()->json(['error' => __('messages.city_not_found', ['city' => $city])], 422);
         }
 
         $place = $geo->json()[0];
@@ -187,7 +187,7 @@ class ShopSearchController extends Controller
         }
 
         if (!$overpass || $overpass->failed()) {
-            return response()->json(['error' => 'OpenStreetMap chwilowo niedostępny. Spróbuj za kilka minut.'], 503);
+            return response()->json(['error' => __('messages.osm_unavailable')], 503);
         }
 
         $elements = $overpass->json('elements') ?? [];
@@ -219,20 +219,20 @@ class ShopSearchController extends Controller
 
                 $shopType = $tags['shop'] ?? '';
                 $typeLabel = match ($shopType) {
-                    'clothes', 'fashion' => 'Odzież',
+                    'clothes', 'fashion' => __('messages.shop_type_clothes'),
                     'electronics' => 'Elektronika',
-                    'books' => 'Księgarnia',
+                    'books' => __('messages.shop_type_books'),
                     'bakery' => 'Piekarnia',
                     'florist' => 'Kwiaciarnia',
                     'jewelry' => 'Jubiler',
                     'sports' => 'Sport',
                     'toys' => 'Zabawki',
                     'supermarket' => 'Supermarket',
-                    'convenience' => 'Sklep spożywczy',
+                    'convenience' => __('messages.shop_type_convenience'),
                     'beauty' => 'Kosmetyki',
                     'hairdresser' => 'Fryzjer',
                     'furniture' => 'Meble',
-                    'hardware' => 'Narzędzia',
+                    'hardware' => __('messages.shop_type_hardware'),
                     'optician' => 'Optyk',
                     'pharmacy' => 'Apteka',
                     default => 'Sklep',

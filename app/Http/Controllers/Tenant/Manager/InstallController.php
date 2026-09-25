@@ -47,7 +47,7 @@ class InstallController extends Controller
 
             return redirect('/install')->with(
                 'info',
-                'Konto managera już istnieje. Wysłaliśmy link do ustawienia hasła na adres e-mail właściciela.'
+                __('messages.install_manager_exists')
             );
         } else {
             // Fresh install — create new manager account
@@ -132,7 +132,7 @@ class InstallController extends Controller
         $this->seedDefaultContent();
 
         return redirect()->route('tenant.manager.dashboard')
-            ->with('success', 'Konfiguracja zakończona! Witaj w ' . config('app.name') . '.');
+            ->with('success', __('messages.install_finished', ['app' => config('app.name')]));
     }
 
     private function seedDefaultContent(): void
@@ -150,11 +150,7 @@ class InstallController extends Controller
         }
 
         if (!Setting::has('shop_description')) {
-            Setting::set('shop_description',
-                'Witamy w sklepie ' . $name . '! '
-                . 'Oferujemy szeroką gamę produktów w atrakcyjnych cenach. '
-                . 'Zamów online — szybko, bezpiecznie i wygodnie.'
-            );
+            Setting::set('shop_description', __('messages.shop_default_description', ['name' => $name]));
         }
 
         if (!Setting::has('about_text')) {

@@ -49,6 +49,6 @@ class WishlistController extends Controller
             return response()->json(['added' => $added]);
         }
 
-        return back()->with('success', $added ? 'Dodano do listy życzeń.' : 'Usunięto z listy życzeń.');
+        return back()->with('success', $added ? __('messages.wishlist_added') : __('messages.wishlist_removed'));
     }
 }

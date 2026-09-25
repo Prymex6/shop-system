@@ -128,8 +128,9 @@ class ArticleController extends Controller
         }
 
         $article->update($updateData);
-        $label = $newStatus === 'published' ? 'opublikowany' : 'cofnięty do szkiców';
 
-        return back()->with('success', "Artykuł {$label}.");
+        return back()->with('success', __(
+            $newStatus === 'published' ? 'messages.article_published' : 'messages.article_unpublished'
+        ));
     }
 }

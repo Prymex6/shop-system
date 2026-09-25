@@ -76,7 +76,7 @@ class ModificationController extends Controller
         if (!empty($validated['rules_json'])) {
             $rules = json_decode($validated['rules_json'], true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return back()->withErrors(['rules_json' => 'Nieprawidłowy JSON: ' . json_last_error_msg()]);
+                return back()->withErrors(['rules_json' => __('messages.modification_invalid_json', ['reason' => json_last_error_msg()])]);
             }
         }
 
@@ -92,7 +92,7 @@ class ModificationController extends Controller
         ]);
 
         return redirect()->route('landlord.modifications.index')
-            ->with('success', "Modyfikacja \"{$validated['name']}\" została utworzona.");
+            ->with('success', __('messages.modification_created', ['name' => $validated['name']]));
     }
 
     public function edit(TenantModification $modification)
@@ -130,7 +130,7 @@ class ModificationController extends Controller
         if (!empty($validated['rules_json'])) {
             $rules = json_decode($validated['rules_json'], true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return back()->withErrors(['rules_json' => 'Nieprawidłowy JSON: ' . json_last_error_msg()]);
+                return back()->withErrors(['rules_json' => __('messages.modification_invalid_json', ['reason' => json_last_error_msg()])]);
             }
         }
 
@@ -146,7 +146,7 @@ class ModificationController extends Controller
         ]);
 
         return redirect()->route('landlord.modifications.index')
-            ->with('success', "Modyfikacja \"{$modification->name}\" została zaktualizowana.");
+            ->with('success', __('messages.modification_updated', ['name' => $modification->name]));
     }
 
     public function destroy(TenantModification $modification)
@@ -154,7 +154,7 @@ class ModificationController extends Controller
         $name = $modification->name;
         $modification->delete();
 
-        return back()->with('success', "Modyfikacja \"{$name}\" została usunięta.");
+        return back()->with('success', __('messages.modification_deleted', ['name' => $name]));
     }
 
     /**
@@ -195,8 +195,9 @@ class ModificationController extends Controller
     {
         $modification->update(['status' => !$modification->status]);
 
-        $state = $modification->status ? 'włączona' : 'wyłączona';
-
-        return back()->with('success', "Modyfikacja \"{$modification->name}\" została {$state}.");
+        return back()->with('success', __(
+            $modification->status ? 'messages.modification_enabled' : 'messages.modification_disabled',
+            ['name' => $modification->name]
+        ));
     }
 }

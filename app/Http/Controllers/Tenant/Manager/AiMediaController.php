@@ -179,10 +179,10 @@ class AiMediaController extends Controller
             'message' => __('messages.kling_key_required'),
             'instructions' => [
                 'Wejdź na https://platform.kling.ai',
-                'Załóż bezpłatne konto (email + weryfikacja)',
-                'Kliknij "API Keys" → "Create API Key"',
-                'Skopiuj klucz i wklej w Ustawienia → Integracje → Kling API Key',
-                'Darmowy plan: 66 video/miesiąc (5 sekund każdy)',
+                __('messages.kling_create_account'),
+                __('messages.kling_create_key'),
+                __('messages.kling_paste_key'),
+                __('messages.kling_free_plan'),
             ],
             'settings_url' => route('tenant.manager.settings'),
         ], 422);

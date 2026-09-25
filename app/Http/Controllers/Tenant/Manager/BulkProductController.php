@@ -51,7 +51,7 @@ class BulkProductController extends Controller
 
         $count = Product::whereIn('id', $data['ids'])->update([$field => $value]);
 
-        return back()->with('success', "Zaktualizowano {$count} produktów.");
+        return back()->with('success', __('messages.products_updated_count', ['count' => $count]));
     }
 
     /**
@@ -67,6 +67,6 @@ class BulkProductController extends Controller
 
         $count = Product::whereIn('id', $data['ids'])->delete();
 
-        return back()->with('success', "Usunięto {$count} produktów.");
+        return back()->with('success', __('messages.products_deleted_count', ['count' => $count]));
     }
 }

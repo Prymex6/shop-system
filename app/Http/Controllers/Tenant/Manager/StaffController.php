@@ -38,7 +38,7 @@ class StaffController extends Controller
         try {
             $limit = tenancy()->tenant?->plan?->max_staff;
             if ($limit !== null && User::count() >= $limit) {
-                return back()->withErrors(['name' => 'Osiągnięto limit kont pracowników Twojego planu. Skontaktuj się z obsługą, aby zwiększyć limit.']);
+                return back()->withErrors(['name' => __('messages.staff_limit_reached')]);
             }
         } catch (\Exception $e) {
             Log::warning('Plan staff-limit check failed, allowing creation: ' . $e->getMessage());
@@ -92,10 +92,10 @@ class StaffController extends Controller
         // anyone. Same protection destroy() already has for self-deletion.
         if ($staff->id === Auth::guard('tenant')->id()) {
             if ($validated['role'] !== 'manager') {
-                return back()->withErrors(['role' => 'Nie możesz zmienić własnej roli.']);
+                return back()->withErrors(['role' => __('messages.staff_cannot_change_own_role')]);
             }
             if (array_key_exists('is_active', $validated) && !$validated['is_active']) {
-                return back()->withErrors(['is_active' => 'Nie możesz dezaktywować własnego konta.']);
+                return back()->withErrors(['is_active' => __('messages.staff_cannot_deactivate_self')]);
             }
         }
 
@@ -119,7 +119,7 @@ class StaffController extends Controller
     public function destroy(User $staff)
     {
         if ($staff->id === Auth::guard('tenant')->id()) {
-            return back()->withErrors(['error' => 'Nie możesz usunąć własnego konta.']);
+            return back()->withErrors(['error' => __('messages.staff_cannot_delete_self')]);
         }
 
         Log::info('Staff: member removed', ['user_id' => $staff->id, 'email' => $staff->email, 'role' => $staff->role, 'manager_id' => Auth::guard('tenant')->id()]);

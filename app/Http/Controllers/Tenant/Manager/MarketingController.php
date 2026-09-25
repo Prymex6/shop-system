@@ -46,7 +46,7 @@ class MarketingController extends Controller
     public function update(Request $request, EmailCampaign $campaign)
     {
         if ($campaign->status === 'sent') {
-            return back()->withErrors(['error' => 'Nie można edytować wysłanej kampanii.']);
+            return back()->withErrors(['error' => __('messages.campaign_cannot_edit_sent')]);
         }
 
         $validated = $request->validate([
@@ -71,7 +71,7 @@ class MarketingController extends Controller
         try {
             $plan = tenancy()->tenant?->plan;
             if ($plan && !$plan->hasFeature('email_campaigns')) {
-                return back()->withErrors(['error' => 'Kampanie e-mail nie są dostępne w Twoim planie. Skontaktuj się z obsługą, aby zmienić plan.']);
+                return back()->withErrors(['error' => __('messages.campaign_not_in_plan')]);
             }
         } catch (\Exception $e) {
             Log::warning('Plan email_campaigns feature check failed, allowing send: ' . $e->getMessage());
@@ -90,7 +90,7 @@ class MarketingController extends Controller
             : Customer::whereNotNull('email')->where('marketing_opt_out', false)->count();
 
         if ($dailyCap > 0 && $sentToday + $recipientEstimate > $dailyCap) {
-            return back()->withErrors(['error' => "Dzienny limit wysyłki e-maili marketingowych ({$dailyCap}) zostałby przekroczony. Spróbuj ponownie jutro."]);
+            return back()->withErrors(['error' => __('messages.campaign_daily_cap', ['cap' => $dailyCap])]);
         }
 
         // Atomic guard: only transition from draft→sending once; prevents double-send
@@ -99,7 +99,7 @@ class MarketingController extends Controller
             ->update(['status' => 'sending']);
 
         if (!$locked) {
-            return back()->withErrors(['error' => 'Ta kampania została już wysłana lub jest w trakcie wysyłki.']);
+            return back()->withErrors(['error' => __('messages.campaign_already_sending')]);
         }
 
         $count = 0;
@@ -163,13 +163,13 @@ class MarketingController extends Controller
             'manager_id' => auth('tenant')->id(),
         ]);
 
-        return back()->with('success', "Kampania wysłana do {$count} klientów.");
+        return back()->with('success', __('messages.campaign_sent_to', ['count' => $count]));
     }
 
     public function destroy(EmailCampaign $campaign)
     {
         if ($campaign->status === 'sent') {
-            return back()->withErrors(['error' => 'Nie można usunąć wysłanej kampanii.']);
+            return back()->withErrors(['error' => __('messages.campaign_cannot_delete_sent')]);
         }
         $campaign->delete();
 
@@ -191,7 +191,7 @@ class MarketingController extends Controller
             $customer->update(['marketing_opt_out' => true]);
             Log::info('Marketing: wypisanie z listy', ['customer_id' => $customer->id, 'email' => $customer->email]);
 
-            return response('<h2>Zostałeś wypisany z listy mailingowej.</h2><p>Nie będziesz już otrzymywać emaili marketingowych.</p>', 200)
+            return response('<h2>' . __('messages.unsubscribed_heading') . '</h2><p>' . __('messages.unsubscribed_body') . '</p>', 200)
                 ->header('Content-Type', 'text/html');
         }
 
@@ -201,11 +201,11 @@ class MarketingController extends Controller
             $subscriber->update(['unsubscribed_at' => now()]);
             Log::info('Marketing: wypisanie z newslettera', ['subscriber_id' => $subscriber->id, 'email' => $subscriber->email]);
 
-            return response('<h2>Zostałeś wypisany z listy mailingowej.</h2><p>Nie będziesz już otrzymywać emaili marketingowych.</p>', 200)
+            return response('<h2>' . __('messages.unsubscribed_heading') . '</h2><p>' . __('messages.unsubscribed_body') . '</p>', 200)
                 ->header('Content-Type', 'text/html');
         }
 
-        return response('<h2>Nieprawidłowy link wypisania.</h2>', 400)
+        return response('<h2>' . __('messages.unsubscribe_link_invalid') . '</h2>', 400)
             ->header('Content-Type', 'text/html');
     }
 }

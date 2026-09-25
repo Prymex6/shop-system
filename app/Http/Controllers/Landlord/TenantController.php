@@ -152,7 +152,7 @@ class TenantController extends Controller
         }
 
         $redirect = redirect()->route('landlord.tenants.index')
-            ->with('success', "Sklep '{$tenant->name}' został utworzony!");
+            ->with('success', __('messages.shop_created', ['name' => $tenant->name]));
 
         if (isset($password)) {
             $redirect = $redirect
@@ -192,7 +192,7 @@ class TenantController extends Controller
         $tenant->update($validated);
 
         return redirect()->route('landlord.tenants.index')
-            ->with('success', "Sklep '{$tenant->name}' został zaktualizowany!");
+            ->with('success', __('messages.shop_updated', ['name' => $tenant->name]));
     }
 
     /**
@@ -211,7 +211,7 @@ class TenantController extends Controller
         ]);
 
         if ($request->confirm_name !== $tenant->name) {
-            return back()->withErrors(['confirm_name' => 'Wpisana nazwa nie zgadza się z nazwą sklepu.']);
+            return back()->withErrors(['confirm_name' => __('messages.shop_name_mismatch')]);
         }
 
         $tenant->update([
@@ -220,7 +220,7 @@ class TenantController extends Controller
         ]);
 
         return redirect()->route('landlord.tenants.index')
-            ->with('success', "Sklep '{$tenant->name}' zostanie trwale usunięty za 7 dni. Możesz to cofnąć do tego czasu.");
+            ->with('success', __('messages.shop_scheduled_for_deletion', ['name' => $tenant->name]));
     }
 
     /**
@@ -238,7 +238,7 @@ class TenantController extends Controller
             'deletion_requested_at' => null,
         ]);
 
-        return back()->with('success', "Usunięcie sklepu '{$tenant->name}' zostało anulowane.");
+        return back()->with('success', __('messages.shop_deletion_cancelled', ['name' => $tenant->name]));
     }
 
     private function seedDefaultSettings(string $shopName): void
@@ -252,11 +252,9 @@ class TenantController extends Controller
         };
 
         $seed('shop_name', $shopName);
-        $seed('shop_description',
-            'Witamy w sklepie ' . htmlspecialchars($shopName, ENT_QUOTES) . '! '
-            . 'Oferujemy szeroką gamę produktów w atrakcyjnych cenach. '
-            . 'Zamów online — szybko, bezpiecznie i wygodnie.'
-        );
+        $seed('shop_description', __('messages.shop_default_description', [
+            'name' => htmlspecialchars($shopName, ENT_QUOTES),
+        ]));
         $seed('currency', 'PLN');
         $seed('payment_cash_on_delivery_enabled', false, 'boolean');
         $seed('payment_bank_transfer_enabled', false, 'boolean');
@@ -265,7 +263,7 @@ class TenantController extends Controller
         $seed('theme_primary_color', '#4f46e5');
         $seed('theme_font', 'inter');
         $seed('vacation_mode', false, 'boolean');
-        $seed('vacation_message', 'Sklep jest chwilowo niedostępny. Zapraszamy wkrótce!');
+        $seed('vacation_message', __('messages.shop_closed_back_soon'));
         $seed('loyalty_enabled', false, 'boolean');
         $seed('loyalty_earn_mode', 'per_pln');
         $seed('loyalty_points_per_pln', 1, 'integer');

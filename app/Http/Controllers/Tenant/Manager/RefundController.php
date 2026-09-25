@@ -63,7 +63,7 @@ class RefundController extends Controller
 
             return back()->with('success', __('messages.refund_processed'));
         } catch (\Exception $e) {
-            return back()->with('error', 'Błąd podczas przetwarzania zwrotu: ' . $e->getMessage());
+            return back()->with('error', __('messages.refund_processing_failed', ['reason' => $e->getMessage()]));
         }
     }
 }

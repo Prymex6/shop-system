@@ -79,7 +79,7 @@ class CustomerController extends Controller
             ->withCount('orders')
             ->cursor();
 
-        $csv = "ID,Imię i nazwisko,E-mail,Telefon,Miasto,Punkty lojalnościowe,Poziom,Liczba zamówień,Data rejestracji\n";
+        $csv = __('messages.csv_customers_header') . "\n";
         foreach ($customers as $c) {
             $csv .= implode(',', [
                 $c->id,

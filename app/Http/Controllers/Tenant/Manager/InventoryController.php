@@ -67,7 +67,7 @@ class InventoryController extends Controller
             ->with('category')
             ->get(['id', 'name', 'sku', 'stock_quantity', 'low_stock_threshold']);
 
-        $csv = "ID,Nazwa,SKU,Kategoria,Stan magazynowy,Próg alertu\n";
+        $csv = __('messages.csv_inventory_header') . "\n";
         foreach ($products as $p) {
             $csv .= implode(',', [
                 $p->id,

@@ -33,7 +33,7 @@ class VolumeDiscountController extends Controller
         ]);
 
         if (empty($data['product_id']) && empty($data['category_id'])) {
-            return back()->withErrors(['product_id' => 'Podaj produkt lub kategorię.']);
+            return back()->withErrors(['product_id' => __('messages.volume_discount_needs_target')]);
         }
 
         VolumeDiscount::create($data);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Tenant\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\GiftCard;
+use App\Models\Tenant\Setting;
+use App\Services\CurrencyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -46,7 +48,7 @@ class GiftCardController extends Controller
             'code' => $card->code,
             'current_value' => $card->current_value,
             'amount' => $applicableAmount,
-            'formatted_amount' => number_format($applicableAmount, 2, ',', ' ') . ' zł',
+            'formatted_amount' => app(CurrencyService::class)->formatAmount($applicableAmount, Setting::get('currency', 'PLN')),
             'expires_at' => $card->expires_at?->format('Y-m-d'),
         ]);
     }

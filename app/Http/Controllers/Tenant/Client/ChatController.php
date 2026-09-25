@@ -55,7 +55,7 @@ class ChatController extends Controller
         );
         $ownsViaCustomer = auth('customer')->check() && auth('customer')->id() === $conversation->customer_id;
 
-        abort_unless($ownsViaSession || $ownsViaCustomer, 403, 'Brak dostępu do tej rozmowy.');
+        abort_unless($ownsViaSession || $ownsViaCustomer, 403, __('messages.conversation_no_access'));
     }
 
     public function send(Request $request, ChatConversation $conversation)

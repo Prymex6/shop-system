@@ -67,7 +67,7 @@ class DiscountCodeController extends Controller
         // Additional validation for percentage
         if ($validated['type'] === 'percentage' && $validated['value'] > 100) {
             return back()->withErrors([
-                'value' => 'Rabat procentowy nie może być większy niż 100%',
+                'value' => __('messages.discount_over_hundred'),
             ]);
         }
 
@@ -101,7 +101,7 @@ class DiscountCodeController extends Controller
         // Additional validation for percentage
         if ($validated['type'] === 'percentage' && $validated['value'] > 100) {
             return back()->withErrors([
-                'value' => 'Rabat procentowy nie może być większy niż 100%',
+                'value' => __('messages.discount_over_hundred'),
             ]);
         }
 

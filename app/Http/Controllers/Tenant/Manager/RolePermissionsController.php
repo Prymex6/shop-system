@@ -11,17 +11,36 @@ use Inertia\Inertia;
 
 class RolePermissionsController extends Controller
 {
-    // Predefined permissions with labels
+    /**
+     * Every permission a role can be given.
+     *
+     * The labels are not here: a constant cannot call __(), and these are
+     * read off the screen by whoever is setting the roles up.
+     */
     public const PERMISSIONS = [
-        'update_order_status' => 'Zmiana statusu zamówień',
-        'accept_phone_orders' => 'Przyjmowanie zamówień telefonicznych',
-        'view_cash' => 'Podgląd przychodów i kasy',
-        'manage_returns' => 'Zarządzanie zwrotami i reklamacjami (RMA)',
-        'process_refunds' => 'Wykonywanie zwrotów płatności',
-        'manage_fraud' => 'Zarządzanie wykrywaniem oszustw (blokowanie, lista blokad)',
-        'view_customers' => 'Podgląd danych klientów',
-        'send_reports' => 'Wysyłanie raportów do managera',
+        'update_order_status',
+        'accept_phone_orders',
+        'view_cash',
+        'manage_returns',
+        'process_refunds',
+        'manage_fraud',
+        'view_customers',
+        'send_reports',
     ];
+
+    /**
+     * @return array<string, string> permission => what it says on the screen
+     */
+    public static function permissionLabels(): array
+    {
+        $labels = [];
+
+        foreach (self::PERMISSIONS as $permission) {
+            $labels[$permission] = __("messages.permission_{$permission}");
+        }
+
+        return $labels;
+    }
 
     // Configurable roles
     public const ROLES = ['manager', 'fulfillment', 'warehouse'];
@@ -35,7 +54,7 @@ class RolePermissionsController extends Controller
     public function index()
     {
         return Inertia::render('Tenant/Manager/RolePermissions', [
-            'permissions' => self::PERMISSIONS,
+            'permissions' => self::permissionLabels(),
             'roles' => self::ROLES,
             'currentPermissions' => RolePermission::allGrouped(),
         ]);
@@ -56,7 +75,7 @@ class RolePermissionsController extends Controller
             RolePermission::whereIn('role', self::ROLES)->delete();
 
             foreach (self::ROLES as $role) {
-                foreach (array_keys(self::PERMISSIONS) as $perm) {
+                foreach (self::PERMISSIONS as $perm) {
                     if (!empty($validated['permissions'][$role][$perm])) {
                         RolePermission::create([
                             'role' => $role,

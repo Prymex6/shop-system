@@ -32,7 +32,7 @@ class AuthController extends Controller
         Log::warning('Auth[super_admin]: nieudane logowanie', ['email' => $credentials['email'], 'ip' => $request->ip()]);
 
         return back()->withErrors([
-            'email' => 'Podane dane logowania są nieprawidłowe.',
+            'email' => __('messages.landlord_credentials_wrong'),
         ])->onlyInput('email');
     }
 

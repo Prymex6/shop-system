@@ -38,7 +38,7 @@ class WarehouseController extends Controller
         try {
             $plan = tenancy()->tenant?->plan;
             if ($plan && !$plan->hasFeature('multi_warehouse') && Warehouse::count() >= 1) {
-                return back()->withErrors(['name' => 'Wiele magazynów nie jest dostępne w Twoim planie. Skontaktuj się z obsługą, aby zmienić plan.']);
+                return back()->withErrors(['name' => __('messages.warehouses_not_in_plan')]);
             }
         } catch (\Exception $e) {
             Log::warning('Plan multi_warehouse feature check failed, allowing creation: ' . $e->getMessage());

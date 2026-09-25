@@ -80,11 +80,10 @@ class RmaController extends Controller
 
         $deadline = $this->returnDeadline($order);
         if ($deadline !== null && $deadline->isPast()) {
-            return back()->with('error', sprintf(
-                'Termin na zgłoszenie zwrotu (%d dni od dostawy) minął %s.',
-                self::RETURN_WINDOW_DAYS,
-                $deadline->format('d.m.Y')
-            ));
+            return back()->with('error', __('messages.rma_window_passed', [
+                'days' => self::RETURN_WINDOW_DAYS,
+                'date' => $deadline->format('d.m.Y'),
+            ]));
         }
 
         $data = $request->validate([
@@ -97,6 +96,6 @@ class RmaController extends Controller
 
         $rma = $this->rmaService->create($order, $data);
 
-        return back()->with('success', "Zgłoszenie zwrotu {$rma->rma_number} zostało przyjęte.");
+        return back()->with('success', __('messages.rma_created', ['number' => $rma->rma_number]));
     }
 }

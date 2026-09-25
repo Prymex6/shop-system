@@ -59,7 +59,7 @@ class CheckoutController extends Controller
     public function index()
     {
         if (Setting::get('vacation_mode', false)) {
-            return redirect()->route('tenant.shop')->with('info', Setting::get('vacation_message', 'Sklep jest chwilowo niedostępny.'));
+            return redirect()->route('tenant.shop')->with('info', Setting::get('vacation_message', __('messages.shop_unavailable')));
         }
 
         $shippingMethods = ShippingMethod::where('is_active', true)->orderBy('sort_order')->get();
@@ -67,7 +67,7 @@ class CheckoutController extends Controller
         $paymentMethods = [];
 
         if (Setting::get('payment_cash_on_delivery_enabled', false)) {
-            $paymentMethods[] = ['value' => 'cash_on_delivery', 'label' => 'Płatność przy odbiorze (gotówka)', 'icon' => 'fa-money-bill-wave', 'type' => 'offline'];
+            $paymentMethods[] = ['value' => 'cash_on_delivery', 'label' => __('messages.payment_cash_on_delivery'), 'icon' => 'fa-money-bill-wave', 'type' => 'offline'];
         }
         if (Setting::get('payment_bank_transfer_enabled', false)) {
             $paymentMethods[] = ['value' => 'bank_transfer', 'label' => 'Przelew bankowy', 'icon' => 'fa-building-columns', 'type' => 'offline'];
@@ -336,7 +336,7 @@ class CheckoutController extends Controller
 
                 $bundle = ProductBundle::with('items.product', 'items.variant')->find($item['bundle_id']);
                 if (!$bundle || !$bundle->is_active || $bundle->items->isEmpty()) {
-                    throw new \Exception('Jeden z zestawów w koszyku nie jest już dostępny. Odśwież koszyk i spróbuj ponownie.');
+                    throw new \Exception(__('messages.cart_bundle_gone'));
                 }
 
                 $bundleQty = (int) $item['quantity'];
@@ -350,7 +350,7 @@ class CheckoutController extends Controller
 
                 foreach ($bundle->items as $index => $bundleItem) {
                     if (!$bundleItem->product) {
-                        throw new \Exception("Zestaw '{$bundle->name}' zawiera produkt, który już nie istnieje. Skontaktuj się z obsługą.");
+                        throw new \Exception(__('messages.bundle_missing_product', ['bundle' => $bundle->name]));
                     }
 
                     $weight = $weights[$index];
@@ -394,11 +394,11 @@ class CheckoutController extends Controller
                 // used for a merely-deactivated product just below.
                 $product = Product::lockForUpdate()->find($item['product_id']);
                 if (!$product) {
-                    throw new \Exception('Jeden z produktów w koszyku nie jest już dostępny. Odśwież koszyk i spróbuj ponownie.');
+                    throw new \Exception(__('messages.cart_product_gone'));
                 }
 
                 if (!$product->is_published) {
-                    throw new \Exception("Produkt '{$product->name}' jest niedostępny.");
+                    throw new \Exception(__('messages.product_unavailable', ['product' => $product->name]));
                 }
 
                 $variant = null;
@@ -408,7 +408,7 @@ class CheckoutController extends Controller
                         ->where('is_active', true)
                         ->first();
                     if (!$variant) {
-                        throw new \Exception("Nieprawidłowy wariant produktu '{$product->name}'.");
+                        throw new \Exception(__('messages.variant_invalid', ['product' => $product->name]));
                     }
                 }
 
@@ -419,10 +419,10 @@ class CheckoutController extends Controller
                 // (meant to gate ad-hoc purchases) doesn't apply to it.
                 if (!isset($item['_bundle_id'])) {
                     if ($product->min_order_qty !== null && $item['quantity'] < $product->min_order_qty) {
-                        throw new \Exception("Minimalna ilość dla {$product->name} to {$product->min_order_qty}");
+                        throw new \Exception(__('messages.min_quantity_for', ['product' => $product->name, 'min' => $product->min_order_qty]));
                     }
                     if ($product->max_order_qty !== null && $item['quantity'] > $product->max_order_qty) {
-                        throw new \Exception("Maksymalna ilość to {$product->max_order_qty} dla {$product->name}");
+                        throw new \Exception(__('messages.max_quantity_for', ['max' => $product->max_order_qty, 'product' => $product->name]));
                     }
                 }
 
@@ -430,10 +430,10 @@ class CheckoutController extends Controller
                 if ($product->track_stock) {
                     $stockQty = $variant ? $variant->stock_quantity : $product->stock_quantity;
                     if ($stockQty <= 0) {
-                        throw new \Exception("Produkt '{$product->name}' jest niedostępny (brak w magazynie).");
+                        throw new \Exception(__('messages.product_out_of_stock', ['product' => $product->name]));
                     }
                     if ($stockQty < $item['quantity'] && !$product->allow_backorder) {
-                        throw new \Exception("Produkt '{$product->name}' dostępny tylko w ilości {$stockQty} szt.");
+                        throw new \Exception(__('messages.product_only_n_left', ['product' => $product->name, 'count' => $stockQty]));
                     }
                 }
 

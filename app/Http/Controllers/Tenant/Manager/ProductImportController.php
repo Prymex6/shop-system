@@ -32,8 +32,11 @@ class ProductImportController extends Controller
             $result = $importService->import($request->file('file'));
 
             return back()->with('success',
-                "Import zakończony: {$result['imported']} produktów zaimportowanych, {$result['skipped']} pominiętych."
-                . (count($result['errors']) > 0 ? ' Błędy: ' . implode('; ', array_slice($result['errors'], 0, 5)) : '')
+                __('messages.import_finished', [
+                    'imported' => $result['imported'],
+                    'skipped' => $result['skipped'],
+                ])
+                . (count($result['errors']) > 0 ? __('messages.import_errors', ['errors' => implode('; ', array_slice($result['errors'], 0, 5))]) : '')
             );
         }
 

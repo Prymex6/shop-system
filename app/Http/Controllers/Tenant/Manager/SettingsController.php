@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenant\Product;
 use App\Models\Tenant\Setting;
 use App\Services\GoogleReviewsService;
+use App\Services\LoyaltyService;
 use App\Services\SmsService;
 use App\Services\TenantStorageService;
 use Illuminate\Http\Request;
@@ -675,13 +676,10 @@ class SettingsController extends Controller
             'loyalty_bonus_referral' => 200,
             'loyalty_bonus_birthday' => 150,
             'loyalty_bonus_birthday_multiplier' => 2.0,
-            'loyalty_tiers' => [
-                'bronze' => ['min' => 0,     'name' => 'Brąz',    'color' => '#cd7f32', 'multiplier' => 1.0,  'monthly_bonus' => 0,    'delivery_bonus' => 0],
-                'silver' => ['min' => 500,   'name' => 'Srebro',  'color' => '#9ca3af', 'multiplier' => 1.25, 'monthly_bonus' => 50,   'delivery_bonus' => 10],
-                'gold' => ['min' => 1500,  'name' => 'Złoto',   'color' => '#f59e0b', 'multiplier' => 1.5,  'monthly_bonus' => 150,  'delivery_bonus' => 20],
-                'platinum' => ['min' => 4000,  'name' => 'Platyna', 'color' => '#60a5fa', 'multiplier' => 2.0,  'monthly_bonus' => 400,  'delivery_bonus' => 999],
-                'diamond' => ['min' => 10000, 'name' => 'Diament', 'color' => '#a78bfa', 'multiplier' => 3.0,  'monthly_bonus' => 1000, 'delivery_bonus' => 999],
-            ],
+            // The one place these are written down is LoyaltyService. They
+            // were copied out here as well and the two copies had already
+            // started to matter: this one is what the reset button restores.
+            'loyalty_tiers' => LoyaltyService::defaultTiers(),
             // Terms / Privacy / Legal
             'terms_content' => '',
             'privacy_content' => '',
@@ -690,7 +688,7 @@ class SettingsController extends Controller
             'faq_content' => '',
             // Vacation mode
             'vacation_mode' => false,
-            'vacation_message' => 'Sklep jest chwilowo niedostępny. Zapraszamy wkrótce!',
+            'vacation_message' => __('messages.shop_closed_back_soon'),
 
             // Announcement Banner
             'announcement_enabled' => false,
@@ -698,7 +696,7 @@ class SettingsController extends Controller
             'announcement_color' => '#4F46E5',
             // Newsletter
             'newsletter_enabled' => false,
-            'newsletter_title' => 'Bądź na bieżąco!',
+            'newsletter_title' => __('messages.newsletter_default_title'),
             'newsletter_text' => '',
             // Trust badges
             'trust_badges_enabled' => false,
@@ -719,7 +717,7 @@ class SettingsController extends Controller
             'rma_auto_approve' => false,
             // Chat
             'chat_enabled' => true,
-            'chat_greeting' => 'Cześć! Jak możemy Ci pomóc?',
+            'chat_greeting' => __('messages.chat_default_greeting'),
             // Gift cards
             'gift_cards_enabled' => false,
             'gift_card_expiry_days' => 365,
@@ -739,7 +737,7 @@ class SettingsController extends Controller
             $smsService = app(SmsService::class);
             $sent = $smsService->send(
                 $request->phone,
-                'Wiadomość testowa z systemu ' . config('app.name') . '. Konfiguracja SMS działa poprawnie.'
+                __('messages.sms_test_message', ['app' => config('app.name')])
             );
 
             if ($sent) {
@@ -775,8 +773,8 @@ class SettingsController extends Controller
             ]]);
 
             Mail::mailer('tenant_smtp_test')
-                ->raw('To jest wiadomość testowa z systemu ' . config('app.name') . '.', function ($message) use ($request) {
-                    $message->to($request->email)->subject('Test konfiguracji SMTP');
+                ->raw(__('messages.smtp_test_message', ['app' => config('app.name')]), function ($message) use ($request) {
+                    $message->to($request->email)->subject(__('messages.smtp_test_subject'));
                 });
 
             return response()->json(['success' => true, 'message' => __('messages.test_message_sent')]);

@@ -71,7 +71,7 @@ class StaffReportsController extends Controller
 
         $reports = $query->get();
 
-        $csv = "ID,Pracownik,Rola,Tytuł,Wiadomość,Status,Data\n";
+        $csv = __('messages.csv_staff_reports_header') . "\n";
         foreach ($reports as $r) {
             $csv .= implode(',', [
                 $r->id,

@@ -141,7 +141,7 @@ class AccountController extends Controller
             'delivery_postal_code' => 'nullable|string|max:10',
             'date_of_birth' => 'nullable|date|before:today',
         ], [
-            'date_of_birth.before' => 'Data urodzenia musi być datą w przeszłości.',
+            'date_of_birth.before' => __('messages.date_of_birth_in_past'),
         ]);
 
         // If email changed, send verification link instead of updating immediately
@@ -177,8 +177,8 @@ class AccountController extends Controller
         ]);
 
         return back()->with('success', isset($token)
-            ? 'Dane zaktualizowane. Sprawdź nowy adres e-mail i kliknij link weryfikacyjny.'
-            : 'Dane zostały zaktualizowane.');
+            ? __('messages.details_updated_verify_email')
+            : __('messages.details_updated'));
     }
 
     /**
@@ -203,7 +203,7 @@ class AccountController extends Controller
             }
 
             return redirect()->route('tenant.account')
-                ->withErrors(['error' => 'Nieprawidłowy lub wygasły link weryfikacyjny.']);
+                ->withErrors(['error' => __('messages.verification_link_invalid')]);
         }
 
         $customer->update([
@@ -228,7 +228,7 @@ class AccountController extends Controller
 
         if (!Hash::check($validated['current_password'], $customer->password)) {
             throw ValidationException::withMessages([
-                'current_password' => 'Obecne hasło jest nieprawidłowe.',
+                'current_password' => __('messages.current_password_wrong'),
             ]);
         }
 
@@ -254,11 +254,11 @@ class AccountController extends Controller
             ->firstOrFail();
 
         if ($order->status !== 'pending') {
-            return back()->withErrors(['cancel' => 'Zamówienie jest już w przygotowaniu i nie może zostać anulowane.']);
+            return back()->withErrors(['cancel' => __('messages.order_already_being_prepared')]);
         }
 
         if ($order->created_at->diffInMinutes(now()) > 15) {
-            return back()->withErrors(['cancel' => 'Czas na anulowanie zamówienia (15 minut) minął.']);
+            return back()->withErrors(['cancel' => __('messages.order_cancel_window_passed')]);
         }
 
         $order->update(['status' => 'cancelled']);
@@ -280,13 +280,13 @@ class AccountController extends Controller
 
         if (!Hash::check($request->password, $customer->password)) {
             throw ValidationException::withMessages([
-                'password' => 'Nieprawidłowe hasło.',
+                'password' => __('messages.password_wrong'),
             ]);
         }
 
         // Anonymize orders instead of deleting (GDPR)
         Order::where('customer_id', $customer->id)->update([
-            'customer_name' => 'Usunięty użytkownik',
+            'customer_name' => __('messages.deleted_user'),
             'customer_email' => null,
             'customer_id' => null,
         ]);

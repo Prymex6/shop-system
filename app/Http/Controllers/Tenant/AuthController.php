@@ -43,7 +43,7 @@ class AuthController extends Controller
                 Log::warning('Auth[staff]: logowanie na dezaktywowane konto', ['email' => $credentials['email'], 'ip' => $request->ip()]);
 
                 throw ValidationException::withMessages([
-                    'email' => 'Twoje konto zostało dezaktywowane.',
+                    'email' => __('messages.account_deactivated'),
                 ]);
             }
 
@@ -157,7 +157,7 @@ class AuthController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             Log::info('Auth[staff]: password reset', ['email' => $request->email]);
 
-            return redirect()->route('tenant.login')->with('status', 'Hasło zostało zmienione. Możesz się teraz zalogować.');
+            return redirect()->route('tenant.login')->with('status', __('messages.password_changed_can_sign_in'));
         }
 
         return back()->withErrors(['email' => __($status)]);

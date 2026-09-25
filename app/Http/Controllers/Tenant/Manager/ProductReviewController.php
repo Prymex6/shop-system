@@ -52,7 +52,7 @@ class ProductReviewController extends Controller
                     'customer_id' => $review->customer_id,
                     'points' => $points,
                     'type' => 'earned',
-                    'description' => 'Punkty za recenzję produktu: ' . $review->product->name,
+                    'description' => __('messages.loyalty_points_for_review', ['product' => $review->product->name]),
                 ]);
             }
         }

@@ -531,16 +531,16 @@ class ReportController extends Controller
 
             // Header
             fputcsv($file, [
-                'Numer zamówienia',
+                __('messages.report_order_number'),
                 'Data',
                 'Realizacja',
                 'Klient',
                 'Telefon',
-                'Suma produktów',
+                __('messages.report_items_total'),
                 'Dostawa',
                 'Rabat',
                 'Razem',
-                'Metoda płatności',
+                __('messages.report_payment_method'),
                 'Status',
             ], ';');
 
