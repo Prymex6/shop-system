@@ -55,7 +55,7 @@ class CustomerAuthController extends Controller
         Log::warning('Auth[customer]: nieudane logowanie', ['email' => $credentials['email'], 'ip' => $request->ip()]);
 
         throw ValidationException::withMessages([
-            'email' => 'Podane dane logowania są nieprawidłowe.',
+            'email' => __('messages.credentials_wrong'),
         ]);
     }
 
@@ -201,7 +201,7 @@ class CustomerAuthController extends Controller
             Log::info('Auth[customer]: password reset', ['email' => $request->email]);
 
             return redirect()->route('tenant.client.login')
-                ->with('status', 'Hasło zostało zmienione. Możesz się teraz zalogować.');
+                ->with('status', __('messages.password_changed_can_sign_in'));
         }
 
         return back()->withErrors(['email' => __($status)]);

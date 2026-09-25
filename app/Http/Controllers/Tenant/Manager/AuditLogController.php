@@ -45,7 +45,7 @@ class AuditLogController extends Controller
 
         return response()->streamDownload(function () use ($logs) {
             $out = fopen('php://output', 'w');
-            fputcsv($out, ['ID', 'Użytkownik', 'Typ', 'Akcja', 'Model', 'Model ID', 'IP', 'Data']);
+            fputcsv($out, explode(',', __('messages.csv_audit_log_header')));
             foreach ($logs as $log) {
                 fputcsv($out, [
                     $log->id,

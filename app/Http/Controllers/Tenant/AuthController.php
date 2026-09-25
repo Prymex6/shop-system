@@ -55,7 +55,7 @@ class AuthController extends Controller
         Log::warning('Auth[staff]: nieudane logowanie', ['email' => $credentials['email'], 'ip' => $request->ip()]);
 
         throw ValidationException::withMessages([
-            'email' => 'Podane dane logowania są nieprawidłowe.',
+            'email' => __('messages.credentials_wrong'),
         ]);
     }
 

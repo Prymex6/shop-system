@@ -22,7 +22,7 @@ class EnsureTenantAuth
             $request->session()->regenerateToken();
 
             return redirect()->route('tenant.login')
-                ->withErrors(['email' => 'Twoje konto zostało dezaktywowane.']);
+                ->withErrors(['email' => __('messages.account_deactivated')]);
         }
 
         // Password changed elsewhere (email reset link, or the self-service

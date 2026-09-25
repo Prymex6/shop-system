@@ -44,7 +44,7 @@ class SetupController extends Controller
             Setting::set('setup_completed', true);
 
             return redirect()->route('tenant.manager.dashboard')
-                ->with('success', 'Konfiguracja zakończona! Witaj w ' . config('app.name') . '.');
+                ->with('success', __('messages.install_finished', ['app' => config('app.name')]));
         }
 
         return back()->with('success', 'Zapisano.');

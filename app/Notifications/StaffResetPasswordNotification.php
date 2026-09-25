@@ -25,7 +25,7 @@ class StaffResetPasswordNotification extends Notification
         $shopName = Setting::get('shop_name', config('app.name'));
 
         return (new MailMessage)
-            ->subject('Resetowanie hasła — ' . $shopName)
+            ->subject(__('messages.password_reset_subject', ['shop' => $shopName]))
             ->view('emails.staff-reset-password', [
                 'url' => $url,
                 'user' => $notifiable,

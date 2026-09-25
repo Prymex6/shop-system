@@ -41,7 +41,7 @@ class GdprController extends Controller
         $uuid = (string) Str::uuid();
 
         $customer->update([
-            'name' => 'Usunięty użytkownik',
+            'name' => __('messages.deleted_user'),
             'email' => $uuid . '@deleted.invalid',
             'phone' => null,
             'password' => bcrypt(Str::random(32)),
@@ -60,7 +60,7 @@ class GdprController extends Controller
         ]);
 
         $customer->orders()->update([
-            'customer_name' => 'Usunięty użytkownik',
+            'customer_name' => __('messages.deleted_user'),
             'customer_email' => $uuid . '@deleted.invalid',
             'customer_phone' => null,
             'shipping_address' => null,
@@ -68,7 +68,7 @@ class GdprController extends Controller
         ]);
 
         ProductReview::where('customer_id', $customer->id)->update([
-            'reviewer_name' => 'Usunięty użytkownik',
+            'reviewer_name' => __('messages.deleted_user'),
             'reviewer_email' => null,
         ]);
 

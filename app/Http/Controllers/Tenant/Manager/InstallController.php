@@ -154,11 +154,7 @@ class InstallController extends Controller
         }
 
         if (!Setting::has('about_text')) {
-            Setting::set('about_text',
-                'Witamy w sklepie ' . $name . '! '
-                . 'Oferujemy szeroką gamę produktów w atrakcyjnych cenach. '
-                . 'Zamów online — szybko, bezpiecznie i wygodnie.'
-            );
+            Setting::set('about_text', __('messages.shop_default_description', ['name' => $name]));
         }
 
         if (!Setting::has('terms_content')) {

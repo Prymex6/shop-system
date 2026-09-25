@@ -11,20 +11,20 @@ class TenantSettingsSeeder extends Seeder
     {
         $settings = [
             // ── Shop info ──────────────────────────────────────────────────────
-            ['key' => 'shop_name',        'value' => 'Mój Sklep Online',  'type' => 'string',  'description' => 'Shop name'],
+            ['key' => 'shop_name',        'value' => __('messages.shop_default_name'),  'type' => 'string',  'description' => 'Shop name'],
             ['key' => 'shop_phone',       'value' => '+48 123 456 789',   'type' => 'string',  'description' => 'Phone number'],
             ['key' => 'shop_email',       'value' => '',                  'type' => 'string',  'description' => 'Shop email address'],
             ['key' => 'shop_address',     'value' => '',                  'type' => 'string',  'description' => 'Shop address'],
             ['key' => 'shop_nip',         'value' => '',                  'type' => 'string',  'description' => 'Company tax ID'],
-            ['key' => 'shop_description', 'value' => 'Zamawiaj online i ciesz się szybką wysyłką pod Twoje drzwi.', 'type' => 'string', 'description' => 'Shop description'],
+            ['key' => 'shop_description', 'value' => __('messages.shop_default_short_description'), 'type' => 'string', 'description' => 'Shop description'],
             ['key' => 'google_place_id',  'value' => '',                  'type' => 'string',  'description' => 'Google Place ID (for reviews from the Google listing)'],
 
             // ── Appearance ────────────────────────────────────────────────────
             ['key' => 'logo_url',           'value' => '/images/logo.png',    'type' => 'string', 'description' => 'Shop logo URL'],
             ['key' => 'favicon_url',        'value' => '/images/favicon.png', 'type' => 'string', 'description' => 'Favicon URL'],
             ['key' => 'hero_image_url',     'value' => '/images/hero.png',    'type' => 'string', 'description' => 'Homepage hero image URL'],
-            ['key' => 'hero_title',         'value' => 'Mój Sklep Online',    'type' => 'string', 'description' => 'Hero title'],
-            ['key' => 'hero_subtitle',      'value' => 'Zamów online – szybka wysyłka lub odbiór osobisty!', 'type' => 'string', 'description' => 'Hero subtitle'],
+            ['key' => 'hero_title',         'value' => __('messages.shop_default_name'),    'type' => 'string', 'description' => 'Hero title'],
+            ['key' => 'hero_subtitle',      'value' => __('messages.shop_default_hero_subtitle'), 'type' => 'string', 'description' => 'Hero subtitle'],
             ['key' => 'theme_primary_color', 'value' => '#4f46e5',              'type' => 'string', 'description' => 'Primary accent colour (HEX)'],
             ['key' => 'theme_font',         'value' => 'inter',                'type' => 'string', 'description' => 'Storefront font'],
             ['key' => 'custom_css',         'value' => '',                     'type' => 'string', 'description' => 'Custom CSS for the storefront'],
@@ -75,7 +75,7 @@ class TenantSettingsSeeder extends Seeder
             ['key' => 'about_title',     'value' => 'O nas', 'type' => 'string', 'description' => 'About section title'],
             [
                 'key' => 'about_text',
-                'value' => 'Witaj w naszym sklepie! Oferujemy starannie dobrane produkty w atrakcyjnych cenach. Zamów online i ciesz się szybką wysyłką lub wygodnym odbiorem osobistym.',
+                'value' => __('messages.shop_default_about'),
                 'type' => 'string',
                 'description' => 'About section text',
             ],
@@ -94,8 +94,8 @@ class TenantSettingsSeeder extends Seeder
                         'id' => 'block-welcome',
                         'type' => 'announcement',
                         'enabled' => true,
-                        'title' => 'Nowości w sklepie!',
-                        'content' => 'Sprawdź nasze najnowsze produkty – świetna jakość w atrakcyjnych cenach.',
+                        'title' => __('messages.shop_default_newsletter_title'),
+                        'content' => __('messages.shop_default_newsletter_text'),
                         'bg_color' => '#ede9fe',
                         'link_url' => '',
                         'link_text' => 'Zobacz katalog',

@@ -27,7 +27,7 @@ class ImpersonateController extends Controller
         $data = Cache::store('file')->pull('impersonate:' . $token);
 
         if (!$data) {
-            abort(403, 'Token impersonacji wygasł lub jest nieprawidłowy.');
+            abort(403, __('messages.impersonation_token_expired'));
         }
 
         if ((string) ($data['tenant_id'] ?? '') !== (string) tenant('id')) {
